@@ -7,13 +7,15 @@ import { FormsModule }   from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
-import { BillingAccountsComponent } from './billing-accounts/billing-accounts.component';
+import { BillingAccountsComponent } from './components/billing-accounts/billing-accounts.component';
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
+import { MainPageComponent } from './components/main-page/main-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BillingAccountsComponent
+    BillingAccountsComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule,
