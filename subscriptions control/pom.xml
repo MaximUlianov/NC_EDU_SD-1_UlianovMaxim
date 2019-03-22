@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.netcracker.edu</groupId>
-    <artifactId>edu-parent</artifactId>
+    <artifactId>subscription_control</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
