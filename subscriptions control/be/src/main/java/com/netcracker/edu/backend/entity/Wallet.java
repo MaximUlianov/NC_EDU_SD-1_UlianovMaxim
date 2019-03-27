@@ -15,7 +15,7 @@ public class Wallet {
     private String walletName;
     private double sum;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "wallet")
     private Set<User> users;
 
 

@@ -13,7 +13,7 @@ public class LogIn {
     private String email;
     private String password;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "logIn")
     private User user;
 
     public LogIn() {

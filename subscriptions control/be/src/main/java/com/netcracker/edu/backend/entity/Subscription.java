@@ -14,10 +14,10 @@ public class Subscription {
 
     private String subscriptionName;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "subscriptions")
     private Set<User> users;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "subscription_category")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "subscription")
     private Set<SubscriptionCategory> subscriptionCategories;
 
     public Subscription() {
