@@ -1104,113 +1104,265 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="277" parent="2" name="login_table"/>
-    <table id="278" parent="2" name="users"/>
-    <column id="279" parent="277" name="id">
+    <table id="277" parent="2" name="log_in"/>
+    <table id="278" parent="2" name="role"/>
+    <table id="279" parent="2" name="subscription_categories"/>
+    <table id="280" parent="2" name="users"/>
+    <table id="281" parent="2" name="users_roles"/>
+    <table id="282" parent="2" name="wallet"/>
+    <column id="283" parent="277" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="280" parent="277" name="password">
+    <column id="284" parent="277" name="email">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="281" parent="277" name="email">
+    <column id="285" parent="277" name="password">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="282" parent="277" name="id_UNIQUE">
+    <index id="286" parent="277" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="283" parent="277" name="password_UNIQUE">
-      <ColNames>password</ColNames>
+    <index id="287" parent="277" name="password_UNIQUE">
+      <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="284" parent="277" name="fk_login_table_users_idx">
-      <ColNames>email</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="285" parent="277" name="id_UNIQUE">
+    <key id="288" parent="277" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="289" parent="277" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="286" parent="277" name="password_UNIQUE">
-      <ColNames>password</ColNames>
+    <key id="290" parent="277" name="password_UNIQUE">
+      <ColNames>email</ColNames>
       <UnderlyingIndexName>password_UNIQUE</UnderlyingIndexName>
     </key>
-    <foreign-key id="287" parent="277" name="fk_login_table_users">
-      <ColNames>email</ColNames>
-      <RefSchemaName>backend</RefSchemaName>
-      <RefTableName>users</RefTableName>
-      <RefColNames>email</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <column id="288" parent="278" name="id">
+    <column id="291" parent="278" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="289" parent="278" name="email">
+    <column id="292" parent="278" name="role">
+      <Position>2</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="293" parent="278" name="idRole_UNIQUE">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="294" parent="278" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="295" parent="278" name="idRole_UNIQUE">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>idRole_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="296" parent="279" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="297" parent="279" name="users_id">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="298" parent="279" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="299" parent="279" name="fk_subscriptions_users1_idx">
+      <ColNames>users_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="300" parent="279" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="301" parent="279" name="id_UNIQUE">
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
+    </key>
+    <foreign-key id="302" parent="279" name="fk_subscriptions_users1">
+      <ColNames>users_id</ColNames>
+      <RefSchemaName>backend</RefSchemaName>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="303" parent="280" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="304" parent="280" name="first_name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="290" parent="278" name="username">
+    <column id="305" parent="280" name="second_name">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="291" parent="278" name="adress">
+    <column id="306" parent="280" name="username">
       <Position>4</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="292" parent="278" name="id_UNIQUE">
+    <column id="307" parent="280" name="adress">
+      <Position>5</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="308" parent="280" name="logIn_id">
+      <Position>6</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="309" parent="280" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="293" parent="278" name="email_UNIQUE">
-      <ColNames>email</ColNames>
-      <Unique>1</Unique>
-      <Type>btree</Type>
-    </index>
-    <index id="294" parent="278" name="username_UNIQUE">
+    <index id="310" parent="280" name="username_UNIQUE">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="295" parent="278" name="PRIMARY">
+    <index id="311" parent="280" name="fk_users_login_table1_idx">
+      <ColNames>logIn_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="312" parent="280" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>email</ColNames>
+      <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="296" parent="278" name="id_UNIQUE">
+    <key id="313" parent="280" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="297" parent="278" name="email_UNIQUE">
-      <ColNames>email</ColNames>
-      <UnderlyingIndexName>email_UNIQUE</UnderlyingIndexName>
-    </key>
-    <key id="298" parent="278" name="username_UNIQUE">
+    <key id="314" parent="280" name="username_UNIQUE">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>username_UNIQUE</UnderlyingIndexName>
     </key>
+    <foreign-key id="315" parent="280" name="fk_users_login_table1">
+      <ColNames>logIn_id</ColNames>
+      <RefSchemaName>backend</RefSchemaName>
+      <RefTableName>log_in</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="316" parent="281" name="users_id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="317" parent="281" name="role_id">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="318" parent="281" name="fk_users_roles_users1_idx">
+      <ColNames>users_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="319" parent="281" name="fk_users_roles_role1_idx">
+      <ColNames>role_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <foreign-key id="320" parent="281" name="fk_users_roles_users1">
+      <ColNames>users_id</ColNames>
+      <RefSchemaName>backend</RefSchemaName>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="321" parent="281" name="fk_users_roles_role1">
+      <ColNames>role_id</ColNames>
+      <RefSchemaName>backend</RefSchemaName>
+      <RefTableName>role</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="322" parent="282" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="323" parent="282" name="name">
+      <Position>2</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="324" parent="282" name="summ">
+      <Position>3</Position>
+      <DataType>double|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="325" parent="282" name="users_id">
+      <Position>4</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="326" parent="282" name="fk_wallet_users1_idx">
+      <ColNames>users_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="327" parent="282" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="328" parent="282" name="fk_wallet_users1">
+      <ColNames>users_id</ColNames>
+      <RefSchemaName>backend</RefSchemaName>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
   </database-model>
 </dataSource>

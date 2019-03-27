@@ -21,24 +21,227 @@
           </div>
         </li>
         <li class="nav-item active">
-          <a class="nav-link active" href="#">Partners</a>
+          <a class="nav-link active" href="#partners">Partners</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link active" href="#">About</a>
+          <a class="nav-link active" href="#about">About</a>
         </li>
       </ul>
     </div>
-    <button class="btn btn-outline-primary my-5 my-sm-0" type="submit">Sign Up</button>
+    <button class="btn btn-outline-primary my-5 my-sm-0" type="submit" data-toggle="modal" data-target="#myModal">Log In</button>
   </nav>
 </header>
 
-
-<main role="main">
-  <div class="container">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Log In</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="container input-group">
+            <input type="text" class="form-control" placeholder="Email" aria-describedby="basic-addon1">
+          </div>
+          <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>No such email!</strong>
+          </div>
+          <div class="input-group">
+            <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+          </div>
+          <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Incorrect password!</strong>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Log In</button>
+      </div>
+    </div>
   </div>
-</main>
+</div>
 
-<footer>
 
+
+  <div id="carousel" class="carousel slide" data-ride="carousel">
+
+    <ol class="carousel-indicators">
+      <li data-target="#carousel" data-slide-to="0" class="active"></li>
+      <li data-target="#carousel" data-slide-to="1"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img class="img-fluid" src="http://fullhdwallpapers.ru/image/flowers/9476/roza-s-kaplyami.jpg" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img class="img-fluid" src="http://fullhdwallpapers.ru/image/nature/10654/skala-u-morya.jpg" alt="...">
+      </div>
+    </div>
+
+    <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Предыдущий</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Следующий</span>
+    </a>
+  </div>
+
+
+  <hr class="container"/>
+
+  <div class="container-fluid" id="partners">
+
+    <div id="carousel2" class="carousel slide">
+      <div class="container">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-img-top border-dark">
+                      <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="card-content">
+                      <p>I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                      <a href="#">View subscriptions...</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-img-top border-dark">
+                      <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="card-content">
+                      <p>I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                      <a href="#">View subscriptions...</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-img-top border-dark">
+                      <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="card-content">
+                      <p>I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                      <a href="#">View subscriptions...</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-img-top border-dark">
+                      <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="card-content">
+                      <p>I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                      <a href="#">View subscriptions...</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-img-top border-dark">
+                      <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="card-content">
+                      <p>I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                      <a href="#">View subscriptions...</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-img-top border-dark">
+                      <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="card-content">
+                      <p>I am a very simple card. I am good at containing small bits of information.
+                        I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <div class="card-action">
+                      <a href="#">View subscriptions...</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carousel2" role="button" data-slide="prev">
+        <img src="https://img.icons8.com/color/96/000000/circled-left-2.png">
+        <span class="sr-only">Предыдущий</span>
+      </a>
+      <a class="carousel-control-next" href="#carousel2" role="button" data-slide="next">
+        <img src="https://img.icons8.com/color/96/000000/circled-right-2.png">
+        <span class="sr-only">Следующий</span>
+      </a>
+    </div>
+  </div>
+
+
+
+
+
+
+<hr class="container"/>
+<footer id="about" class="container">
+  <p class="float-right"><a href="#">Back to top</a></p>
+  <p>&copy; 2017-2019 Lucik, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
 </footer>
-

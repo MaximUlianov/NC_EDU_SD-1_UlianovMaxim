@@ -1,3 +1,15 @@
 .dropdown:hover > .dropdown-menu {
   display: block;
 }
+
+.round{
+  border-radius: 100px; /* Радиус скругления */
+  border: 1px solid gray; /* Параметры рамки */
+  box-shadow: 0 0 7px #666; /* Параметры тени */
+  align-self: center;
+}
+
+hr{
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
