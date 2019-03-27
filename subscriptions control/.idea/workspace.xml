@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="71b5cd13-52ec-4519-bab0-8bf0b00176a5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql_model/dbModel.mwb" beforeDir="false" afterPath="$PROJECT_DIR$/sql_model/dbModel.mwb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql_model/dbModel.mwb.bak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql_model/dbModel.mwb.beforefix" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/be/target/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -204,6 +207,11 @@
               <item name="backend" type="462c0819:PsiDirectoryNode" />
               <item name="repository" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="subscriptions" type="b2602c69:ProjectViewProjectNode" />
+              <item name="subscriptions control" type="462c0819:PsiDirectoryNode" />
+              <item name="sql_model" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -218,7 +226,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553684192057" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553684260262" />
     <property name="database.console.LAST_STATE" value="true" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -311,7 +319,7 @@
       <workItem from="1553525066537" duration="2732000" />
       <workItem from="1553618761636" duration="352000" />
       <workItem from="1553675525513" duration="4000000" />
-      <workItem from="1553680224350" duration="3872000" />
+      <workItem from="1553680224350" duration="4163000" />
     </task>
     <task id="LOCAL-00001" summary="add main-page component">
       <created>1553119406319</created>
@@ -348,7 +356,14 @@
       <option name="project" value="LOCAL" />
       <updated>1553684070037</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="added db model">
+      <created>1553684249527</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1553684249527</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -357,7 +372,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58149000" />
+    <option name="totallyTimeSpent" value="58440000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -371,7 +386,7 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30268458" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30268458" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -381,7 +396,7 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3286119" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49932885" visible="true" weight="0.3286119" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49932885" visible="true" weight="0.3286119" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -464,7 +479,8 @@
     <MESSAGE value="users entity added" />
     <MESSAGE value="mapped all db" />
     <MESSAGE value="fixed mappedBy attribute" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed mappedBy attribute" />
+    <MESSAGE value="added db model" />
+    <option name="LAST_COMMIT_MESSAGE" value="added db model" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/subscriptions.iml">
