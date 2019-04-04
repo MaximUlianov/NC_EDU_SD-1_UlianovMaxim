@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {BillingAccount} from "../../model/billing-account";
+import {User} from "../../model/user";
 import {BillingAccountService} from "../../service/billing/billing-account.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Subscription} from "rxjs/internal/Subscription";
@@ -13,8 +13,8 @@ export class BillingAccountsComponent implements OnInit {
 
   public editMode = false;
 
-  public billingAccounts: BillingAccount[];
-  public editableBa: BillingAccount = new BillingAccount();
+  public billingAccounts: User[];
+  public editableBa: User = new User();
   public modalRef: BsModalRef; //we need a variable to keep a reference of our modal. This is going to be used to close the modal.
 
   private subscriptions: Subscription[] = [];
@@ -35,11 +35,11 @@ export class BillingAccountsComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  public _openModal(template: TemplateRef<any>, billingAccount: BillingAccount): void {
+  public _openModal(template: TemplateRef<any>, billingAccount: User): void {
 
     if (billingAccount) {
       this.editMode = true;
-      this.editableBa = BillingAccount.cloneBase(billingAccount);
+      this.editableBa = User.cloneBase(billingAccount);
     } else {
       this.refreshBa();
       this.editMode = false;
@@ -72,7 +72,7 @@ export class BillingAccountsComponent implements OnInit {
   }
 
   private refreshBa(): void {
-    this.editableBa = new BillingAccount();
+    this.editableBa = new User();
   }
 
   private loadBillingAccounts(): void {
@@ -80,7 +80,7 @@ export class BillingAccountsComponent implements OnInit {
     // Get data from BillingAccountService
     this.subscriptions.push(this.billingAccountService.getBillingAccounts().subscribe(accounts => {
       // Parse json response into local array
-      this.billingAccounts = accounts as BillingAccount[];
+      this.billingAccounts = accounts as User[];
       // Check data in console
       console.log(this.billingAccounts);// don't use console.log in angular :)
       this.loadingService.hide();

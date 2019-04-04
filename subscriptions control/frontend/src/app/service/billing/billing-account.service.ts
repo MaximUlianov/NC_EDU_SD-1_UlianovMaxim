@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {BillingAccount} from "../../model/billing-account";
+import {User} from "../../model/user";
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,12 @@ export class BillingAccountService { //todo create interface
   }
 
   // Ajax request for billing account data
-  getBillingAccounts(): Observable<BillingAccount[]> {
-    return this.http.get<BillingAccount[]>('/api/ba');
+  getBillingAccounts(): Observable<User[]> {
+    return this.http.get<User[]>('/api/ba');
   }
 
-  saveBillingAccount(billingAccount: BillingAccount): Observable<BillingAccount> {
-    return this.http.post<BillingAccount>('/api/ba', billingAccount);
+  saveBillingAccount(billingAccount: User): Observable<User> {
+    return this.http.post<User>('/api/ba', billingAccount);
   }
 
   deleteBillingAccount(billingAccountId: string): Observable<void> {

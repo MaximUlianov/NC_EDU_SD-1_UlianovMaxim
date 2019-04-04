@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>Sign in Form</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8 order-md-1 align-middle">
+      <h4 class="mb-3">Personal information</h4>
+      <form class="needs-validation" #userForm = "ngForm" novalidate>
+        <div class="row">
+          <div class="col-md-6 mb-3" [class.has-error] = "first_name.invalid && first_name.touched">
+            <label for="firstName">First name</label>
+            <input type="text" class="form-control" id="firstName" [(ngModel)]="user.first_name" name="first_name" required
+            #first_name = "ngModel">
+            <span class="text-danger" *ngIf="first_name.errors?.required && first_name.touched">
+            First name is required
+          </span>
+          </div>
+          <div class="col-md-6 mb-3" [class.has-error] = "last_name.invalid && last_name.touched">
+            <label for="lastName">Last name</label>
+            <input type="text" class="form-control" id="lastName" [(ngModel)]="user.last_name" name="last_name" required
+            #last_name = "ngModel">
+            <span class="text-danger" *ngIf="last_name.errors?.required && last_name.touched">
+            Last name is required
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-3" [class.has-error] = "username.invalid && username.touched">
+          <label for="username">Username</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">@</span>
+            </div>
+            <input type="text" class="form-control" id="username" [(ngModel)]="user.username" name="username" required
+            #username = "ngModel">
+          </div>
+          <span class="text-danger" *ngIf="username.errors?.required && username.touched">
+            Username is required
+            </span>
+        </div>
+        <div class="mb-3">
+          <label for="country">Country</label>
+          <select class="custom-select d-block w-100" id="country" [(ngModel)]="user.country" name="country" required>
+            <option selected>Choose...</option>
+            <option>United States</option>
+            <option>Russia</option>
+            <option>Belarus</option>
+            <option>India</option>
+          </select>
+        </div>
+        <div class="mb-3 form-group" [class.has-error] = "email.invalid && email.touched">
+          <label for="email" class="control-label">Email*</label>
+          <input type="email" class="form-control" id="email" title="Enter your valid email" placeholder="you@example.com"
+                 [(ngModel)]="user.email" name="email"
+                 #email="ngModel"
+                 required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" >
+          <span class="text-danger" *ngIf="email.errors?.required && email.touched">
+            Email is required
+          </span>
+          <span class="text-danger" *ngIf="email.errors?.pattern && email.touched">
+            Email is invalid
+          </span>
+        </div>
+
+        <div class="mb-3">
+          <label for="password">Password</label>
+          <input type="password"  class="form-control" id="password"  [(ngModel)]="user.password" name="password" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="confPassword">Confirm password</label>
+          <input type="password" class="form-control" id="confPassword">
+        </div>
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="same-address">
+          <label class="custom-control-label" for="same-address"><a href="#">I agree with terms and conditions</a></label>
+        </div>
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="onSubmit()">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  {{user | json}}
+  {{user2 | json}}
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017-2019 Company Name</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+</div>

@@ -1,5 +1,6 @@
 package com.netcracker.edu.backend.controller;
 
+import com.netcracker.edu.backend.DTO.UserDTO;
 import com.netcracker.edu.backend.entity.User;
 import com.netcracker.edu.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +16,22 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/username/{username}", method = RequestMethod.GET)
+    @GetMapping("/username/{username}")
     public ResponseEntity<User> getUserByEmail(@PathVariable(name = "username") String username) {
         User user = userService.findByUsername(username);
         return ResponseEntity.ok(user);
     }
 
-    @RequestMapping()
+    @GetMapping
     public List<User> getAllUsers() {
         return userService.findAll();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/add")
+    @ResponseBody
+    public UserDTO addUser(@RequestBody UserDTO user)
+    {
+        return userService.save(user);
     }
 
     /*@RequestMapping(method = RequestMethod.POST)

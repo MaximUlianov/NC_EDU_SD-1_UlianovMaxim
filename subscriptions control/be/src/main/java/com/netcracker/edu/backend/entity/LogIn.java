@@ -13,15 +13,17 @@ public class LogIn {
     private String email;
     private String password;
 
-    @OneToOne(mappedBy = "logIn")
+    @OneToOne()
     private User user;
 
     public LogIn() {
     }
 
-    public LogIn(String email, String password) {
+    public LogIn(String email, String password, User user) {
         this.email = email;
         this.password = password;
+        this.user = user;
+
     }
 
     public int getId() {

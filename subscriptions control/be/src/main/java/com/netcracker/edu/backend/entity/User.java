@@ -1,5 +1,7 @@
 package com.netcracker.edu.backend.entity;
 
+import com.netcracker.edu.backend.DTO.UserDTO;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -11,17 +13,13 @@ public class User {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     private String first_name;
-    private String second_name;
+    private String last_name;
     private String username;
-    private String address;
+    private String country;
 
-    @OneToOne()
-    @JoinColumn(name = "log_in_id", unique = true, nullable = false)
-    private LogIn logIn;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "wallet_id", nullable = false)
-    private Wallet wallet;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private Set<Wallet> wallet;
 
     @ManyToMany
     @JoinTable(name="user_role",
@@ -41,11 +39,18 @@ public class User {
     public User() {
     }
 
-    public User(String first_name, String second_name, String username, String address) {
+    public User(String first_name, String last_name, String username, String country) {
         this.first_name = first_name;
-        this.second_name = second_name;
+        this.last_name = last_name;
         this.username = username;
-        this.address = address;
+        this.country = country;
+    }
+
+    public User(UserDTO userDTO){
+        this.first_name = userDTO.getFirst_name();
+        this.last_name = userDTO.getLast_name();
+        this.username = userDTO.getUsername();
+        this.country = userDTO.getCountry();
     }
 
 
@@ -65,12 +70,12 @@ public class User {
         this.first_name = first_name;
     }
 
-    public String getSecond_name() {
-        return second_name;
+    public String getLast_name() {
+        return last_name;
     }
 
-    public void setSecond_name(String second_name) {
-        this.second_name = second_name;
+    public void setLast_name(String second_name) {
+        this.last_name = second_name;
     }
 
     public String getUsername() {
@@ -81,29 +86,23 @@ public class User {
         this.username = username;
     }
 
-    public String getAddress() {
-        return address;
+    public String getCountry() {
+        return country;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.country = country;
     }
 
-    public Wallet getWallet() {
+    public Set<Wallet> getWallet() {
         return wallet;
     }
 
-    public void setWallet(Wallet wallet) {
+    public void setWallet(Set<Wallet> wallet) {
         this.wallet = wallet;
     }
 
-    public LogIn getLogIn() {
-        return logIn;
-    }
 
-    public void setLogIn(LogIn logIn) {
-        this.logIn = logIn;
-    }
 
     public Set<Role> getRoles() {
         return roles;
@@ -127,10 +126,10 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(first_name, user.first_name) &&
-                Objects.equals(second_name, user.second_name) &&
+                Objects.equals(last_name, user.last_name) &&
                 Objects.equals(username, user.username) &&
-                Objects.equals(address, user.address) &&
-                Objects.equals(logIn, user.logIn) &&
+                Objects.equals(country, user.country) &&
+
                 Objects.equals(wallet, user.wallet) &&
                 Objects.equals(roles, user.roles) &&
                 Objects.equals(subscriptions, user.subscriptions);
@@ -138,7 +137,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(first_name, second_name, username, address, logIn, wallet, roles, subscriptions);
+        return Objects.hash(first_name, last_name, username, country,  wallet, roles, subscriptions);
     }
 
     @Override
@@ -146,10 +145,9 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", first_name='" + first_name + '\'' +
-                ", second_name='" + second_name + '\'' +
+                ", second_name='" + last_name + '\'' +
                 ", username='" + username + '\'' +
-                ", address='" + address + '\'' +
-                ", logIn=" + logIn +
+                ", address='" + country + '\'' +
                 ", wallet=" + wallet +
                 ", roles=" + roles +
                 ", subscriptions=" + subscriptions +

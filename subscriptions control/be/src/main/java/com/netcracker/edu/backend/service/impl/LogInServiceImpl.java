@@ -25,8 +25,8 @@ public class LogInServiceImpl implements LogInService {
     }
 
     @Override
-    public LogIn save(LogIn user) {
-        return logInRepository.save(user);
+    public LogIn save(LogIn logIn) {
+        return logInRepository.save(logIn);
     }
 
     @Override

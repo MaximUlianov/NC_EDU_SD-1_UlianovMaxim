@@ -3,7 +3,6 @@ package com.netcracker.edu.backend.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "wallet")
@@ -15,8 +14,9 @@ public class Wallet {
     private String walletName;
     private double sum;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "wallet")
-    private Set<User> users;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 
     public Wallet() {
@@ -51,12 +51,12 @@ public class Wallet {
         this.sum = sum;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -66,12 +66,12 @@ public class Wallet {
         Wallet wallet = (Wallet) o;
         return Double.compare(wallet.sum, sum) == 0 &&
                 Objects.equals(walletName, wallet.walletName) &&
-                Objects.equals(users, wallet.users);
+                Objects.equals(user, wallet.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(walletName, sum, users);
+        return Objects.hash(walletName, sum, user);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class Wallet {
                 "id=" + id +
                 ", walletName='" + walletName + '\'' +
                 ", sum=" + sum +
-                ", users=" + users +
+                ", users=" + user +
                 '}';
     }
 }

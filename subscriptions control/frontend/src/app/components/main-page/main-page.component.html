@@ -37,30 +37,32 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">Log In</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalCloseEvent()">
           <span aria-hidden="true">×</span>
         </button>
       </div>
       <div class="modal-body">
         <form>
-          <div class="container input-group">
-            <input type="text" class="form-control" placeholder="Email" aria-describedby="basic-addon1">
+          <div class="container">
+            <label for="emailField">Email: </label>
+            <input type="text" id="emailField" class="form-control" [(ngModel)]="email"
+                   aria-describedby="basic-addon1" name="email">
           </div>
-          <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>No such email!</strong>
+          <div class="container text-danger" *ngIf="!correctLogin">
+            Incorrect email
           </div>
-          <div class="input-group">
-            <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+          <div class="container" id="password">
+            <label for="passwordField" title="Might be at least from 5 to 20 characters">Password*: </label>
+            <input type="password" id="passwordField" class="form-control" [(ngModel)]="password"
+                   aria-describedby="basic-addon1" name="password">
           </div>
-          <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>Incorrect password!</strong>
+          <div class="container text-danger" *ngIf="!correctPassword">
+            Incorrect password
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a routerLink="reg" id="sigLink" (click)="document.getElementById('myModal').style.display='none'">Sign Up</a>
         <button type="button" class="btn btn-primary">Log In</button>
       </div>
     </div>
@@ -245,3 +247,4 @@
   <p class="float-right"><a href="#">Back to top</a></p>
   <p>&copy; 2017-2019 Lucik, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
 </footer>
+
