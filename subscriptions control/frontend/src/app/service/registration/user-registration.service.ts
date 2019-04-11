@@ -17,7 +17,7 @@ export class UserRegistrationService{
   addUser(_user:User):User{
     let param = JSON.stringify(_user);
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    this.http.post<User>('/api/user/add', param, {headers}).subscribe(
+    this.http.post<User>('/api/user/signUp', param, {headers}).subscribe(
       res=>{
         this._user2 = res;
       }

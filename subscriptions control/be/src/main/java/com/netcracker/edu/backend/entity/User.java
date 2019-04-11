@@ -9,19 +9,23 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 public class User {
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String first_name;
     private String last_name;
     private String username;
     private String country;
 
+    @OneToOne(mappedBy = "user")
+    private LogIn logIn;
+
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<Wallet> wallet;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name="user_role",
             joinColumns = @JoinColumn(name="user_id", referencedColumnName="id"),
             inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName="id")
@@ -54,7 +58,7 @@ public class User {
     }
 
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -90,7 +94,7 @@ public class User {
         return country;
     }
 
-    public void setAddress(String address) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
@@ -120,6 +124,14 @@ public class User {
         this.subscriptions = subscriptions;
     }
 
+    public LogIn getLogIn() {
+        return logIn;
+    }
+
+    public void setLogIn(LogIn logIn) {
+        this.logIn = logIn;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -145,9 +157,10 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", first_name='" + first_name + '\'' +
-                ", second_name='" + last_name + '\'' +
+                ", last_name='" + last_name + '\'' +
                 ", username='" + username + '\'' +
-                ", address='" + country + '\'' +
+                ", country='" + country + '\'' +
+                ", logIn=" + logIn +
                 ", wallet=" + wallet +
                 ", roles=" + roles +
                 ", subscriptions=" + subscriptions +

@@ -5,13 +5,14 @@ export class User {
   country: string;
   email:string;
   password:string;
+  role:string;
 
   constructor(){
     this.first_name = null;
     this.last_name = null;
     this.username = null;
     this.country = null;
-    this.email = null;
+    this.email = "example@gmail.com";
     this.password = null;
   }
 

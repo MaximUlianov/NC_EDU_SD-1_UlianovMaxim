@@ -22,13 +22,14 @@ public class UserController {
         return userService.findAll();
     }
 
-    @GetMapping("/login/{login}")
+    /*@GetMapping("/login/{login}")
     public User getUserByLogin(@PathVariable String login) {
         return userService.findByLogin(login);
-    }
+    }*/
 
-    @RequestMapping(value="/signup", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value="/signUp", method = RequestMethod.POST, produces = "application/json")
     public User saveUser(@RequestBody User user){
+
         return userService.save(user);
     }
 }

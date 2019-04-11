@@ -13,12 +13,22 @@ import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
 import {MainPageComponent} from './components/main-page/main-page.component';
 import {SignUpPageComponent} from './components/sign-up-page/sign-up-page.component';
 import {UserRegistrationService} from "./service/registration/user-registration.service";
+import {UserAccountComponent} from './components/user-account/user-account.component';
+import {MainPageService} from "./service/main-page/main-page.service";
+import {LogInComponent} from './components/log-in/log-in.component';
+import {LogUserService} from "./service/registration/log-user.service";
+import {TokenStorage} from "./authorization-config/token-provider";
 
 
 const appRoutes: Routes = [
   {path:'main', component: MainPageComponent},
-  {path:'main/reg', component: SignUpPageComponent},
-  {path:'', redirectTo:'/main', pathMatch:'full'}
+  {path:'reg', component: SignUpPageComponent},
+  {path:'main/reg', redirectTo:'reg'},
+  {path:'', redirectTo:'/main', pathMatch:'full'},
+  {path:'user', component: UserAccountComponent},
+  {path:'main/user', redirectTo:'user'},
+  {path:'main/logIn', component:LogInComponent},
+  {path:'main/logIn/reg',redirectTo:'reg' }
 ];
 
 @NgModule({
@@ -26,7 +36,9 @@ const appRoutes: Routes = [
     AppComponent,
     BillingAccountsComponent,
     MainPageComponent,
-    SignUpPageComponent
+    SignUpPageComponent,
+    UserAccountComponent,
+    LogInComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +50,7 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [UserRegistrationService],
+  providers: [UserRegistrationService, MainPageService, LogUserService, TokenStorage],
   bootstrap: [AppComponent],
 
 })

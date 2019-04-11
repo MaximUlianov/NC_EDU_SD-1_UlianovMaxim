@@ -1,5 +1,7 @@
 package com.netcracker.edu.backend.DTO;
 
+import com.netcracker.edu.backend.entity.User;
+
 public class UserDTO {
     private String first_name;
     private String last_name;
@@ -7,16 +9,24 @@ public class UserDTO {
     private String country;
     private String email;
     private String password;
+    private String role;
 
-    public UserDTO(String first_name, String last_name, String username, String country, String email, String password) {
+    public UserDTO(String first_name, String last_name, String username, String country, String email, String password, String role) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
         this.country = country;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
+    public UserDTO(User user) {
+        this.first_name = user.getFirst_name();
+        this.last_name = user.getLast_name();
+        this.username = user.getUsername();
+        this.country = user.getCountry();
+    }
 
     public String getFirst_name() {
         return first_name;
@@ -64,5 +74,21 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role)
+    {
+        this.role = role;
+    }
+
+    public void setAll(User user){
+        this.first_name = user.getFirst_name();
+        this.last_name = user.getLast_name();
+        this.username = user.getUsername();
+        this.country = user.getCountry();
     }
 }

@@ -13,7 +13,7 @@ public class LogIn {
     private String email;
     private String password;
 
-    @OneToOne()
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private User user;
 
     public LogIn() {
