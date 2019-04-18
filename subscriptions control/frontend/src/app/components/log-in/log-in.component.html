@@ -1,34 +1,27 @@
 
-
-<div class="container text-center">
-  <form class="form-signin">
-    <div class="row">
-      <div class="col-md-4">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Sign Up</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="col-md-4">
-        <img class="mb-4" src="" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <div class="mb-3 form-group">
-          <input type="email" class="form-control" id="email" title="Enter your valid email" placeholder="Email address"
-                 [(ngModel)]="user.email" name="email">
-        </div>
-        <div class="mb-3">
-          <input type="password"  class="form-control" id="password"  [(ngModel)]="user.password" name="password"
-                 placeholder="Password">
-        </div>
-        <div class="mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <div class="mb-3">
-          <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="autorUser()">Sign In</button>
-        </div>
-        <div class="md-3">
-          <a routerLink="reg">Sign Up</a>
-        </div>
+      <div class="modal-body">
+        <input type="email" class="form-control" id="email" title="Enter your valid email" placeholder="Email address"
+               [(ngModel)]="user.email" name="email">
+        <input type="password"  class="form-control" id="password"  [(ngModel)]="user.password" name="password"
+               placeholder="Password" style="margin-top: 10px">
+      </div>
+      <div class="modal-footer">
+        <a routerLink="reg" data-dismiss="modal">Sign Up</a>
+        <button class="btn btn-primary"  type="submit"   (click)="autorUser()" data-dismiss="modal">Log In</button>
+
       </div>
     </div>
-  </form>
+  </div>
+  {{user | json}}
 </div>
-{{user | json}}
+
+

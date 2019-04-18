@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from "../../model/user";
 import {UserRegistrationService} from "../../service/registration/user-registration.service";
+import {Router} from "@angular/router";
 
 @Component({
   templateUrl: './sign-up-page.component.html',
@@ -10,7 +11,7 @@ export class SignUpPageComponent implements OnInit {
 
   user:User;
 
-  constructor(private _userService:UserRegistrationService) {
+  constructor(private _userService:UserRegistrationService, private router:Router) {
     this.user = null;
   }
 
@@ -20,6 +21,7 @@ export class SignUpPageComponent implements OnInit {
 
   onSubmit(){
     this._userService.addUser(this.user);
+    this.router.navigate( ['main'] );
   }
 
 }

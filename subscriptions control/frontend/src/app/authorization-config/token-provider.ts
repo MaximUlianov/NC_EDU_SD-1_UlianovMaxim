@@ -6,16 +6,18 @@ const TOKEN_KEY = 'AuthToken';
 @Injectable()
 export class TokenStorage {
 
+
   constructor() { }
 
   signOut() {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.clear();
+    window.localStorage.removeItem(TOKEN_KEY);
+    window.localStorage.clear();
   }
 
-  public saveToken(token: string) {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY,  token);
+  public saveToken(token:any) {
+
+    window.localStorage.removeItem(TOKEN_KEY);
+    window.localStorage.setItem(TOKEN_KEY, token.token);
   }
 
   public getToken(): string {

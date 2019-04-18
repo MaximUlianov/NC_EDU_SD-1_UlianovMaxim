@@ -3,6 +3,7 @@ package com.netcracker.edu.backend.entity;
 import com.netcracker.edu.backend.DTO.UserDTO;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,6 +18,7 @@ public class User {
     private String last_name;
     private String username;
     private String country;
+    private Date birthday;
 
     @OneToOne(mappedBy = "user")
     private LogIn logIn;
@@ -24,6 +26,7 @@ public class User {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<Wallet> wallet;
+
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name="user_role",
@@ -43,11 +46,12 @@ public class User {
     public User() {
     }
 
-    public User(String first_name, String last_name, String username, String country) {
+    public User(String first_name, String last_name, String username, String country, Date birthday) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
         this.country = country;
+        this.birthday = birthday;
     }
 
     public User(UserDTO userDTO){
@@ -55,6 +59,7 @@ public class User {
         this.last_name = userDTO.getLast_name();
         this.username = userDTO.getUsername();
         this.country = userDTO.getCountry();
+        this.birthday = userDTO.getBirthday();
     }
 
 
@@ -107,7 +112,6 @@ public class User {
     }
 
 
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -130,6 +134,14 @@ public class User {
 
     public void setLogIn(LogIn logIn) {
         this.logIn = logIn;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     @Override
@@ -160,6 +172,7 @@ public class User {
                 ", last_name='" + last_name + '\'' +
                 ", username='" + username + '\'' +
                 ", country='" + country + '\'' +
+                ", birthday=" + birthday +
                 ", logIn=" + logIn +
                 ", wallet=" + wallet +
                 ", roles=" + roles +

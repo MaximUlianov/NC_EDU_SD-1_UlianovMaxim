@@ -39,7 +39,6 @@ export class BillingAccountsComponent implements OnInit {
 
     if (billingAccount) {
       this.editMode = true;
-      this.editableBa = User.cloneBase(billingAccount);
     } else {
       this.refreshBa();
       this.editMode = false;

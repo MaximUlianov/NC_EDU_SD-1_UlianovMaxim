@@ -26,17 +26,17 @@ export class Interceptor implements HttpInterceptor {
     Observable<HttpEvent<any>> {
     let authReq = req;
     if (this.token.getToken() != null) {
-    authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + this .token.getToken())});
+    authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + this.token.getToken())});
     }
     return next.handle(authReq).pipe(tap((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
         }
       },(err:any)=>{
-          console.log('eq url :: ' + req.url);
+          console.log('req url :: ' + req.url);
           console.error('Interseptor error', err);
           if(err instanceof HttpErrorResponse){
-            if(err.status == 403){
-              this.router.navigate(['logIn']);
+            if(err.status == 401){
+              this.router.navigate(['main']);
             }
           }
         }

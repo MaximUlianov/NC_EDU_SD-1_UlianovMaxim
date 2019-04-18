@@ -33,9 +33,16 @@ public class UserController {
     public ResponseEntity<LogInUserDTO> getUserByLogin(@PathVariable String email){
         return ResponseEntity.ok(userService.getUserByEmail(email));
     }
-    /*DeleteMapping(value = "/{id}")
+    @GetMapping(value = "/{email}")
     @ResponseBody
-    public ResponseEntity getUser(@RequestParam Long id){
-        return ResponseEntity.ok(userService.delete(id));
-    }*/
+    public ResponseEntity<UserDTO> getUserInfoByEmail(@PathVariable String email){
+        return ResponseEntity.ok(userService.getUserInfoByEmail(email));
+    }
+
+    @GetMapping(value = "/username/{email}")
+    @ResponseBody
+    public ResponseEntity<UserDTO> getUsername(@PathVariable String email){
+        return ResponseEntity.ok(userService.getUsername(email));
+    }
+
 }

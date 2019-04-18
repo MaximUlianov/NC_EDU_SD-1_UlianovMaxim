@@ -55,6 +55,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO getUsername(String email){
+        LogIn logIn = logInRepository.findByEmail(email);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(logIn.getUser().getUsername());
+        return userDTO;
+    }
+    @Override
     public Optional<UserDTO> save(UserDTO user)
     {
         Optional<UserDTO> optional = Optional.ofNullable(user);
@@ -66,6 +73,12 @@ public class UserServiceImpl implements UserService {
             logInRepository.save(new LogIn(optional.get().getEmail(), optional.get().getPassword(), _user));
         }
         return optional;
+    }
+
+    public UserDTO getUserInfoByEmail(String email){
+        LogIn logIn = logInRepository.findByEmail(email);
+        Iterator<Role> iterator = logIn.getUser().getRoles().iterator();
+        return new UserDTO(logIn.getUser(), iterator.next());
     }
 
     @Override

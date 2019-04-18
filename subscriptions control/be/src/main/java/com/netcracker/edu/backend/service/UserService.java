@@ -13,5 +13,7 @@ public interface UserService {
     UserDTO getUser(UserDTO _user);
     Optional<UserDTO> save(UserDTO _user);
     LogInUserDTO getUserByEmail(String email);
+    UserDTO getUserInfoByEmail(String email);
+    UserDTO getUsername(String email);
     void delete(long id);
 }

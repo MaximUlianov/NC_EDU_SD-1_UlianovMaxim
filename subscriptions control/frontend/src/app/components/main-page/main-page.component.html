@@ -1,40 +1,8 @@
+<ng4-loading-spinner></ng4-loading-spinner>
+<app-terms></app-terms>
 <header>
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand " href="main">
-      <img src="https://i.ebayimg.com/00/s/MTYwMFgxNjAw/z/c1cAAOSwK~RaKWGW/$_7.PNG" width="40" height="40" alt="">
-    </a>
-
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active" style="border-right:1px">
-          <a class="nav-link" href="main#">Home<span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Categories
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link active" href="main#partners">Partners</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link active" href="main#about">About</a>
-        </li>
-      </ul>
-    </div>
-    <a routerLink="logIn"><button class="btn btn-outline-primary my-5 my-sm-0" type="submit">Log In</button></a>
-  </nav>
+ <app-navbar></app-navbar>
 </header>
-
-
-
-
 
   <div id="carousel" class="carousel slide" data-ride="carousel">
 
@@ -205,7 +173,27 @@
 
 <hr class="container"/>
 <footer id="about" class="container">
-  <p class="float-right"><a href="#">Back to top</a></p>
-  <p>&copy; 2017-2019 Lucik, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+  <p class="float-right"><a href="main#">Back to top</a></p>
+  <p>&copy; 2017-2019 Lucik, Inc. &middot; <a href="#" data-toggle="modal" data-target="#terms">Terms</a> &middot; <a href="#" data-toggle="modal" data-toggle="modal" data-target="#map">See location</a></p>
 </footer>
+
+<div class="modal fade" id="map" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Location</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d588.0407935605223!2d27.496850729267024!3d53.875526989392625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbd00b66d817f7%3A0x68dca50c9aa7f4fe!2sNetcracker!5e0!3m2!1sen!2sby!4v1555353346937!5m2!1sen!2sby"
+                  width="300" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 

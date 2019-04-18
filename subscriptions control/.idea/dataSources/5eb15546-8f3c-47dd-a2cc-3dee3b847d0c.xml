@@ -1361,50 +1361,56 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="331" parent="284" name="id_UNIQUE">
+    <column id="331" parent="284" name="birthday">
+      <Position>6</Position>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="332" parent="284" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="332" parent="284" name="username_UNIQUE">
+    <index id="333" parent="284" name="username_UNIQUE">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="333" parent="284" name="PRIMARY">
+    <key id="334" parent="284" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="334" parent="284" name="id_UNIQUE">
+    <key id="335" parent="284" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="335" parent="284" name="username_UNIQUE">
+    <key id="336" parent="284" name="username_UNIQUE">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>username_UNIQUE</UnderlyingIndexName>
     </key>
-    <column id="336" parent="285" name="role_id">
+    <column id="337" parent="285" name="role_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="337" parent="285" name="user_id">
+    <column id="338" parent="285" name="user_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="338" parent="285" name="fk_user_role_role1_idx">
+    <index id="339" parent="285" name="fk_user_role_role1_idx">
       <ColNames>role_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="339" parent="285" name="fk_user_role_user1_idx">
+    <index id="340" parent="285" name="fk_user_role_user1_idx">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="340" parent="285" name="fk_user_role_role1">
+    <foreign-key id="341" parent="285" name="fk_user_role_role1">
       <ColNames>role_id</ColNames>
       <RefSchemaName>backend</RefSchemaName>
       <RefTableName>role</RefTableName>
@@ -1412,7 +1418,7 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="341" parent="285" name="fk_user_role_user1">
+    <foreign-key id="342" parent="285" name="fk_user_role_user1">
       <ColNames>user_id</ColNames>
       <RefSchemaName>backend</RefSchemaName>
       <RefTableName>user</RefTableName>
@@ -1420,40 +1426,40 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="342" parent="286" name="id">
+    <column id="343" parent="286" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="343" parent="286" name="wallet_name">
+    <column id="344" parent="286" name="wallet_name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="344" parent="286" name="sum">
+    <column id="345" parent="286" name="sum">
       <Position>3</Position>
       <DataType>double|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="345" parent="286" name="user_id">
+    <column id="346" parent="286" name="user_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="346" parent="286" name="fk_wallet_user1_idx">
+    <index id="347" parent="286" name="fk_wallet_user1_idx">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="347" parent="286" name="PRIMARY">
+    <key id="348" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="348" parent="286" name="fk_wallet_user1">
+    <foreign-key id="349" parent="286" name="fk_wallet_user1">
       <ColNames>user_id</ColNames>
       <RefSchemaName>backend</RefSchemaName>
       <RefTableName>user</RefTableName>

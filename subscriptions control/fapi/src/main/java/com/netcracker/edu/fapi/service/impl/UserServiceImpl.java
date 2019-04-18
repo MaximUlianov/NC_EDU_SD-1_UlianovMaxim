@@ -54,6 +54,18 @@ public class UserServiceImpl implements UserDetailsService,UserService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthority(user));
     }
 
+    @Override
+    public User getUserInfoByEmail(String email){
+        RestTemplate rTemp = new RestTemplate();
+        return rTemp.getForObject(backendServerUrl + "/api/user/" + email, User.class);
+    }
+
+    @Override
+    public User getUsername(String email){
+        RestTemplate rTemp = new RestTemplate();
+        return rTemp.getForObject(backendServerUrl + "/api/user/username/" + email, User.class);
+    }
+
     private Set<SimpleGrantedAuthority> getAuthority(LoginUser user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));

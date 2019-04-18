@@ -15,7 +15,6 @@ public class Wallet {
     private double sum;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 

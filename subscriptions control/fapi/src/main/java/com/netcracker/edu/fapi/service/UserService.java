@@ -9,5 +9,7 @@ public interface UserService {
 
     LoginUser findByLogin(String login);
     List<User> findAll();
+    User getUserInfoByEmail(String email);
+    User getUsername(String email);
     User save(User user);
 }

@@ -1,6 +1,9 @@
 package com.netcracker.edu.backend.DTO;
 
+import com.netcracker.edu.backend.entity.Role;
 import com.netcracker.edu.backend.entity.User;
+
+import java.util.Date;
 
 public class UserDTO {
     private String first_name;
@@ -10,8 +13,12 @@ public class UserDTO {
     private String email;
     private String password;
     private String role;
+    private Date birthday;
 
-    public UserDTO(String first_name, String last_name, String username, String country, String email, String password, String role) {
+    public UserDTO() {
+    }
+
+    public UserDTO(String first_name, String last_name, String username, String country, String email, String password, String role, Date birthday) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
@@ -19,6 +26,7 @@ public class UserDTO {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.birthday = birthday;
     }
 
     public UserDTO(User user) {
@@ -26,6 +34,15 @@ public class UserDTO {
         this.last_name = user.getLast_name();
         this.username = user.getUsername();
         this.country = user.getCountry();
+    }
+
+    public UserDTO(User user, Role role){
+        this.first_name = user.getFirst_name();
+        this.last_name = user.getLast_name();
+        this.username = user.getUsername();
+        this.country = user.getCountry();
+        this.role = role.getRole();
+        this.birthday = user.getBirthday();
     }
 
     public String getFirst_name() {
@@ -85,10 +102,19 @@ public class UserDTO {
         this.role = role;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     public void setAll(User user){
         this.first_name = user.getFirst_name();
         this.last_name = user.getLast_name();
         this.username = user.getUsername();
         this.country = user.getCountry();
+        this.birthday = user.getBirthday();
     }
 }

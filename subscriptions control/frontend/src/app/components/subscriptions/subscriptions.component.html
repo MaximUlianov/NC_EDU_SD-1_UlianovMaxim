@@ -1,0 +1,38 @@
+<app-navbar></app-navbar>
+<ng4-loading-spinner></ng4-loading-spinner>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+<div class="container">
+  <div class="row">
+
+    <div class="col">
+
+      <h4>Subscriptions component:</h4>
+
+      <table class="table">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Category</th>
+          <th scope="col">Delete Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let subscription of subscriptions">
+          <td>{{subscription._name}}</td>
+          <td>{{subscription._category}}</td>
+          <td><button type="button" class="btn btn-danger" (click)="deleteSubscription(subscription._name)">Delete</button></td>
+        </tr>
+
+        </tbody>
+      </table>
+
+      <span *ngIf="isEmpty">No Subscriptions</span>
+
+    </div>
+  </div>
+</div>

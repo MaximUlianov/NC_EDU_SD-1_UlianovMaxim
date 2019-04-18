@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {BsModalRef} from "ngx-bootstrap";
-import {User} from "../../model/user";
 import {MainPageService} from "../../service/main-page/main-page.service";
+import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 
 @Component({
   selector: 'app-main-page',
@@ -9,14 +8,12 @@ import {MainPageService} from "../../service/main-page/main-page.service";
   styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent implements OnInit {
-  user:User;
-  modalRef: BsModalRef;
 
-  constructor(private service:MainPageService) {}
+  constructor(private service:MainPageService,
+              private spinner:Ng4LoadingSpinnerService) {}
 
 
   ngOnInit() {
-    this.user = new User();
   }
 
 }

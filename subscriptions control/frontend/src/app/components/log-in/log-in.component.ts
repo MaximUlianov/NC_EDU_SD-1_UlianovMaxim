@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LogUser} from "../../model/logUser";
 import {LogUserService} from "../../service/registration/log-user.service";
 import {Router} from "@angular/router";
@@ -11,10 +11,10 @@ import {TokenStorage} from "../../authorization-config/token-provider";
 })
 export class LogInComponent implements OnInit {
 
+  @Output() isAuthorized = new EventEmitter<boolean>();
   user: LogUser;
 
-
-  constructor(private service:LogUserService, private router: Router, private token: TokenStorage) { }
+  constructor(private service:LogUserService, private tokens: TokenStorage, private router:Router) { }
 
   ngOnInit() {
     this.user = new LogUser();
@@ -24,11 +24,15 @@ export class LogInComponent implements OnInit {
   autorUser(){
     this.service.getToken(this.user).subscribe(
       data=>{
-        this.token.saveToken(data);
-        this.router.navigate(['user']);
+        this.tokens.saveToken(data);
+        this.isAuthorized.emit(true);
       }
     );
   }
+
+
+
+
 
 
 }

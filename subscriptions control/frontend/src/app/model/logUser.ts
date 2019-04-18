@@ -1,8 +1,8 @@
 export class LogUser{
 
-  private email:string;
-  private password:string;
-  private role:string;
+  email:string;
+  password:string;
+  role:string;
 
 
   constructor() {

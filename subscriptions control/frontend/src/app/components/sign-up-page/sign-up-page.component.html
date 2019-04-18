@@ -1,3 +1,9 @@
+<app-navbar></app-navbar>
+<app-terms></app-terms>
+<br/>
+<br/>
+<br/>
+
 <div class="container">
   <div class="py-5 text-center">
     <h2>Sign in Form</h2>
@@ -42,15 +48,27 @@
             </span>
         </div>
         <div class="mb-3">
+          <label for="inputDate">Birthday</label>
+          <input type="date" class="form-control" id="inputDate" [(ngModel)]="user.birthday" name="birthday">
+        </div>
+
+        <div class="mb-3">
           <label for="country">Country</label>
           <select class="custom-select d-block w-100" id="country" [(ngModel)]="user.country" name="country" required>
-            <option selected>Choose...</option>
             <option>United States</option>
             <option>Russia</option>
             <option>Belarus</option>
             <option>India</option>
           </select>
         </div>
+        <div class="mb-3">
+          <label for="role">Role</label>
+          <select class="custom-select d-block w-100" id="role" [(ngModel)]="user.role" name="role" required>
+            <option selected>USER</option>
+            <option>COMPANY</option>
+          </select>
+        </div>
+
         <div class="mb-3 form-group" [class.has-error] = "email.invalid && email.touched">
           <label for="email" class="control-label">Email*</label>
           <input type="email" class="form-control" id="email" title="Enter your valid email" placeholder="you@example.com"
@@ -77,7 +95,7 @@
 
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" id="same-address">
-          <label class="custom-control-label" for="same-address"><a href="#">I agree with terms and conditions</a></label>
+          <label class="custom-control-label" for="same-address"><a href="#" data-toggle="modal" data-target="#terms">I agree with terms and conditions</a></label>
         </div>
         <hr class="mb-4">
         <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="onSubmit()">Sign Up</button>
