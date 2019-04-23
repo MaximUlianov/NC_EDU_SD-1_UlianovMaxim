@@ -20,9 +20,6 @@ public class User {
     private String country;
     private Date birthday;
 
-    @OneToOne(mappedBy = "user")
-    private LogIn logIn;
-
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<Wallet> wallet;
@@ -36,9 +33,9 @@ public class User {
     private Set<Role> roles;
 
     @ManyToMany
-    @JoinTable(name="subscription_user",
-            joinColumns = @JoinColumn(name="subscription_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name="user_id", referencedColumnName="id")
+    @JoinTable(name="user_subscription",
+            joinColumns = @JoinColumn(name="user_id", referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name="subscription_id", referencedColumnName="id")
     )
     private Set<Subscription> subscriptions;
 
@@ -54,6 +51,16 @@ public class User {
         this.birthday = birthday;
     }
 
+    public User(User user){
+        this.first_name = user.getFirst_name();
+        this.last_name = user.getLast_name();
+        this.username = user.getUsername();
+        this.country = user.getCountry();
+        this.birthday = user.getBirthday();
+        this.wallet = user.getWallet();
+        this.roles = user.getRoles();
+        this.subscriptions = user.getSubscriptions();
+    }
     public User(UserDTO userDTO){
         this.first_name = userDTO.getFirst_name();
         this.last_name = userDTO.getLast_name();
@@ -128,13 +135,6 @@ public class User {
         this.subscriptions = subscriptions;
     }
 
-    public LogIn getLogIn() {
-        return logIn;
-    }
-
-    public void setLogIn(LogIn logIn) {
-        this.logIn = logIn;
-    }
 
     public Date getBirthday() {
         return birthday;
@@ -159,10 +159,6 @@ public class User {
                 Objects.equals(subscriptions, user.subscriptions);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(first_name, last_name, username, country,  wallet, roles, subscriptions);
-    }
 
     @Override
     public String toString() {
@@ -173,10 +169,14 @@ public class User {
                 ", username='" + username + '\'' +
                 ", country='" + country + '\'' +
                 ", birthday=" + birthday +
-                ", logIn=" + logIn +
                 ", wallet=" + wallet +
                 ", roles=" + roles +
                 ", subscriptions=" + subscriptions +
                 '}';
     }
+
+   /* public void addSubscr(Subscription subscription){
+        subscriptions.add(subscription);
+        subscription.getUsers().add(this);
+    }*/
 }

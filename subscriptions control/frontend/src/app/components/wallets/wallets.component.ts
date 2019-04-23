@@ -12,13 +12,16 @@ import {Subscription} from "rxjs";
 export class WalletsComponent implements OnInit {
 
   wallets:Wallet[];
+  wallet:Wallet;
   isEmpty:boolean = true;
+  recharge:number;
   private subscriptions: Subscription[] = [];
 
   constructor(private service:WalletService,
               private loadingService: Ng4LoadingSpinnerService) { }
 
   ngOnInit() {
+    this.wallet = new Wallet();
     this.loadWallets();
   }
 
@@ -27,15 +30,39 @@ export class WalletsComponent implements OnInit {
       this.loadingService.show();
       this.wallets = wallets as Wallet[];
       this.loadingService.hide();
-      if(this.wallets != null){
+      if(this.wallets.length > 0){
         this.isEmpty = false;
+      }
+      else if(this.wallets.length == 0){
+        this.isEmpty = true;
       }
     }))
 
   }
 
-  deleteWallet(name:string){
+  addWallet(){
+    this.service.addWallet(this.wallet).subscribe(data=>{
 
+    });
+    this.loadWallets();
+    window.location.reload();
+  }
+
+  deleteWallet(id:number){
+      this.service.deleteWallet(id).subscribe(data=>{
+
+      });
+      this.loadWallets();
+      window.location.reload();
+  }
+
+  rechargeWallet(wallet:Wallet, sum:number){
+    wallet.sum = sum;
+    this.service.rechargeWallet(wallet).subscribe(data=>{
+
+    });
+    this.loadWallets();
+    window.location.reload();
   }
 
 

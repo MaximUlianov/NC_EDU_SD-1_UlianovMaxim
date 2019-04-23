@@ -12,6 +12,7 @@ import com.netcracker.edu.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -75,14 +76,28 @@ public class UserServiceImpl implements UserService {
         return optional;
     }
 
+    public String topUpTheBalance(String walletName){
+        return "";
+    }
+
+    public String addWallet(String walletName){
+        return "";
+    }
+
     public UserDTO getUserInfoByEmail(String email){
         LogIn logIn = logInRepository.findByEmail(email);
         Iterator<Role> iterator = logIn.getUser().getRoles().iterator();
         return new UserDTO(logIn.getUser(), iterator.next());
     }
 
+    @Transactional
     @Override
     public void delete(long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public void saveSubscr(User user) {
+        userRepository.save(user);
     }
 }

@@ -16,4 +16,5 @@ public interface UserService {
     UserDTO getUserInfoByEmail(String email);
     UserDTO getUsername(String email);
     void delete(long id);
+    void saveSubscr(User user);
 }

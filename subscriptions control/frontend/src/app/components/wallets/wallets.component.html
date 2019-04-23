@@ -11,26 +11,57 @@
 
       <h4>My Wallets:</h4>
 
-      <table class="table">
+      <table class="table" *ngIf="!isEmpty">
         <thead class="thead-dark">
         <tr>
           <th scope="col">Name</th>
           <th scope="col">Sum</th>
+          <th scope="col">Recharge</th>
           <th scope="col">Delete action</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let wallet of wallets">
-          <td>{{wallet._name}}</td>
-          <td>{{wallet._sum}}</td>
-          <td><button type="button" class="btn btn-danger" (click)="deleteWallet(wallet._name)">Delete</button></td>
+          <td>{{wallet.walletName}}</td>
+          <td>{{wallet.sum}}</td>
+          <td><button type="button" class="btn btn-primary dropdown-toggle" id="rechargeWallet" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Recharge</button>
+          <div class="dropdown-menu" aria-labelledby="rechargeWallet">
+            <div class="form-group">
+              <label for="exampleDropdownFormPassword1">Sum</label>
+              <input type="number" class="form-control" id="recharge" [(ngModel)]="recharge" name="recharge" >
+            </div>
+            <button type="submit" class="btn btn-primary" (click)="rechargeWallet(wallet, recharge)">Recharge</button>
+          </div>
+          </td>
+          <td><button type="button" class="btn btn-danger" (click)="deleteWallet(wallet.id)">Delete</button></td>
         </tr>
 
         </tbody>
       </table>
 
-      <span *ngIf="isEmpty">No wallets</span>
+      <div class="container" *ngIf="isEmpty">
+      <span>No wallets</span>
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-info dropdown-toggle" type="button" id="addingWallet" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Add wallet
+        </button>
+        <div class="dropdown-menu" aria-labelledby="addingWallet">
+          <div class="form-group">
+            <label for="exampleDropdownFormEmail1">Wallet name</label>
+            <input type="text" class="form-control" id="exampleDropdownFormEmail1" [(ngModel)]="wallet.walletName" name="name">
+          </div>
+          <div class="form-group">
+            <label for="exampleDropdownFormPassword1">Sum</label>
+            <input type="number" class="form-control" id="exampleDropdownFormPassword1" [(ngModel)]="wallet.sum" name="sum" >
+          </div>
+          <button type="submit" class="btn btn-primary" (click)="addWallet()">Add</button>
+        </div>
+      </div>
+
 
     </div>
   </div>
 </div>
+
+{{wallet|json}}

@@ -10,11 +10,11 @@ public class Wallet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String walletName;
     private double sum;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
 
@@ -26,11 +26,11 @@ public class Wallet {
         this.sum = sum;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -50,10 +50,6 @@ public class Wallet {
         this.sum = sum;
     }
 
-    public User getUser() {
-        return user;
-    }
-
     public void setUser(User user) {
         this.user = user;
     }
@@ -70,7 +66,7 @@ public class Wallet {
 
     @Override
     public int hashCode() {
-        return Objects.hash(walletName, sum, user);
+        return Objects.hash(walletName, sum);
     }
 
     @Override
@@ -79,7 +75,6 @@ public class Wallet {
                 "id=" + id +
                 ", walletName='" + walletName + '\'' +
                 ", sum=" + sum +
-                ", users=" + user +
                 '}';
     }
 }

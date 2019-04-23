@@ -40,7 +40,6 @@ public class UserController {
     public User getUserByLogin(@PathVariable String login) {
         return userService.findByLogin(login);
     }*/
-
     @RequestMapping(value="/signUp", method = RequestMethod.POST, produces = "application/json")
     public User saveUser(@RequestBody User user){
         return userService.save(user);

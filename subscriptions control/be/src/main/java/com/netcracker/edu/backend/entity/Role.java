@@ -1,7 +1,6 @@
 package com.netcracker.edu.backend.entity;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -12,9 +11,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String role;
-
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
-    private List<User> users;
 
     public Role() {
     }
@@ -39,13 +35,6 @@ public class Role {
         this.role = role;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -65,7 +54,6 @@ public class Role {
         return "Role{" +
                 "id=" + id +
                 ", role='" + role + '\'' +
-                ", users=" + users +
                 '}';
     }
 }

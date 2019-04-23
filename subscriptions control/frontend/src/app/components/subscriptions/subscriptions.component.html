@@ -13,7 +13,7 @@
 
       <h4>Subscriptions component:</h4>
 
-      <table class="table">
+      <table class="table" *ngIf="!isEmpty">
         <thead class="thead-dark">
         <tr>
           <th scope="col">Name</th>
@@ -32,6 +32,9 @@
       </table>
 
       <span *ngIf="isEmpty">No Subscriptions</span>
+      <div class="container">
+        <a routerLink="avSubscriptions"><button class="btn btn-info">+ View available subscriptions</button></a>
+      </div>
 
     </div>
   </div>

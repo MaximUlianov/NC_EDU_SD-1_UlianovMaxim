@@ -37,7 +37,6 @@ export class NavbarComponent implements OnInit {
         console.log(this.username.username);
         this.isAuthorized = true;
       }
-      this.router.navigate(['main']);
     })
   }
 
@@ -45,6 +44,10 @@ export class NavbarComponent implements OnInit {
     this.token.signOut();
     this.isAuthorized = false;
     this.username = null;
+  }
+
+  routToWallets(){
+    this.router.navigate(['wallets']);
   }
 
 

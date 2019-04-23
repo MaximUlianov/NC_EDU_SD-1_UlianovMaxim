@@ -1,5 +1,7 @@
 package com.netcracker.edu.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -10,24 +12,29 @@ public class Subscription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String subscriptionName;
+    private double costPerMonth;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "subscriptions")
     private Set<User> users;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "subscription")
-    private Set<SubscriptionCategory> subscriptionCategories;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name="subscription_category",
+            joinColumns = @JoinColumn(name="subscription_id", referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name="category_id", referencedColumnName="id")
+    )
+    private Set<Category> categories;
 
     public Subscription() {
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -39,6 +46,7 @@ public class Subscription {
         this.subscriptionName = subscriptionName;
     }
 
+    @JsonIgnore
     public Set<User> getUsers() {
         return users;
     }
@@ -47,12 +55,20 @@ public class Subscription {
         this.users = users;
     }
 
-    public Set<SubscriptionCategory> getSubscriptionCategories() {
-        return subscriptionCategories;
+    public double getCostPerMonth() {
+        return costPerMonth;
     }
 
-    public void setSubscriptionCategories(Set<SubscriptionCategory> subscriptionCategories) {
-        this.subscriptionCategories = subscriptionCategories;
+    public void setCostPerMonth(double costPerMonth) {
+        this.costPerMonth = costPerMonth;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 
     @Override
@@ -60,14 +76,14 @@ public class Subscription {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Subscription that = (Subscription) o;
-        return Objects.equals(subscriptionName, that.subscriptionName) &&
-                Objects.equals(users, that.users) &&
-                Objects.equals(subscriptionCategories, that.subscriptionCategories);
+        return Double.compare(that.costPerMonth, costPerMonth) == 0 &&
+                Objects.equals(subscriptionName, that.subscriptionName) &&
+                Objects.equals(categories, that.categories);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(subscriptionName, users, subscriptionCategories);
+        return Objects.hash(subscriptionName, costPerMonth, categories);
     }
 
     @Override
@@ -75,8 +91,8 @@ public class Subscription {
         return "Subscription{" +
                 "id=" + id +
                 ", subscriptionName='" + subscriptionName + '\'' +
-                ", users=" + users +
-                ", subscriptionCategories=" + subscriptionCategories +
+                ", costPerMonth=" + costPerMonth +
+                ", categories=" + categories +
                 '}';
     }
 }

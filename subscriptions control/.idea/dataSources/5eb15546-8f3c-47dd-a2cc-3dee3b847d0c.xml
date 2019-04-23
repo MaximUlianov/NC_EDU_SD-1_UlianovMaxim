@@ -1110,67 +1110,95 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="279" parent="2" name="log_in"/>
-    <table id="280" parent="2" name="role"/>
-    <table id="281" parent="2" name="subscription"/>
-    <table id="282" parent="2" name="subscription_category"/>
-    <table id="283" parent="2" name="subscription_user"/>
+    <table id="279" parent="2" name="category"/>
+    <table id="280" parent="2" name="log_in"/>
+    <table id="281" parent="2" name="role"/>
+    <table id="282" parent="2" name="subscription"/>
+    <table id="283" parent="2" name="subscription_category"/>
     <table id="284" parent="2" name="user"/>
     <table id="285" parent="2" name="user_role"/>
-    <table id="286" parent="2" name="wallet"/>
-    <column id="287" parent="279" name="id">
+    <table id="286" parent="2" name="user_subscription"/>
+    <table id="287" parent="2" name="wallet"/>
+    <column id="288" parent="279" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="288" parent="279" name="email">
+    <column id="289" parent="279" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="289" parent="279" name="password">
+    <index id="290" parent="279" name="name_UNIQUE">
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="291" parent="279" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="292" parent="279" name="name_UNIQUE">
+      <ColNames>name</ColNames>
+      <UnderlyingIndexName>name_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="293" parent="280" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="294" parent="280" name="email">
+      <Position>2</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="295" parent="280" name="password">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="290" parent="279" name="user_id">
+    <column id="296" parent="280" name="user_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="291" parent="279" name="id_UNIQUE">
+    <index id="297" parent="280" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="292" parent="279" name="password_UNIQUE">
+    <index id="298" parent="280" name="password_UNIQUE">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="293" parent="279" name="fk_log_in_user1_idx">
+    <index id="299" parent="280" name="fk_log_in_user1_idx">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="294" parent="279" name="PRIMARY">
+    <key id="300" parent="280" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="295" parent="279" name="id_UNIQUE">
+    <key id="301" parent="280" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="296" parent="279" name="password_UNIQUE">
+    <key id="302" parent="280" name="password_UNIQUE">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>password_UNIQUE</UnderlyingIndexName>
     </key>
-    <foreign-key id="297" parent="279" name="fk_log_in_user1">
+    <foreign-key id="303" parent="280" name="fk_log_in_user1">
       <ColNames>user_id</ColNames>
       <RefSchemaName>backend</RefSchemaName>
       <RefTableName>user</RefTableName>
@@ -1178,239 +1206,195 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="298" parent="280" name="id">
+    <column id="304" parent="281" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="299" parent="280" name="role">
+    <column id="305" parent="281" name="role">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="300" parent="280" name="idRole_UNIQUE">
+    <index id="306" parent="281" name="idRole_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="301" parent="280" name="role_UNIQUE">
+    <index id="307" parent="281" name="role_UNIQUE">
       <ColNames>role</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="302" parent="280" name="PRIMARY">
+    <key id="308" parent="281" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="303" parent="280" name="idRole_UNIQUE">
+    <key id="309" parent="281" name="idRole_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>idRole_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="304" parent="280" name="role_UNIQUE">
+    <key id="310" parent="281" name="role_UNIQUE">
       <ColNames>role</ColNames>
       <UnderlyingIndexName>role_UNIQUE</UnderlyingIndexName>
     </key>
-    <column id="305" parent="281" name="id">
+    <column id="311" parent="282" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="306" parent="281" name="subscriptionName">
+    <column id="312" parent="282" name="subscription_name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="307" parent="281" name="subscription_category_id">
+    <column id="313" parent="282" name="cost_per_month">
       <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
+      <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="308" parent="281" name="id_UNIQUE">
+    <index id="314" parent="282" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="309" parent="281" name="subscriptions_UNIQUE">
-      <ColNames>subscriptionName</ColNames>
+    <index id="315" parent="282" name="subscriptions_UNIQUE">
+      <ColNames>subscription_name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="310" parent="281" name="fk_subscription_subscription_category1_idx">
-      <ColNames>subscription_category_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="311" parent="281" name="PRIMARY">
+    <key id="316" parent="282" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="312" parent="281" name="id_UNIQUE">
+    <key id="317" parent="282" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="313" parent="281" name="subscriptions_UNIQUE">
-      <ColNames>subscriptionName</ColNames>
+    <key id="318" parent="282" name="subscriptions_UNIQUE">
+      <ColNames>subscription_name</ColNames>
       <UnderlyingIndexName>subscriptions_UNIQUE</UnderlyingIndexName>
     </key>
-    <foreign-key id="314" parent="281" name="fk_subscription_subscription_category1">
-      <ColNames>subscription_category_id</ColNames>
-      <RefSchemaName>backend</RefSchemaName>
-      <RefTableName>subscription_category</RefTableName>
-      <RefColNames>id</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <column id="315" parent="282" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="316" parent="282" name="category">
-      <Position>2</Position>
-      <DataType>varchar(45)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="317" parent="282" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="318" parent="283" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
     <column id="319" parent="283" name="subscription_id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="320" parent="283" name="category_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="320" parent="283" name="user_id">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <index id="321" parent="283" name="fk_subscription_user_subscription1_idx">
+    <index id="321" parent="283" name="fk_subscription_category_subscription1_idx">
       <ColNames>subscription_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="322" parent="283" name="fk_subscription_user_user1_idx">
-      <ColNames>user_id</ColNames>
+    <index id="322" parent="283" name="fk_subscription_category_category1_idx">
+      <ColNames>category_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="323" parent="283" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="324" parent="283" name="fk_subscription_user_subscription1">
+    <foreign-key id="323" parent="283" name="fk_subscription_category_subscription1">
       <ColNames>subscription_id</ColNames>
       <RefSchemaName>backend</RefSchemaName>
       <RefTableName>subscription</RefTableName>
       <RefColNames>id</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="325" parent="283" name="fk_subscription_user_user1">
-      <ColNames>user_id</ColNames>
+    <foreign-key id="324" parent="283" name="fk_subscription_category_category1">
+      <ColNames>category_id</ColNames>
       <RefSchemaName>backend</RefSchemaName>
-      <RefTableName>user</RefTableName>
+      <RefTableName>category</RefTableName>
       <RefColNames>id</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="326" parent="284" name="id">
+    <column id="325" parent="284" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="327" parent="284" name="first_name">
+    <column id="326" parent="284" name="first_name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="328" parent="284" name="last_name">
+    <column id="327" parent="284" name="last_name">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="329" parent="284" name="username">
+    <column id="328" parent="284" name="username">
       <Position>4</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="330" parent="284" name="country">
+    <column id="329" parent="284" name="country">
       <Position>5</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="331" parent="284" name="birthday">
+    <column id="330" parent="284" name="birthday">
       <Position>6</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="332" parent="284" name="id_UNIQUE">
+    <index id="331" parent="284" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="333" parent="284" name="username_UNIQUE">
+    <index id="332" parent="284" name="username_UNIQUE">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="334" parent="284" name="PRIMARY">
+    <key id="333" parent="284" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="335" parent="284" name="id_UNIQUE">
+    <key id="334" parent="284" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="336" parent="284" name="username_UNIQUE">
+    <key id="335" parent="284" name="username_UNIQUE">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>username_UNIQUE</UnderlyingIndexName>
     </key>
-    <column id="337" parent="285" name="role_id">
+    <column id="336" parent="285" name="role_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="338" parent="285" name="user_id">
+    <column id="337" parent="285" name="user_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="339" parent="285" name="fk_user_role_role1_idx">
+    <index id="338" parent="285" name="fk_user_role_role1_idx">
       <ColNames>role_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="340" parent="285" name="fk_user_role_user1_idx">
+    <index id="339" parent="285" name="fk_user_role_user1_idx">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="341" parent="285" name="fk_user_role_role1">
+    <foreign-key id="340" parent="285" name="fk_user_role_role1">
       <ColNames>role_id</ColNames>
       <RefSchemaName>backend</RefSchemaName>
       <RefTableName>role</RefTableName>
@@ -1418,7 +1402,7 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="342" parent="285" name="fk_user_role_user1">
+    <foreign-key id="341" parent="285" name="fk_user_role_user1">
       <ColNames>user_id</ColNames>
       <RefSchemaName>backend</RefSchemaName>
       <RefTableName>user</RefTableName>
@@ -1426,46 +1410,80 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="343" parent="286" name="id">
+    <column id="342" parent="286" name="subscription_id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="344" parent="286" name="wallet_name">
+    <column id="343" parent="286" name="user_id">
       <Position>2</Position>
-      <DataType>varchar(45)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="345" parent="286" name="sum">
-      <Position>3</Position>
-      <DataType>double|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="346" parent="286" name="user_id">
-      <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="347" parent="286" name="fk_wallet_user1_idx">
+    <index id="344" parent="286" name="fk_subscription_user_subscription1_idx">
+      <ColNames>subscription_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="345" parent="286" name="fk_subscription_user_user1_idx">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="348" parent="286" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="349" parent="286" name="fk_wallet_user1">
+    <foreign-key id="346" parent="286" name="fk_subscription_user_subscription1">
+      <ColNames>subscription_id</ColNames>
+      <RefSchemaName>backend</RefSchemaName>
+      <RefTableName>subscription</RefTableName>
+      <RefColNames>id</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="347" parent="286" name="fk_subscription_user_user1">
       <ColNames>user_id</ColNames>
       <RefSchemaName>backend</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="348" parent="287" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="349" parent="287" name="wallet_name">
+      <Position>2</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="350" parent="287" name="sum">
+      <Position>3</Position>
+      <DataType>double|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="351" parent="287" name="user_id">
+      <Position>4</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="352" parent="287" name="fk_wallet_user1_idx">
+      <ColNames>user_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="353" parent="287" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="354" parent="287" name="fk_wallet_user1">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>backend</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>id</RefColNames>
     </foreign-key>
   </database-model>
 </dataSource>

@@ -23,18 +23,23 @@ import {SubscriptionsComponent} from './components/subscriptions/subscriptions.c
 import {WalletService} from "./service/wallets/wallet.service";
 import {SubscriptionsService} from "./service/subscriptions/subscriptions.service";
 import {TermsComponent} from './components/terms/terms.component';
+import {AvailableSubscriptionsComponent} from './components/available-subscriptions/available-subscriptions.component';
 
 
 const appRoutes: Routes = [
   {path:'main', component: MainPageComponent},
   {path:'reg', component: SignUpPageComponent},
+  {path:'wallets', component:WalletsComponent},
+  {path:'subscriptions', component:SubscriptionsComponent},
+  {path:'avSubscriptions', component:AvailableSubscriptionsComponent},
+
   {path:'main/reg', redirectTo:'reg', pathMatch:'full'},
   {path:'', redirectTo:'/main', pathMatch:'full'},
-  {path:'wallet', component:WalletsComponent},
-  {path:'main/wallet',redirectTo:'wallet', pathMatch:'full'},
-  {path:'subscriptions', component:SubscriptionsComponent},
-  {path:'main/subscriptions',redirectTo:'wallet', pathMatch:'full'}
-
+  {path:'main/wallets',redirectTo:'wallets', pathMatch:'full'},
+  {path:'main/subscriptions',redirectTo:'subscriptions', pathMatch:'full'},
+  {path:'wallets/subscriptions', redirectTo:'subscriptions', pathMatch:'full'},
+  {path:'subscriptions/wallets', redirectTo:'wallets', pathMatch:'full'},
+  {path:'subscriptions/avSubscriptions', redirectTo:'avSubscriptions', pathMatch:'full'}
 ];
 
 @NgModule({
@@ -47,7 +52,8 @@ const appRoutes: Routes = [
     NavbarComponent,
     WalletsComponent,
     SubscriptionsComponent,
-    TermsComponent
+    TermsComponent,
+    AvailableSubscriptionsComponent,
   ],
   imports: [
     BrowserModule,

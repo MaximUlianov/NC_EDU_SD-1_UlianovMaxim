@@ -4,10 +4,7 @@ import com.netcracker.edu.backend.entity.LogIn;
 import com.netcracker.edu.backend.service.LogInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,13 +21,17 @@ public class LogInController {
         return ResponseEntity.ok(logIn);
     }
 
-    @RequestMapping()
+    @GetMapping(value = "/email")
+    @ResponseBody
     public List<LogIn> getAllLogInParameters() {
         return logInService.findAll();
     }
 
-    /*@RequestMapping(method = RequestMethod.POST)
-    public User saveUser(@RequestBody User user) {
-        return userService.save(user);
-    }*/
+    @DeleteMapping(value = "/{id}")
+    @ResponseBody
+    public ResponseEntity<String> deleteUser(@PathVariable long id){
+        this.logInService.delete(id);
+        return ResponseEntity.ok("ok");
+
+    }
 }

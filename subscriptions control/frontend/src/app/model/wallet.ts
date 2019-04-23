@@ -1,18 +1,10 @@
 export class Wallet{
-
-  private name:string;
-  private sum:number;
+  public id:number;
+  public walletName:string;
+  public sum:number;
 
 
   constructor() {
   }
 
-
-  get _name(): string {
-    return this.name;
-  }
-
-  get _sum(): number {
-    return this.sum;
-  }
 }
