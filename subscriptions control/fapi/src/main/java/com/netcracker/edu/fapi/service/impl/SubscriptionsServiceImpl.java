@@ -31,4 +31,18 @@ public class SubscriptionsServiceImpl implements SubscriptionsService {
         subscription.setEmail(email);
         return restTemplate.postForEntity(backendServerUrl + "/api/subscriptions", subscription, String.class).getBody();
     }
+
+    @Override
+    public List<Subscription> getUserSubscriptions(String email) {
+        RestTemplate restTemplate = new RestTemplate();
+        Subscription [] subscriptionsResponse = restTemplate.getForObject(backendServerUrl + "/api/subscriptions/user/" + email, Subscription[].class);
+        return subscriptionsResponse == null ? Collections.emptyList() : Arrays.asList(subscriptionsResponse);
+    }
+
+    @Override
+    public String deleteUserSubscription(String email, long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.delete(backendServerUrl + "/api/subscriptions/user/" + email + "/" + id);
+        return "Deleted";
+    }
 }

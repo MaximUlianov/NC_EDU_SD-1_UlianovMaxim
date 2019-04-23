@@ -8,4 +8,6 @@ public interface SubscriptionsService {
 
     List<Subscription> getAllSubscriptions();
     String subscribe(long id, String email);
+    List<Subscription> getUserSubscriptions(String email);
+    String deleteUserSubscription(String email, long id);
 }

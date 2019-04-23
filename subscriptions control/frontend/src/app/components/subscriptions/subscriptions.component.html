@@ -11,21 +11,21 @@
 
     <div class="col">
 
-      <h4>Subscriptions component:</h4>
+      <h4>My subscriptions:</h4>
 
       <table class="table" *ngIf="!isEmpty">
         <thead class="thead-dark">
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Category</th>
+          <th scope="col">$/month</th>
           <th scope="col">Delete Action</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let subscription of subscriptions">
-          <td>{{subscription._name}}</td>
-          <td>{{subscription._category}}</td>
-          <td><button type="button" class="btn btn-danger" (click)="deleteSubscription(subscription._name)">Delete</button></td>
+          <td>{{subscription.subscriptionName}}</td>
+          <td>{{subscription.costPerMonth}}</td>
+          <td><button type="button" class="btn btn-danger" (click)="deleteSubscription(subscription.id)">Delete</button></td>
         </tr>
 
         </tbody>

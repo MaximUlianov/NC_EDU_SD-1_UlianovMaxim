@@ -13,12 +13,16 @@ export class SubscriptionsService{
     return this.http.get('api/category');
   }
 
+  getUserSubscriptions():Observable<any>{
+    return this.http.get('api/subscriptions/user', {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
+  }
+
   getSubscriptions():Observable<any>{
     return this.http.get('api/subscriptions');
   }
 
-  deleteSubscriptions(subscriptionName:string):Observable<any>{
-    return this.http.delete('api/subscriptions'+ subscriptionName);
+  deleteSubscriptions(id:number):Observable<any>{
+    return this.http.delete('api/subscriptions/user/'+ id, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
   }
 
   subscribe(id:number):Observable<any>{

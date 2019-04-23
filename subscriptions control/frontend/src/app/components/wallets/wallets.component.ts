@@ -27,9 +27,7 @@ export class WalletsComponent implements OnInit {
 
   loadWallets(){
     this.subscriptions.push( this.service.getWallets().subscribe(wallets=>{
-      this.loadingService.show();
       this.wallets = wallets as Wallet[];
-      this.loadingService.hide();
       if(this.wallets.length > 0){
         this.isEmpty = false;
       }

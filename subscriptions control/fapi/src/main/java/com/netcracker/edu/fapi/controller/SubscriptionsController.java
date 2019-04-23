@@ -30,4 +30,16 @@ public class SubscriptionsController {
         String email = tokenUtil.getUsernameFromToken(token);
         return subscriptionsService.subscribe(id, email);
     }
+
+    @GetMapping(value = "/user")
+    public List<Subscription> getUserSubscr(@RequestHeader("Authorization") String token){
+        String email = tokenUtil.getUsernameFromToken(token);
+        return subscriptionsService.getUserSubscriptions(email);
+    }
+
+    @DeleteMapping(value = "/user/{id}")
+    public String deleteUserSubscription(@PathVariable(value = "id") long id, @RequestHeader("Authorization") String token){
+        String email = tokenUtil.getUsernameFromToken(token);
+        return subscriptionsService.deleteUserSubscription(email, id);
+    }
 }

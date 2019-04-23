@@ -24,13 +24,14 @@ import {WalletService} from "./service/wallets/wallet.service";
 import {SubscriptionsService} from "./service/subscriptions/subscriptions.service";
 import {TermsComponent} from './components/terms/terms.component';
 import {AvailableSubscriptionsComponent} from './components/available-subscriptions/available-subscriptions.component';
+import {AboutGuard} from "./about.guards";
 
 
 const appRoutes: Routes = [
   {path:'main', component: MainPageComponent},
   {path:'reg', component: SignUpPageComponent},
-  {path:'wallets', component:WalletsComponent},
-  {path:'subscriptions', component:SubscriptionsComponent},
+  {path:'wallets', component:WalletsComponent, canActivate:[AboutGuard]},
+  {path:'subscriptions', component:SubscriptionsComponent, canActivate:[AboutGuard]},
   {path:'avSubscriptions', component:AvailableSubscriptionsComponent},
 
   {path:'main/reg', redirectTo:'reg', pathMatch:'full'},
@@ -68,6 +69,7 @@ const appRoutes: Routes = [
   providers: [UserRegistrationService, MainPageService, LogUserService, TokenStorage,
               WalletService,
               SubscriptionsService,
+              AboutGuard
               ],
   bootstrap: [AppComponent],
 

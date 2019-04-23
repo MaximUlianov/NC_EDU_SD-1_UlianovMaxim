@@ -28,4 +28,17 @@ public class SubscriptionsController {
     public ResponseEntity<String> subscribe(@RequestBody SubscriptionDTO sub){
         return ResponseEntity.ok(subscriptionService.subscribe(sub));
     }
+
+    @GetMapping(value = "/user/{email}")
+    @ResponseBody
+    public ResponseEntity<List<Subscription>> getUserSubscr(@PathVariable(value = "email") String email){
+        return ResponseEntity.ok(subscriptionService.getUserSubscriptions(email));
+    }
+
+    @DeleteMapping(value = "/user/{email}/{id}")
+    @ResponseBody
+    public ResponseEntity<String> deleteUserSubscription(@PathVariable(value = "email") String email,
+                                                         @PathVariable(value = "id") long id){
+        return ResponseEntity.ok(subscriptionService.deleteUserSubscription(email, id));
+    }
 }

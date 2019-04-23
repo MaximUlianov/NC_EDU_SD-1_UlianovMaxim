@@ -10,6 +10,7 @@ import com.netcracker.edu.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,5 +36,21 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscriptionRepository.findById(sub.getId()).get().getUsers().add(logIn.getUser());
         userService.saveSubscr(logIn.getUser());
         return "Subscribe";
+    }
+
+    @Override
+    public List<Subscription> getUserSubscriptions(String email) {
+        LogIn logIn = logInRepository.findByEmail(email);
+        List<Subscription> list = new ArrayList<>(logIn.getUser().getSubscriptions());
+        return list;
+    }
+
+    @Override
+    public String deleteUserSubscription(String email, long id) {
+        LogIn logIn = logInRepository.findByEmail(email);
+        logIn.getUser().getSubscriptions().remove(subscriptionRepository.findById(id).get());
+        subscriptionRepository.findById(id).get().getUsers().remove(logIn.getUser());
+        userService.saveSubscr(logIn.getUser());
+        return "Deleted";
     }
 }
