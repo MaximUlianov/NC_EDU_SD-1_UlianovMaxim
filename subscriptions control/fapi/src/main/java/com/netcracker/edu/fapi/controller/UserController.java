@@ -1,6 +1,7 @@
 package com.netcracker.edu.fapi.controller;
 
 import com.netcracker.edu.fapi.models.User;
+import com.netcracker.edu.fapi.models.UserInfo;
 import com.netcracker.edu.fapi.security.TokenProvider;
 import com.netcracker.edu.fapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,6 @@ public class UserController {
     @Autowired
     private TokenProvider tokenUtil;
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping
-    public List<User> getAllUsers(){
-        return userService.findAll();
-    }
 
     @GetMapping(value = "/info")
     public User getUserClaims(@RequestHeader("Authorization") String token){
@@ -36,13 +32,16 @@ public class UserController {
         String email = tokenUtil.getUsernameFromToken(token);
         return userService.getUsername(email);
     }
-    /*@GetMapping("/login/{login}")
-    public User getUserByLogin(@PathVariable String login) {
-        return userService.findByLogin(login);
-    }*/
+
     @RequestMapping(value="/signUp", method = RequestMethod.POST, produces = "application/json")
     public User saveUser(@RequestBody User user){
         return userService.save(user);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = "/admin")
+    public List<UserInfo> getAllUsers(){
+        return userService.getAllUsers();
     }
 
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    List<User> findAll();
+    List<User> getAllUsers();
     UserDTO getUser(UserDTO _user);
     Optional<UserDTO> save(UserDTO _user);
     LogInUserDTO getUserByEmail(String email);

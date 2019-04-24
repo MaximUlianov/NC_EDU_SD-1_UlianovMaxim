@@ -2,6 +2,7 @@ package com.netcracker.edu.fapi.service.impl;
 
 import com.netcracker.edu.fapi.models.LoginUser;
 import com.netcracker.edu.fapi.models.User;
+import com.netcracker.edu.fapi.models.UserInfo;
 import com.netcracker.edu.fapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,9 +33,9 @@ public class UserServiceImpl implements UserDetailsService,UserService {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<UserInfo> getAllUsers() {
         RestTemplate restTemplate = new RestTemplate();
-        User[] usersResponse = restTemplate.getForObject(backendServerUrl + "/api/user", User[].class);
+        UserInfo[] usersResponse = restTemplate.getForObject(backendServerUrl + "/api/user", UserInfo[].class);
         return usersResponse == null ? Collections.emptyList() : Arrays.asList(usersResponse);
     }
 

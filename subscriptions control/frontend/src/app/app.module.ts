@@ -6,7 +6,7 @@ import {ModalModule} from 'ngx-bootstrap/modal';
 import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from "@angular/router";
 import {AppComponent} from './app.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {BillingAccountsComponent} from './components/billing-accounts/billing-accounts.component';
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
@@ -25,7 +25,10 @@ import {SubscriptionsService} from "./service/subscriptions/subscriptions.servic
 import {TermsComponent} from './components/terms/terms.component';
 import {AvailableSubscriptionsComponent} from './components/available-subscriptions/available-subscriptions.component';
 import {AboutGuard} from "./about.guards";
-
+import {NgxPaginationModule} from "ngx-pagination";
+import {UserInfoComponent} from './components/user-info/user-info.component';
+import {UserService} from "./service/user/user.service";
+import {Interceptor} from "./authorization-config/interceptor";
 
 const appRoutes: Routes = [
   {path:'main', component: MainPageComponent},
@@ -33,6 +36,7 @@ const appRoutes: Routes = [
   {path:'wallets', component:WalletsComponent, canActivate:[AboutGuard]},
   {path:'subscriptions', component:SubscriptionsComponent, canActivate:[AboutGuard]},
   {path:'avSubscriptions', component:AvailableSubscriptionsComponent},
+  {path:'users', component:UserInfoComponent},
 
   {path:'main/reg', redirectTo:'reg', pathMatch:'full'},
   {path:'', redirectTo:'/main', pathMatch:'full'},
@@ -40,7 +44,9 @@ const appRoutes: Routes = [
   {path:'main/subscriptions',redirectTo:'subscriptions', pathMatch:'full'},
   {path:'wallets/subscriptions', redirectTo:'subscriptions', pathMatch:'full'},
   {path:'subscriptions/wallets', redirectTo:'wallets', pathMatch:'full'},
-  {path:'subscriptions/avSubscriptions', redirectTo:'avSubscriptions', pathMatch:'full'}
+  {path:'subscriptions/avSubscriptions', redirectTo:'avSubscriptions', pathMatch:'full'},
+  {path:'avSubscriptions/subscriptions', redirectTo:'subscriptions', pathMatch:'full'},
+  {path:'main/users', redirectTo:'users', pathMatch:'full'}
 ];
 
 @NgModule({
@@ -55,6 +61,7 @@ const appRoutes: Routes = [
     SubscriptionsComponent,
     TermsComponent,
     AvailableSubscriptionsComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -64,12 +71,20 @@ const appRoutes: Routes = [
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgxPaginationModule
   ],
   providers: [UserRegistrationService, MainPageService, LogUserService, TokenStorage,
               WalletService,
               SubscriptionsService,
-              AboutGuard
+              AboutGuard,
+              UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      // Этим interceptor`ом будем добавлять auth header
+      useClass: Interceptor,
+      multi: true
+    }
               ],
   bootstrap: [AppComponent],
 

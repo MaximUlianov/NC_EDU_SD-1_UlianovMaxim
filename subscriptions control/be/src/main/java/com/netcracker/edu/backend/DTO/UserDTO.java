@@ -3,7 +3,7 @@ package com.netcracker.edu.backend.DTO;
 import com.netcracker.edu.backend.entity.Role;
 import com.netcracker.edu.backend.entity.User;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class UserDTO {
     private String first_name;
@@ -13,12 +13,12 @@ public class UserDTO {
     private String email;
     private String password;
     private String role;
-    private Date birthday;
+    private LocalDate birthday;
 
     public UserDTO() {
     }
 
-    public UserDTO(String first_name, String last_name, String username, String country, String email, String password, String role, Date birthday) {
+    public UserDTO(String first_name, String last_name, String username, String country, String email, String password, String role, LocalDate birthday) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
@@ -102,11 +102,11 @@ public class UserDTO {
         this.role = role;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

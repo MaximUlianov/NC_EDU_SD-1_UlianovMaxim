@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class TokenProvider implements Serializable {
 
     public String getUsernameFromToken(String token) {
+        token = token.replace(Const.TOKEN_PREFIX + " ","");
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -28,11 +29,13 @@ public class TokenProvider implements Serializable {
     }
 
     private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+        token = token.replace(Const.TOKEN_PREFIX + " ","");
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
 
     private Claims getAllClaimsFromToken(String token) {
+        token = token.replace(Const.TOKEN_PREFIX + " ","");
         return Jwts.parser()
                 .setSigningKey(SecurityJwtConstants.SIGNING_KEY)
                 .parseClaimsJws(token)
@@ -40,6 +43,7 @@ public class TokenProvider implements Serializable {
     }
 
     private boolean isTokenExpired(String token) {
+        token = token.replace(Const.TOKEN_PREFIX + " ","");
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }

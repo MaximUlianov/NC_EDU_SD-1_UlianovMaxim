@@ -2,7 +2,7 @@ package com.netcracker.edu.fapi.models;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(value = {"email"}, ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Wallet {
     private long id;
     private String walletName;

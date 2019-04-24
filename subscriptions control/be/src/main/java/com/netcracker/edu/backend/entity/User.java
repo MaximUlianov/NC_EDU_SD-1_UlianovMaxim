@@ -3,7 +3,7 @@ package com.netcracker.edu.backend.entity;
 import com.netcracker.edu.backend.DTO.UserDTO;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,7 +18,7 @@ public class User {
     private String last_name;
     private String username;
     private String country;
-    private Date birthday;
+    private LocalDate birthday;
 
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
@@ -43,7 +43,7 @@ public class User {
     public User() {
     }
 
-    public User(String first_name, String last_name, String username, String country, Date birthday) {
+    public User(String first_name, String last_name, String username, String country, LocalDate birthday) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
@@ -136,11 +136,11 @@ public class User {
     }
 
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

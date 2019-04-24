@@ -32,7 +32,7 @@
     <span>Sign In</span>
   </button>
   <div class="dropdown">
-  <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-expanded="false" *ngIf="isAuthorized">
+  <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-expanded="false" *ngIf="isAuthorized && username.username != 'admin'">
     Hello, {{username.username}}
   </a>
   <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
@@ -41,6 +41,18 @@
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="#" (click)="logOut()">Log out</a>
   </div>
+  </div>
+
+  <div class="dropdown">
+    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-expanded="false" *ngIf="isAuthorized && username.username == 'admin'">
+      Hello, {{username.username}}
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+      <a class="dropdown-item" routerLink="users">Users</a>
+      <a class="dropdown-item" routerLink="wallets">My wallets</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="#" (click)="logOut()">Log out</a>
+    </div>
   </div>
 
 </nav>

@@ -9,7 +9,6 @@ import {
 } from '@angular/common/http';
 import {Router} from '@angular/router';
 
-import 'rxjs/add/operator/do';
 import {Observable} from "rxjs";
 import {TokenStorage} from "./token-provider";
 import {tap} from "rxjs/operators";

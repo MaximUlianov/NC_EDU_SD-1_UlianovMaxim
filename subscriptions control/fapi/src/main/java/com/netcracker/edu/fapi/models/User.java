@@ -2,7 +2,8 @@ package com.netcracker.edu.fapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
@@ -14,12 +15,12 @@ public class User {
     private String email;
     private String password;
     private String role;
-    private Date birthday;
+    private LocalDate birthday;
 
     public User() {
     }
 
-    public User(String first_name, String last_name, String username, String country, String email, String password, String role, Date birthday) {
+    public User(String first_name, String last_name, String username, String country, String email, String password, String role, LocalDate birthday) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.username = username;
@@ -86,11 +87,11 @@ public class User {
         this.role = role;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
