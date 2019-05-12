@@ -4,169 +4,53 @@
  <app-navbar></app-navbar>
 </header>
 
-  <div id="carousel" class="carousel slide" data-ride="carousel">
+  <div id="carousel" class="carousel slide text-center fadeInUpBig wow" style="margin-top: 65px" data-ride="carousel">
 
     <ol class="carousel-indicators">
       <li data-target="#carousel" data-slide-to="0" class="active"></li>
       <li data-target="#carousel" data-slide-to="1"></li>
+      <li data-target="#carousel" data-slide-to="2"></li>
     </ol>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img class="img-fluid" src="http://fullhdwallpapers.ru/image/flowers/9476/roza-s-kaplyami.jpg" alt="...">
+        <img class="img-fluid" src="http://brainfind.com/uploads/netflix_plans_to_get_into_news_programming_1215000488.jpg" style="opacity: 0.7" alt="...">
+        <div class="carousel-caption bg-dark fadeInUp wow" data-wow-duration="3s" style="opacity: 0.8">
+          <h3>Enjoy your subscriptions</h3>
+        </div>
       </div>
       <div class="carousel-item">
-        <img class="img-fluid" src="http://fullhdwallpapers.ru/image/nature/10654/skala-u-morya.jpg" alt="...">
+        <img class="img-fluid" src="https://sd-cdn.fr/wp-content/uploads/2018/01/spotify-app-music-earbuds-headphones-1024x512.jpg" style="opacity: 0.7" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img class="img-fluid" src="http://www.raplaying.com/wp-content/uploads/sites/3/2016/08/7-best-new-Twitch-streamers-in-2016-1024x512.jpg" style="opacity: 0.7" alt="...">
       </div>
     </div>
-
-    <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Предыдущий</span>
-    </a>
-    <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Следующий</span>
-    </a>
   </div>
 
 
   <hr class="container"/>
+  <div class="container" id="partners">
+    <h2>Our partners:</h2>
+    <div class="row fadeInUpBig wow">
 
-  <div class="container-fluid" id="partners">
-
-    <div id="carousel2" class="carousel slide">
-      <div class="container">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="card">
-                  <div class="card-header">
-                    <div class="card-img-top border-dark">
-                      <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <div class="card-content">
-                      <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                      <a href="#">View subscriptions...</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="card">
-                  <div class="card-header">
-                    <div class="card-img-top border-dark">
-                      <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <div class="card-content">
-                      <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                      <a href="#">View subscriptions...</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="card">
-                  <div class="card-header">
-                    <div class="card-img-top border-dark">
-                      <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <div class="card-content">
-                      <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                      <a href="#">View subscriptions...</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <div class="col-md-4" *ngFor="let company of companies">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-img-top border-dark">
+              <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
+              <span>{{company.name}}</span>
             </div>
           </div>
-          <div class="carousel-item">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="card">
-                  <div class="card-header">
-                    <div class="card-img-top border-dark">
-                      <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <div class="card-content">
-                      <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                      <a href="#">View subscriptions...</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="card">
-                  <div class="card-header">
-                    <div class="card-img-top border-dark">
-                      <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <div class="card-content">
-                      <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                      <a href="#">View subscriptions...</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="card">
-                  <div class="card-header">
-                    <div class="card-img-top border-dark">
-                      <img class="img-fluid rounded-circle" src="https://i.ytimg.com/vi/suK4jKc95k0/hqdefault.jpg">
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <div class="card-content">
-                      <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                      <a href="#">View subscriptions...</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div class="card-body">
+            <div class="card-content">
+              <p>{{company.description}}</p>
+            </div>
+            <div class="card-action">
+              <a href="#">View subscriptions...</a>
             </div>
           </div>
         </div>
       </div>
-      <a class="carousel-control-prev" href="#carousel2" role="button" data-slide="prev">
-        <img src="https://img.icons8.com/color/96/000000/circled-left-2.png">
-        <span class="sr-only">Предыдущий</span>
-      </a>
-      <a class="carousel-control-next" href="#carousel2" role="button" data-slide="next">
-        <img src="https://img.icons8.com/color/96/000000/circled-right-2.png">
-        <span class="sr-only">Следующий</span>
-      </a>
     </div>
   </div>
 

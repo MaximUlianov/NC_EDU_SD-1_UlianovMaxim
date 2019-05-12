@@ -18,13 +18,19 @@
         <tr>
           <th scope="col">Name</th>
           <th scope="col">$/month</th>
-          <th scope="col">Delete Action</th>
+          <th scope="col">Status</th>
+          <th scope="col">Delete</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let subscription of subscriptions">
           <td>{{subscription.subscriptionName}}</td>
           <td>{{subscription.costPerMonth}}</td>
+          <td>
+            <span class="text-danger" *ngIf="subscription.locked">Locked</span>
+            <span class="text-success" *ngIf="!subscription.locked && !subscription.negBalance">OK</span>
+            <span class="text-warning" *ngIf="subscription.negBalance && !subscription.locked">Not enough cash</span>
+          </td>
           <td><button type="button" class="btn btn-danger" (click)="deleteSubscription(subscription.id)">Delete</button></td>
         </tr>
 

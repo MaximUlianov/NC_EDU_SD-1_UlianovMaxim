@@ -16,19 +16,8 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
-    /*@RequestMapping(value = "/role/{roleName}", method = RequestMethod.GET)
-    public ResponseEntity<Role> getRoleByRoleName(@PathVariable(name = "roleName") String roleName) {
-        Role role = roleService.findByRole(roleName);
-        return ResponseEntity.ok(role);
-    }*/
-
     @RequestMapping()
     public List<Role> getAllRoles() {
         return roleService.findAll();
     }
-
-    /*@RequestMapping(method = RequestMethod.POST)
-    public User saveUser(@RequestBody User user) {
-        return userService.save(user);
-    }*/
 }

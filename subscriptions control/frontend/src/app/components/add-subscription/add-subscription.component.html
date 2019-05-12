@@ -1,0 +1,83 @@
+<div class="modal fade" id="addSubscrWin" tabindex="-1" role="dialog" aria-labelledby="addSubscrLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Subscription</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" id="name" title="Enter subscription name" placeholder="Subscription name"
+               [(ngModel)]="subscription.subscriptionName" name="subscriptionName">
+        <input type="number" class="form-control" id="costPerMonth"  [(ngModel)]="subscription.costPerMonth" name="costPerMonth"
+               placeholder="CostPerMonth" style="margin-top: 10px">
+        <select class="custom-select" id="categories" style="margin-top: 10px" [(ngModel)]="subscription.category.name">
+          <option>Choose category</option>
+          <option *ngFor="let category of allCategories">{{category.name}}</option>
+        </select>
+        <select class="custom-select" id="companies" style="margin-top: 10px" [(ngModel)]="subscription.company.name">
+          <option>Choose company</option>
+          <option *ngFor="let company of companies">{{company.name}}</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary"  type="submit" (click)="addSubscr()" data-dismiss="modal">Add</button>
+        <button class="btn btn-primary"  type="button" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+  {{subscription | json}}
+  <br/>
+  {{allCategories | json}}
+</div>
+
+
+
+
+<div class="modal fade" id="addCategWin" tabindex="-1" role="dialog" aria-labelledby="addCategLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="e">Add Subscription</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" id="categName" title="Enter category name" placeholder="Category name"
+               [(ngModel)]="category.name" name="subscriptionName">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary"  type="submit" (click)="addCateg()" data-dismiss="modal">Add</button>
+        <button class="btn btn-primary"  type="button" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+  {{category|json}}
+</div>
+
+
+<div class="modal fade" id="addCompanyWin" tabindex="-1" role="dialog" aria-labelledby="addCategLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Company</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" id="compName" title="Enter category name" placeholder="Company name"
+               [(ngModel)]="company.name" name="compName">
+        <input type="text" class="form-control" id="compDescr" title="Enter category name" placeholder="Company description"
+               [(ngModel)]="company.description" name="compDescr">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary"  type="submit" (click)="addCompany()" data-dismiss="modal">Add</button>
+        <button class="btn btn-primary"  type="button" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+  {{category|json}}
+</div>

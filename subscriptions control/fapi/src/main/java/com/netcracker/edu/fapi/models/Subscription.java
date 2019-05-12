@@ -9,6 +9,11 @@ public class Subscription {
     private String subscriptionName;
     private String email;
     private double costPerMonth;
+    private Category category;
+    private Wallet wallet;
+    private Company company;
+    private boolean isLocked;
+    private boolean isNegBalance;
 
     public Subscription() {
     }
@@ -50,5 +55,45 @@ public class Subscription {
 
     public void setCostPerMonth(double costPerMonth) {
         this.costPerMonth = costPerMonth;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
+    public boolean isNegBalance() {
+        return isNegBalance;
+    }
+
+    public void setNegBalance(boolean negBalance) {
+        isNegBalance = negBalance;
     }
 }

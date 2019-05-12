@@ -25,19 +25,25 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public List<Wallet> getWallets(String email) {
         RestTemplate restTemplate = new RestTemplate();
-        Wallet [] walletsResponse = restTemplate.getForObject(backendServerUrl + "/api/wallets/" + email, Wallet[].class);
+        Wallet [] walletsResponse = restTemplate.getForObject(backendServerUrl + "/api/wallets?email=" + email, Wallet[].class);
         return walletsResponse == null ? Collections.emptyList() : Arrays.asList(walletsResponse);
     }
 
     @Override
     public void deleteWallet(long id) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.delete(backendServerUrl + "/api/wallets/" + id, Wallet.class);
+        restTemplate.delete(backendServerUrl + "/api/wallets?id=" + id, Wallet.class);
     }
 
     @Override
     public String rechargeWallet(Wallet wallet) {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.postForEntity(backendServerUrl + "/api/wallets/recharge", wallet, String.class).getBody();
+    }
+
+    @Override
+    public String setCashSub(Wallet wallet) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.postForEntity(backendServerUrl + "/api/wallets/set_sub", wallet, String.class).getBody();
     }
 }

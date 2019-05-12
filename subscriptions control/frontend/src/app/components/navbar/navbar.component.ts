@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit {
     this.service.getUsername().subscribe(username=>{
       this.username = username as string;
       if(this.username == null){
-        console.log(this.username.username);
+        console.log(this.username);
         this.username = " ";
         this.isAuthorized = false;
       }
@@ -45,10 +45,5 @@ export class NavbarComponent implements OnInit {
     this.isAuthorized = false;
     this.username = null;
   }
-
-  routToWallets(){
-    this.router.navigate(['wallets']);
-  }
-
 
 }

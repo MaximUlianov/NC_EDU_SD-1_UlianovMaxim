@@ -24,8 +24,4 @@ export class UserRegistrationService{
     )
     return this._user2;
   }
-
-  deleteUser(_user:User){
-
-  }
 }

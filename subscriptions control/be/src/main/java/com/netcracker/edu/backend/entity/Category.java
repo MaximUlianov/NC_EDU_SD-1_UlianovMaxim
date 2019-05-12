@@ -2,6 +2,7 @@ package com.netcracker.edu.backend.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "category")
@@ -9,9 +10,13 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String name;
+
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    private Set<Subscription> subscriptions;
+
 
     public Category() {
     }
@@ -28,13 +33,22 @@ public class Category {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
+
+    public Set<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Set<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
 
 
     @Override

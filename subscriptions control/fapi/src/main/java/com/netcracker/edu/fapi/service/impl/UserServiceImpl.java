@@ -1,6 +1,7 @@
 package com.netcracker.edu.fapi.service.impl;
 
 import com.netcracker.edu.fapi.models.LoginUser;
+import com.netcracker.edu.fapi.models.Subscription;
 import com.netcracker.edu.fapi.models.User;
 import com.netcracker.edu.fapi.models.UserInfo;
 import com.netcracker.edu.fapi.service.UserService;
@@ -28,14 +29,14 @@ public class UserServiceImpl implements UserDetailsService,UserService {
     @Override
     public LoginUser findByLogin(String login) {
         RestTemplate restTemplate = new RestTemplate();
-        LoginUser user = restTemplate.getForObject(backendServerUrl + "/api/user/login/" + login, LoginUser.class);
+        LoginUser user = restTemplate.getForObject(backendServerUrl + "/api/user/login?email=" + login, LoginUser.class);
         return user;
     }
 
     @Override
-    public List<UserInfo> getAllUsers() {
+    public List<UserInfo> getUsers(int page, int size) {
         RestTemplate restTemplate = new RestTemplate();
-        UserInfo[] usersResponse = restTemplate.getForObject(backendServerUrl + "/api/user", UserInfo[].class);
+        UserInfo[] usersResponse = restTemplate.getForObject(backendServerUrl + "/api/user/" + page + "/" + size, UserInfo[].class);
         return usersResponse == null ? Collections.emptyList() : Arrays.asList(usersResponse);
     }
 
@@ -58,13 +59,13 @@ public class UserServiceImpl implements UserDetailsService,UserService {
     @Override
     public User getUserInfoByEmail(String email){
         RestTemplate rTemp = new RestTemplate();
-        return rTemp.getForObject(backendServerUrl + "/api/user/" + email, User.class);
+        return rTemp.getForObject(backendServerUrl + "/api/user/info?email=" + email, User.class);
     }
 
     @Override
-    public User getUsername(String email){
+    public String getUsername(String email){
         RestTemplate rTemp = new RestTemplate();
-        return rTemp.getForObject(backendServerUrl + "/api/user/username/" + email, User.class);
+        return rTemp.getForObject(backendServerUrl + "/api/user/username?email=" + email, String.class);
     }
 
     private Set<SimpleGrantedAuthority> getAuthority(LoginUser user) {
@@ -73,4 +74,35 @@ public class UserServiceImpl implements UserDetailsService,UserService {
         return authorities;
     }
 
+    @Override
+    public List<Subscription> getUserSubscrByAdmin(long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        Subscription [] subscriptionsResponse = restTemplate.getForObject(backendServerUrl + "/api/user/subscriptions?id=" + id, Subscription[].class);
+        return subscriptionsResponse == null ? Collections.emptyList() : Arrays.asList(subscriptionsResponse);
+    }
+
+    @Override
+    public List<UserInfo> searchUser(String type, String value) {
+        RestTemplate restTemplate = new RestTemplate();
+        UserInfo[] usersResponse = restTemplate.getForObject(backendServerUrl + "/api/user/search?type=" + type + "&value=" + value, UserInfo[].class);
+        return usersResponse == null ? Collections.emptyList() : Arrays.asList(usersResponse);
+    }
+
+    @Override
+    public Integer getTotalPages(int perPage) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(backendServerUrl + "/api/user/totalPages?perPage=" + perPage, Integer.class);
+    }
+
+    @Override
+    public String blockSubscription(long[] id) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.postForEntity(backendServerUrl + "/api/user/subscriptions/block", id, String.class).getBody();
+    }
+
+    @Override
+    public String unblockSubscription(long[] id) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.postForEntity(backendServerUrl + "/api/user/subscriptions/unblock", id, String.class).getBody();
+    }
 }

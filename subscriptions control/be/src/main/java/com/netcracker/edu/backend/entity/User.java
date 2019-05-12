@@ -39,6 +39,9 @@ public class User {
     )
     private Set<Subscription> subscriptions;
 
+    private boolean isBillingLocked;
+    private boolean isBillingNeg;
+
 
     public User() {
     }
@@ -142,6 +145,22 @@ public class User {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
+    }
+
+    public boolean isBillingLocked() {
+        return isBillingLocked;
+    }
+
+    public void setBillingLocked(boolean billingLocked) {
+        isBillingLocked = billingLocked;
+    }
+
+    public boolean isBillingNeg() {
+        return isBillingNeg;
+    }
+
+    public void setBillingNeg(boolean billingNeg) {
+        isBillingNeg = billingNeg;
     }
 
     @Override

@@ -11,4 +11,5 @@ public interface WalletService {
     WalletDTO save(WalletDTO wallet);
     void deleteWallet(long id);
     void rechargeWallet(Wallet wallet);
+    String setCashSub(Wallet wallet);
 }

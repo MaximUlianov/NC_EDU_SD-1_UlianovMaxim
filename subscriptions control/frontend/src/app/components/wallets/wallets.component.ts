@@ -17,6 +17,7 @@ export class WalletsComponent implements OnInit {
   recharge:number;
   private subscriptions: Subscription[] = [];
 
+
   constructor(private service:WalletService,
               private loadingService: Ng4LoadingSpinnerService) { }
 
@@ -60,6 +61,13 @@ export class WalletsComponent implements OnInit {
 
     });
     this.loadWallets();
+    window.location.reload();
+  }
+
+  setCashSub(wallet:Wallet){
+    this.service.setCashSub(wallet).subscribe(data=>{
+
+    });
     window.location.reload();
   }
 

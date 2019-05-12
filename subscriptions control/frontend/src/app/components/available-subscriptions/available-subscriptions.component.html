@@ -1,4 +1,5 @@
 <app-navbar></app-navbar>
+<app-add-subscription></app-add-subscription>
 <br/>
 <br/>
 <br/>
@@ -6,23 +7,61 @@
 <div class="row">
   <nav class="col-md-2 bg-light">
     <div class="container">
-    <h4>Categories:</h4>
-    <div class="sidebar-sticky">
-      <ul class="nav flex-column">
-        <li class="nav-item" *ngFor="let category of categories">
-          <a class="nav-link active" href="#">
-            <span data-feather="home"></span>
-            {{category.name}}<span class="sr-only">(current)</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+    <h4>Filter:</h4>
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li>
+            <input class="form-control mr-sm-2 border-info text-info" type="text" placeholder="Search subscription" aria-label="Search" [(ngModel)]="searchStr" (keyup)="searchSubscr()" >
+          </li>
+          <li class="nav-item">
+            <div class="dropdown" style="margin-top: 10px">
+              <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Categories
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <button class="dropdown-item" type="button" (click)="getSubscrByCategory(0)">
+                  <span data-feather="home"></span>
+                  All<span class="sr-only">(current)</span>
+                </button>
+                <button class="dropdown-item" type="button" (click)="getSubscrByCategory(category.id)" *ngFor="let category of categories"><span data-feather="home"></span>
+                  {{category.name}}<span class="sr-only">(current)</span></button>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="dropdown" style="margin-top: 10px">
+              <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Companies
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                <button class="dropdown-item" type="button" (click)="getSubscrByCompany(0)">
+                  <span data-feather="home"></span>
+                  All<span class="sr-only">(current)</span>
+                </button>
+                <button class="dropdown-item" type="button" (click)="getSubscrByCompany(company.id)" *ngFor="let company of companies"><span data-feather="home"></span>
+                  {{company.name}}<span class="sr-only">(current)</span></button>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item" *ngIf="role == 0">
+            <button class="btn btn-info" data-toggle="modal" data-target="#addSubscrWin" style="margin-top: 10px">
+              Add subscription
+            </button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#addCategWin" style="margin-top: 10px">
+              Add category
+            </button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#addCompanyWin" style="margin-top: 10px">
+              Add company
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
 
-  <div class="col-md-9">
+  <div class="col-md-9" *ngIf="!isEmpty">
     <div class="row">
-      <div class="col-md-4" *ngFor="let subsc of subscriptions | paginate: { itemsPerPage: 6, currentPage:p}">
+      <div class="col-md-4" *ngFor="let subsc of subscriptions">
         <div class="card mb-4 shadow-sm">
           <div class="card-header">
             {{subsc.subscriptionName}}
@@ -31,7 +70,8 @@
             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
-                <button type="button" class="btn btn-primary btn-inline-primary" (click)="subscribe(subsc.id)">Subscribe</button>
+                <button type="button" class="btn btn-primary btn-inline-primary" data-toggle="modal" data-target="#walletsModal" (click)="loadWallets(subsc.id)" *ngIf="role == 1">Subscribe</button>
+                <button type="button" class="btn btn-danger btn-inline-danger" *ngIf="role == 0" (click)="deleteSubscription(subsc.id)">Delete</button>
               </div>
               <small class="text-muted">{{subsc.costPerMonth}} $/month</small>
             </div>
@@ -40,9 +80,62 @@
       </div>
     </div>
   </div>
+  <div class="col-md-9" *ngIf="isEmpty">
+    <p>No available subscriptions</p>
+  </div>
 </div>
-<div class="container">
-  <pagination-controls class="float-right" (pageChange)="p = $event">
-  </pagination-controls>
+
+<div class="container" *ngIf="!isEmpty && showPagination">
+  <ul class="pagination float-right">
+    <li class="page-item">
+      <a class="page-link text-primary" aria-label="Previous" (click)="goOnPreviousePage()">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link text-primary" (click)="goOn1Page()">1</a></li>
+    <input type="text" style="width: 20px; margin-left: 7px; margin-right: 7px; text-align: center" [(ngModel)]="pageNumber" (keyup)="loadAllAvSubscriptions()">
+    <li class="page-item"><a class="page-link text-primary" (click)="goOnLastPage()">{{pagesCount}}</a></li>
+    <li class="page-item">
+      <a class="page-link text-primary" aria-label="Next" (click)="goOnNextPage()">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  </ul>
 </div>
+
+
+<div class="modal fade" id="walletsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">My Wallets</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let wallet of wallets">
+            <span class="bg-warning">Name: {{wallet.walletName}}</span>
+            <span class="bg-success">Sum: {{wallet.sum.toFixed(2)}}$</span>
+            <label class="btn btn-primary float-right">
+              <input type="radio" name="options" [(ngModel)]="walletId" value="{{wallet.id}}" id="option2" autocomplete="off"> Choose
+            </label>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary"  type="submit"   (click)="subscribe()" data-dismiss="modal">Submit</button>
+
+      </div>
+    </div>
+  </div>
+  {{walletId|json}}
+</div>
+
+
+
+
 

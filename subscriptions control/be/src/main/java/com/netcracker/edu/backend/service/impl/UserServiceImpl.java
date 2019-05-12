@@ -2,21 +2,19 @@ package com.netcracker.edu.backend.service.impl;
 
 import com.netcracker.edu.backend.DTO.LogInUserDTO;
 import com.netcracker.edu.backend.DTO.UserDTO;
-import com.netcracker.edu.backend.entity.LogIn;
-import com.netcracker.edu.backend.entity.Role;
-import com.netcracker.edu.backend.entity.User;
+import com.netcracker.edu.backend.entity.*;
 import com.netcracker.edu.backend.repository.LogInRepository;
 import com.netcracker.edu.backend.repository.RoleRepository;
 import com.netcracker.edu.backend.repository.UserRepository;
+import com.netcracker.edu.backend.repository.WalletRepository;
 import com.netcracker.edu.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,9 +28,39 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private WalletRepository walletRepository;
+
     @Override
-    public List<User> getAllUsers() {
-        return (List<User>) userRepository.findAll();
+    public List<User> getUsers(int page, int perPage) {
+        PageRequest pageRequest = PageRequest.of(page - 1, perPage);
+        Page<User> list = userRepository.findAll(pageRequest);
+        list.getContent().forEach(value->{
+            for(Wallet o: value.getWallet()){
+                if(o.isLocked()){
+                    value.setBillingLocked(true);
+                    break;
+                }
+                if(o.isNegBalance()){
+                    value.setBillingNeg(true);
+                }
+            }
+        });
+        return list.getContent();
+    }
+
+    @Override
+    public Integer getTotalPages(int perPage) {
+        List<User> list = (List<User>) userRepository.findAll();
+        if(list.size() == 0){
+            return 0;
+        }
+        else if(list.size()%perPage == 0){
+            return (list.size()/perPage);
+        }
+        else{
+            return (list.size()/perPage) + 1;
+        }
     }
 
     @Override
@@ -56,12 +84,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUsername(String email){
-        LogIn logIn = logInRepository.findByEmail(email);
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername(logIn.getUser().getUsername());
-        return userDTO;
+    public String getUsername(String email){
+        return logInRepository.findByEmail(email).getUser().getUsername();
     }
+
     @Override
     public Optional<UserDTO> save(UserDTO user)
     {
@@ -74,14 +100,6 @@ public class UserServiceImpl implements UserService {
             logInRepository.save(new LogIn(optional.get().getEmail(), optional.get().getPassword(), _user));
         }
         return optional;
-    }
-
-    public String topUpTheBalance(String walletName){
-        return "";
-    }
-
-    public String addWallet(String walletName){
-        return "";
     }
 
     public UserDTO getUserInfoByEmail(String email){
@@ -99,5 +117,81 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveSubscr(User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public List<Subscription> getUserSubscrById(long id) {
+        User user = userRepository.findById(id).get();
+        List<Subscription> subscriptions = new ArrayList<>();
+        List<Wallet> list = new ArrayList<>(user.getWallet());
+        list.forEach(value->{
+            if(value.isLocked()){
+                value.getSubscriptions().forEach(subscr->{
+                    subscr.setLocked(true);
+                });
+            }
+            else{
+                value.getSubscriptions().forEach(subscr->{
+                    subscr.setLocked(false);
+                });
+            }
+            if(value.isNegBalance()){
+                value.getSubscriptions().forEach(subscr->{
+                    subscr.setNegBalance(true);
+                });
+            }
+            else{
+                value.getSubscriptions().forEach(subscr->{
+                    subscr.setNegBalance(false);
+                });
+            }
+            subscriptions.addAll(value.getSubscriptions());
+        });
+        return subscriptions;
+    }
+
+    @Override
+    public List<User> searchUser(String type, String value) {
+        if(type.equals("Id")){
+            List<User> list = new ArrayList<>();
+            list.add(userRepository.findById(Long.parseLong(value)).get());
+            return list;
+        }
+        else if(type.equals("Username")){
+            return userRepository.findByUsernameContains(value);
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
+    public String blockSubscription(long[] id) {
+        User user = userRepository.findById(id[0]).get();
+        user.getWallet().forEach(value->{
+            value.getSubscriptions().forEach(subscription -> {
+                if(subscription.getId() == id[1]){
+                    value.setLocked(true);
+                    walletRepository.save(value);
+                    return;
+                }
+            });
+        });
+        return "Blocked";
+    }
+
+    @Override
+    public String unblockSubscription(long[] id) {
+        User user = userRepository.findById(id[0]).get();
+        user.getWallet().forEach(value->{
+            value.getSubscriptions().forEach(subscription -> {
+                if(subscription.getId() == id[1]){
+                    value.setLocked(false);
+                    walletRepository.save(value);
+                    return;
+                }
+            });
+        });
+        return "Unblocked";
     }
 }

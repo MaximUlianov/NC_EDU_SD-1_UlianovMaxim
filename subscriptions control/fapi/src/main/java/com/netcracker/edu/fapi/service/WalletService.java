@@ -10,4 +10,5 @@ public interface WalletService {
     List<Wallet> getWallets(String email);
     void deleteWallet(long id);
     String rechargeWallet(Wallet wallet);
+    String setCashSub(Wallet wallet);
 }

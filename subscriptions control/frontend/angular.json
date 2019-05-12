@@ -25,7 +25,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["../frontend/node_modules/wowjs/dist/wow.js"]
           },
           "configurations": {
             "production": {

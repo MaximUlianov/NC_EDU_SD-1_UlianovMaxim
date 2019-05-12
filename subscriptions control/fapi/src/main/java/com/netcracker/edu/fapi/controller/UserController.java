@@ -1,7 +1,9 @@
 package com.netcracker.edu.fapi.controller;
 
+import com.netcracker.edu.fapi.models.Subscription;
 import com.netcracker.edu.fapi.models.User;
 import com.netcracker.edu.fapi.models.UserInfo;
+import com.netcracker.edu.fapi.models.Username;
 import com.netcracker.edu.fapi.security.TokenProvider;
 import com.netcracker.edu.fapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +30,9 @@ public class UserController {
         return userService.getUserInfoByEmail(email);
     }
     @GetMapping(value = "/username")
-    public User getUsername(@RequestHeader("Authorization") String token){
+    public Username getUsername(@RequestHeader("Authorization") String token){
         String email = tokenUtil.getUsernameFromToken(token);
-        return userService.getUsername(email);
+        return new Username(userService.getUsername(email));
     }
 
     @RequestMapping(value="/signUp", method = RequestMethod.POST, produces = "application/json")
@@ -38,10 +40,44 @@ public class UserController {
         return userService.save(user);
     }
 
+
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping(value = "/admin")
-    public List<UserInfo> getAllUsers(){
-        return userService.getAllUsers();
+    @GetMapping(value = "/admin/totalPages")
+    public Integer getTotalPages(@RequestParam(value = "perPage") int perPage){
+        return userService.getTotalPages(perPage);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = "/admin/{page}/{size}")
+    public List<UserInfo> getUsers(@PathVariable(value = "page") int page,
+                                   @PathVariable(value = "size") int size){
+        return userService.getUsers(page,size);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = "/subscriptions")
+    public List<Subscription> getUserSubscrByAdmin(@RequestParam(value = "id") long id) {
+        return userService.getUserSubscrByAdmin(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = "/search")
+    public List<UserInfo> searchUser(@RequestParam(value = "type") String type,
+                           @RequestParam(value = "value") String value){
+        return userService.searchUser(type, value);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value = "/subscriptions/block")
+    public String blockSubscription(@RequestBody long [] id){
+        return userService.blockSubscription(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value = "/subscriptions/unblock")
+    public String unblockSubscription(@RequestBody long [] id){
+        return userService.unblockSubscription(id);
+    }
+
 
 }

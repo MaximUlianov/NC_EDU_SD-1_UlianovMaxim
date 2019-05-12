@@ -20,12 +20,18 @@ public class Subscription {
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "subscriptions")
     private Set<User> users;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
+    private CompanyInfo companyInfo;
+
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinTable(name="subscription_category",
             joinColumns = @JoinColumn(name="subscription_id", referencedColumnName="id"),
             inverseJoinColumns = @JoinColumn(name="category_id", referencedColumnName="id")
     )
-    private Set<Category> categories;
+    private Category category;
+
+    private boolean isLocked;
+    private boolean isNegBalance;
 
     public Subscription() {
     }
@@ -63,12 +69,38 @@ public class Subscription {
         this.costPerMonth = costPerMonth;
     }
 
-    public Set<Category> getCategories() {
-        return categories;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
+    @JsonIgnore
+    public Category getCategory() {
+        return category;
+    }
+
+    @JsonIgnore
+    public CompanyInfo getCompanyInfo() {
+        return companyInfo;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
+    public boolean isNegBalance() {
+        return isNegBalance;
+    }
+
+    public void setNegBalance(boolean negBalance) {
+        isNegBalance = negBalance;
+    }
+
+    public void setCompany(CompanyInfo companyInfo) {
+        this.companyInfo = companyInfo;
     }
 
     @Override
@@ -78,12 +110,12 @@ public class Subscription {
         Subscription that = (Subscription) o;
         return Double.compare(that.costPerMonth, costPerMonth) == 0 &&
                 Objects.equals(subscriptionName, that.subscriptionName) &&
-                Objects.equals(categories, that.categories);
+                Objects.equals(category, that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(subscriptionName, costPerMonth, categories);
+        return Objects.hash(subscriptionName, costPerMonth, category);
     }
 
     @Override
@@ -92,7 +124,6 @@ public class Subscription {
                 "id=" + id +
                 ", subscriptionName='" + subscriptionName + '\'' +
                 ", costPerMonth=" + costPerMonth +
-                ", categories=" + categories +
                 '}';
     }
 }

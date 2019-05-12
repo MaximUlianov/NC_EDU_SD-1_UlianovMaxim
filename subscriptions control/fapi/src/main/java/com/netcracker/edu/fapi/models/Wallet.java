@@ -8,6 +8,9 @@ public class Wallet {
     private String walletName;
     private String email;
     private double sum;
+    private boolean isLocked;
+    private boolean isCashSub;
+    private boolean isNegBalance;
 
     public Wallet() {
     }
@@ -19,6 +22,9 @@ public class Wallet {
         this.sum = sum;
     }
 
+    public Wallet(long id){
+        this.id = id;
+    }
     public long getId() {
         return id;
     }
@@ -49,5 +55,29 @@ public class Wallet {
 
     public void setSum(double sum) {
         this.sum = sum;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
+    public boolean isCashSub() {
+        return isCashSub;
+    }
+
+    public void setCashSub(boolean cashSub) {
+        isCashSub = cashSub;
+    }
+
+    public boolean isNegBalance() {
+        return isNegBalance;
+    }
+
+    public void setNegBalance(boolean negBalance) {
+        isNegBalance = negBalance;
     }
 }

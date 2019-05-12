@@ -16,14 +16,14 @@ public class WalletController {
     @Autowired
     private WalletService walletService;
 
-    @RequestMapping(value = "/walletName/{walletName}", method = RequestMethod.GET)
-    public ResponseEntity<Wallet> getWalletByWalletName(@PathVariable(name = "walletName") String walletName) {
+    @GetMapping(value = "/walletName")
+    public ResponseEntity<Wallet> getWalletByWalletName(@RequestParam(name = "walletName") String walletName) {
         Wallet wallet = walletService.findByWalletName(walletName);
         return ResponseEntity.ok(wallet);
     }
 
-    @GetMapping(value = "/{email}")
-    public ResponseEntity<List<Wallet>> getAllWallets(@PathVariable(name = "email") String email) {
+    @GetMapping
+    public ResponseEntity<List<Wallet>> getAllWallets(@RequestParam(name = "email") String email) {
         return ResponseEntity.ok(walletService.findAll(email));
     }
 
@@ -33,9 +33,9 @@ public class WalletController {
         return ResponseEntity.ok(walletService.save(wallet));
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping
     @ResponseBody
-    public void deleteWallet(@PathVariable(value = "id") long id){
+    public void deleteWallet(@RequestParam(value = "id") long id){
         walletService.deleteWallet(id);
     }
 
@@ -46,8 +46,10 @@ public class WalletController {
         return ResponseEntity.ok("Recharge was completed");
     }
 
-    /*@RequestMapping(method = RequestMethod.POST)
-    public User saveUser(@RequestBody User user) {
-        return userService.save(user);
-    }*/
+    @PostMapping(value = "/set_sub")
+    @ResponseBody
+    public ResponseEntity<String> setCahSub(@RequestBody Wallet wallet){
+        walletService.setCashSub(wallet);
+        return ResponseEntity.ok("CashSet was completed");
+    }
 }

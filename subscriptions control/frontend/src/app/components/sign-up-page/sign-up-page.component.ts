@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 })
 export class SignUpPageComponent implements OnInit {
 
+  termsAccepted:boolean;
   user:User;
 
   constructor(private _userService:UserRegistrationService, private router:Router) {
@@ -19,9 +20,13 @@ export class SignUpPageComponent implements OnInit {
     this.user = this._userService.getUser();
   }
 
-  onSubmit(){
-    this._userService.addUser(this.user);
-    this.router.navigate( ['main'] );
+  onSubmit() {
+    if (this.termsAccepted) {
+      this._userService.addUser(this.user);
+      this.router.navigate(['main']);
+    }
+    else {
+      alert('You should accept terms');
+    }
   }
-
 }

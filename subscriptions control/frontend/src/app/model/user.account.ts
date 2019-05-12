@@ -11,6 +11,8 @@ export class UserAccount{
   birthday:Date;
   wallets:Wallet[];
   subscriptions:SubscriptionMod[];
+  billingLocked:boolean;
+  billingNeg:boolean;
 
   constructor(){
 

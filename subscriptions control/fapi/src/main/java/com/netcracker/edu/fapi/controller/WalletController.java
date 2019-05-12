@@ -35,15 +35,19 @@ public class WalletController {
         return service.getWallets(email);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public void deleteWallet(@PathVariable(value = "id") long id, @RequestHeader("Authorization") String token){
+    @DeleteMapping
+    public void deleteWallet(@RequestParam(value = "id") long id, @RequestHeader("Authorization") String token){
         String email = tokenUtil.getUsernameFromToken(token);
         service.deleteWallet(id);
     }
 
     @PostMapping(value = "/recharge")
     public String rechargeWallet(@RequestHeader("Authorization") String token, @RequestBody Wallet wallet){
-        String email = tokenUtil.getUsernameFromToken(token);
         return service.rechargeWallet(wallet);
+    }
+
+    @PostMapping(value = "/set_sub")
+    public String setCashSub(@RequestHeader("Authorization") String token, @RequestBody Wallet wallet){
+        return service.setCashSub(wallet);
     }
 }

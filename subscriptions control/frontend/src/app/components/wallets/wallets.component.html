@@ -15,15 +15,22 @@
         <thead class="thead-dark">
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Sum</th>
+          <th scope="col">Sum/$</th>
+          <th scope="col">Status</th>
           <th scope="col">Recharge</th>
+          <th scope="col">Sub when negative balance</th>
           <th scope="col">Delete action</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let wallet of wallets">
           <td>{{wallet.walletName}}</td>
-          <td>{{wallet.sum}}</td>
+          <td>{{wallet.sum.toFixed(2)}}</td>
+          <td>
+            <span class="text-danger" *ngIf="wallet.locked">Locked</span>
+            <span class="text-success" *ngIf="!wallet.locked && !wallet.negBalance">OK</span>
+            <span class="text-warning" *ngIf="wallet.negBalance && !wallet.locked">Minus</span>
+          </td>
           <td><button type="button" class="btn btn-primary dropdown-toggle" id="rechargeWallet" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Recharge</button>
           <div class="dropdown-menu" aria-labelledby="rechargeWallet">
             <div class="form-group">
@@ -33,9 +40,13 @@
             <button type="submit" class="btn btn-primary" (click)="rechargeWallet(wallet, recharge)">Recharge</button>
           </div>
           </td>
+          <td>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" [(ngModel)]="wallet.cashSub" name="cashSub" (change)="setCashSub(wallet)">
+            </div>
+          </td>
           <td><button type="button" class="btn btn-danger" (click)="deleteWallet(wallet.id)">Delete</button></td>
         </tr>
-
         </tbody>
       </table>
 
@@ -58,10 +69,6 @@
           <button type="submit" class="btn btn-primary" (click)="addWallet()">Add</button>
         </div>
       </div>
-
-
     </div>
   </div>
 </div>
-
-{{wallet|json}}

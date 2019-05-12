@@ -11,6 +11,10 @@ export class MainPageService{
 
   }
 
+  getCompanies():Observable<any>{
+    return this.http.get('api/company/1/3');
+  }
+
   getUsername():Observable<any>{
     return this.http.get('api/user/username',{headers:{'Authorization':localStorage.getItem(TOKEN_KEY)}});
   }

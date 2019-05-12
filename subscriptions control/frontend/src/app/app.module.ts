@@ -29,6 +29,9 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {UserInfoComponent} from './components/user-info/user-info.component';
 import {UserService} from "./service/user/user.service";
 import {Interceptor} from "./authorization-config/interceptor";
+import {AddSubscriptionComponent} from './components/add-subscription/add-subscription.component';
+import {PaginationService} from "./service/pagination/pagination-service";
+import {CompanyComponent} from './components/company/company.component';
 
 const appRoutes: Routes = [
   {path:'main', component: MainPageComponent},
@@ -46,7 +49,10 @@ const appRoutes: Routes = [
   {path:'subscriptions/wallets', redirectTo:'wallets', pathMatch:'full'},
   {path:'subscriptions/avSubscriptions', redirectTo:'avSubscriptions', pathMatch:'full'},
   {path:'avSubscriptions/subscriptions', redirectTo:'subscriptions', pathMatch:'full'},
-  {path:'main/users', redirectTo:'users', pathMatch:'full'}
+  {path:'main/avSubscriptions',redirectTo:'avSubscriptions', pathMatch:'full'},
+  {path:'main/users', redirectTo:'users', pathMatch:'full'},
+  {path:'users/avSubscriptions',redirectTo:'avSubscriptions', pathMatch:'full'},
+  {path:'avSubscriptions/users',redirectTo:'users', pathMatch:'full'},
 ];
 
 @NgModule({
@@ -61,7 +67,9 @@ const appRoutes: Routes = [
     SubscriptionsComponent,
     TermsComponent,
     AvailableSubscriptionsComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    AddSubscriptionComponent,
+    CompanyComponent
   ],
   imports: [
     BrowserModule,
@@ -79,9 +87,9 @@ const appRoutes: Routes = [
               SubscriptionsService,
               AboutGuard,
               UserService,
+              PaginationService,
     {
       provide: HTTP_INTERCEPTORS,
-      // Этим interceptor`ом будем добавлять auth header
       useClass: Interceptor,
       multi: true
     }

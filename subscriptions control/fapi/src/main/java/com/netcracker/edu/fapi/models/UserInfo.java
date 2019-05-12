@@ -16,6 +16,8 @@ public class UserInfo {
     private LocalDate birthday;
     private Set<Subscription> subscriptions;
     private Set<Wallet> wallet;
+    private boolean isBillingLocked;
+    private boolean isBillingNeg;
 
     public UserInfo() {
     }
@@ -82,5 +84,21 @@ public class UserInfo {
 
     public void setWallet(Set<Wallet> wallet) {
         this.wallet = wallet;
+    }
+
+    public boolean isBillingLocked() {
+        return isBillingLocked;
+    }
+
+    public void setBillingLocked(boolean billingLocked) {
+        isBillingLocked = billingLocked;
+    }
+
+    public boolean isBillingNeg() {
+        return isBillingNeg;
+    }
+
+    public void setBillingNeg(boolean billingNeg) {
+        isBillingNeg = billingNeg;
     }
 }

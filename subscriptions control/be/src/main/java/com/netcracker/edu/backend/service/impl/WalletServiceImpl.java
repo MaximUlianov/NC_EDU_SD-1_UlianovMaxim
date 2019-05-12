@@ -2,8 +2,10 @@ package com.netcracker.edu.backend.service.impl;
 
 import com.netcracker.edu.backend.DTO.WalletDTO;
 import com.netcracker.edu.backend.entity.LogIn;
+import com.netcracker.edu.backend.entity.User;
 import com.netcracker.edu.backend.entity.Wallet;
 import com.netcracker.edu.backend.repository.LogInRepository;
+import com.netcracker.edu.backend.repository.UserRepository;
 import com.netcracker.edu.backend.repository.WalletRepository;
 import com.netcracker.edu.backend.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class WalletServiceImpl implements WalletService {
 
     @Autowired
     private LogInRepository logInRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<Wallet> findAll(String email) {
@@ -49,6 +54,10 @@ public class WalletServiceImpl implements WalletService {
     @Transactional
     @Override
     public void deleteWallet(long id) {
+        Wallet wallet = walletRepository.findById(id).get();
+        User user =  userRepository.findById(wallet.getUser().getId()).get();
+        user.getSubscriptions().retainAll(wallet.getSubscriptions());
+        userRepository.save(user);
         walletRepository.deleteById(id);
     }
 
@@ -59,5 +68,13 @@ public class WalletServiceImpl implements WalletService {
         double newSum = _wallet.get().getSum() + wallet.getSum();
         walletRepository.rechargeWallet(newSum, wallet.getId());
         Optional<Wallet> sum = walletRepository.findById(wallet.getId());
+    }
+
+    @Override
+    public String setCashSub(Wallet wallet) {
+        Optional<Wallet> _wallet = walletRepository.findById(wallet.getId());
+        _wallet.get().setCashSub(wallet.isCashSub());
+        walletRepository.save(_wallet.get());
+        return "Cash set was completed";
     }
 }

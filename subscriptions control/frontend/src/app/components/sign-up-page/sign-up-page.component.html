@@ -64,7 +64,6 @@
         <div class="mb-3">
           <label for="role">Role</label>
           <select class="custom-select d-block w-100" id="role" [(ngModel)]="user.role" name="role" required>
-            <option>ADMIN</option>
             <option selected>USER</option>
             <option>COMPANY</option>
           </select>
@@ -95,8 +94,8 @@
         </div>
 
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="same-address">
-          <label class="custom-control-label" for="same-address"><a href="#" data-toggle="modal" data-target="#terms">I agree with terms and conditions</a></label>
+          <input type="checkbox" class="custom-control-input" id="same-address" [checked]="termsAccepted" (change)="termsAccepted = !termsAccepted">
+          <label class="custom-control-label" for="same-address"><a href="reg" data-toggle="modal" data-target="#terms">I agree with terms and conditions</a></label>
         </div>
         <hr class="mb-4">
         <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="onSubmit()">Sign Up</button>
@@ -104,7 +103,7 @@
     </div>
   </div>
 
-  {{user | json}}
+  {{user|json}}
   <footer class="my-5 pt-5 text-muted text-center text-small">
     <p class="mb-1">&copy; 2017-2019 Company Name</p>
     <ul class="list-inline">

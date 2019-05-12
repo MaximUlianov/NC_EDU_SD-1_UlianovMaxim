@@ -14,7 +14,7 @@ export class WalletService{
   }
 
   deleteWallet(id:number):Observable<any>{
-    return this.http.delete('api/wallets/' + id, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
+    return this.http.delete('api/wallets?id=' + id, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
   }
 
   addWallet(wallet:Wallet):Observable<any>{
@@ -25,6 +25,12 @@ export class WalletService{
   rechargeWallet(wallet:Wallet):Observable<any>{
     let param = JSON.stringify(wallet);
     return this.http.post('api/wallets/recharge', param, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
+
+  }
+
+  setCashSub(wallet:Wallet){
+    let param = JSON.stringify(wallet);
+    return this.http.post('api/wallets/set_sub', param, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
 
   }
 
