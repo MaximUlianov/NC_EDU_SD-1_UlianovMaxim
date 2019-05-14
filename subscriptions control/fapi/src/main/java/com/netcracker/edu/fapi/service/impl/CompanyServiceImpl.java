@@ -1,6 +1,7 @@
 package com.netcracker.edu.fapi.service.impl;
 
 import com.netcracker.edu.fapi.models.Company;
+import com.netcracker.edu.fapi.models.Response;
 import com.netcracker.edu.fapi.service.CompanyService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,9 +25,9 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public String addCompany(Company company) {
+    public Response addCompany(Company company) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForEntity(backendServerUrl + "/api/company", company, String.class).getBody();
+        return restTemplate.postForEntity(backendServerUrl + "/api/company", company, Response.class).getBody();
     }
 
     @Override

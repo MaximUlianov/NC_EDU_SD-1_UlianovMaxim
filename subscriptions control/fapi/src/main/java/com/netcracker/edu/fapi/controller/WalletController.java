@@ -1,6 +1,7 @@
 package com.netcracker.edu.fapi.controller;
 
 
+import com.netcracker.edu.fapi.models.Response;
 import com.netcracker.edu.fapi.models.Wallet;
 import com.netcracker.edu.fapi.security.TokenProvider;
 import com.netcracker.edu.fapi.service.WalletService;
@@ -36,18 +37,18 @@ public class WalletController {
     }
 
     @DeleteMapping
-    public void deleteWallet(@RequestParam(value = "id") long id, @RequestHeader("Authorization") String token){
+    public Response deleteWallet(@RequestParam(value = "id") long id, @RequestHeader("Authorization") String token){
         String email = tokenUtil.getUsernameFromToken(token);
-        service.deleteWallet(id);
+        return (service.deleteWallet(id));
     }
 
     @PostMapping(value = "/recharge")
-    public String rechargeWallet(@RequestHeader("Authorization") String token, @RequestBody Wallet wallet){
+    public Response rechargeWallet(@RequestHeader("Authorization") String token, @RequestBody Wallet wallet){
         return service.rechargeWallet(wallet);
     }
 
     @PostMapping(value = "/set_sub")
-    public String setCashSub(@RequestHeader("Authorization") String token, @RequestBody Wallet wallet){
+    public Response setCashSub(@RequestHeader("Authorization") String token, @RequestBody Wallet wallet){
         return service.setCashSub(wallet);
     }
 }

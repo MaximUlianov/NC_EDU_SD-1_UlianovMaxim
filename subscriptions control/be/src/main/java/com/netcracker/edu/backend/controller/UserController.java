@@ -2,6 +2,8 @@ package com.netcracker.edu.backend.controller;
 
 import com.netcracker.edu.backend.DTO.LogInUserDTO;
 import com.netcracker.edu.backend.DTO.UserDTO;
+import com.netcracker.edu.backend.entity.Audit;
+import com.netcracker.edu.backend.entity.Response;
 import com.netcracker.edu.backend.entity.Subscription;
 import com.netcracker.edu.backend.entity.User;
 import com.netcracker.edu.backend.service.UserService;
@@ -70,17 +72,19 @@ public class UserController {
 
     @PostMapping(value = "/subscriptions/block")
     @ResponseBody
-    public ResponseEntity<String> blockSubscription(@RequestBody long [] id) {
+    public ResponseEntity<Response> blockSubscription(@RequestBody long [] id) {
         return ResponseEntity.ok(userService.blockSubscription(id));
     }
 
     @PostMapping(value = "/subscriptions/unblock")
     @ResponseBody
-    public ResponseEntity<String> unblockSubscription(@RequestBody long [] id) {
+    public ResponseEntity<Response> unblockSubscription(@RequestBody long [] id) {
         return ResponseEntity.ok(userService.unblockSubscription(id));
     }
 
-
-
-
+    @GetMapping(value = "/audit")
+    @ResponseBody
+    public ResponseEntity<List<Audit>> unblockSubscription(@RequestParam(value = "id") long id) {
+        return ResponseEntity.ok(userService.getUserHistory(id));
+    }
 }

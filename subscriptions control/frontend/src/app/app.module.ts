@@ -49,6 +49,7 @@ const appRoutes: Routes = [
   {path:'subscriptions/wallets', redirectTo:'wallets', pathMatch:'full'},
   {path:'subscriptions/avSubscriptions', redirectTo:'avSubscriptions', pathMatch:'full'},
   {path:'avSubscriptions/subscriptions', redirectTo:'subscriptions', pathMatch:'full'},
+  {path:'avSubscriptions/wallets', redirectTo:'wallets', pathMatch:'full'},
   {path:'main/avSubscriptions',redirectTo:'avSubscriptions', pathMatch:'full'},
   {path:'main/users', redirectTo:'users', pathMatch:'full'},
   {path:'users/avSubscriptions',redirectTo:'avSubscriptions', pathMatch:'full'},
@@ -80,7 +81,7 @@ const appRoutes: Routes = [
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
     RouterModule.forRoot(appRoutes),
-    NgxPaginationModule
+    NgxPaginationModule,
   ],
   providers: [UserRegistrationService, MainPageService, LogUserService, TokenStorage,
               WalletService,

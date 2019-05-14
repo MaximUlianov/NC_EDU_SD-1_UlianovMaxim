@@ -1,6 +1,7 @@
 package com.netcracker.edu.fapi.service.impl;
 
 import com.netcracker.edu.fapi.models.Category;
+import com.netcracker.edu.fapi.models.Response;
 import com.netcracker.edu.fapi.models.Subscription;
 import com.netcracker.edu.fapi.models.Wallet;
 import com.netcracker.edu.fapi.service.SubscriptionsService;
@@ -40,25 +41,25 @@ public class SubscriptionsServiceImpl implements SubscriptionsService {
     }
 
     @Override
-    public String subscribe(long id, long wallet, String email) {
+    public Response subscribe(long id, long wallet, String email) {
         RestTemplate restTemplate = new RestTemplate();
         Subscription subscription = new Subscription();
         subscription.setId(id);
         subscription.setEmail(email);
         subscription.setWallet(new Wallet(wallet));
-        return restTemplate.postForEntity(backendServerUrl + "/api/subscriptions/user", subscription, String.class).getBody();
+        return restTemplate.postForEntity(backendServerUrl + "/api/subscriptions/user", subscription, Response.class).getBody();
     }
 
     @Override
-    public String addSubscription(Subscription subscription) {
+    public Response addSubscription(Subscription subscription) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForEntity(backendServerUrl + "/api/subscriptions", subscription, String.class).getBody();
+        return restTemplate.postForEntity(backendServerUrl + "/api/subscriptions", subscription, Response.class).getBody();
     }
 
     @Override
-    public String addCategory(Category category) {
+    public Response addCategory(Category category) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForEntity(backendServerUrl + "/api/subscriptions/category", category, String.class).getBody();
+        return restTemplate.postForEntity(backendServerUrl + "/api/subscriptions/category", category, Response.class).getBody();
     }
 
     @Override
@@ -69,17 +70,17 @@ public class SubscriptionsServiceImpl implements SubscriptionsService {
     }
 
     @Override
-    public String deleteUserSubscription(String email, long id) {
+    public Response deleteUserSubscription(String email, long id) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.delete(backendServerUrl + "/api/subscriptions/user?email=" + email + "&id=" + id);
-        return "Deleted";
+        return new Response("ok");
     }
 
     @Override
-    public String deleteSubscription(long id) {
+    public Response deleteSubscription(long id) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.delete(backendServerUrl + "/api/subscriptions?id=" + id);
-        return "Deleted";
+        return new Response("ok");
     }
 
     @Override

@@ -15,6 +15,7 @@ export class WalletsComponent implements OnInit {
   wallet:Wallet;
   isEmpty:boolean = true;
   recharge:number;
+  isLimit:boolean = false;
   private subscriptions: Subscription[] = [];
 
 
@@ -71,6 +72,9 @@ export class WalletsComponent implements OnInit {
     window.location.reload();
   }
 
+  setLimit(){
+    this.isLimit = !this.isLimit;
+  }
 
 
 }

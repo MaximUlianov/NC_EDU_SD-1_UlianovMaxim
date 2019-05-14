@@ -1,6 +1,7 @@
 package com.netcracker.edu.backend.controller;
 
 import com.netcracker.edu.backend.entity.LogIn;
+import com.netcracker.edu.backend.entity.Response;
 import com.netcracker.edu.backend.service.LogInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +16,12 @@ public class LogInController {
 
     @RequestMapping(value = "/email", method = RequestMethod.GET)
     public ResponseEntity<LogIn> getLogInParametersByEmail(@RequestParam(name = "email") String email) {
-        LogIn logIn = logInService.findByEmail(email);
-        return ResponseEntity.ok(logIn);
+        return ResponseEntity.ok(logInService.findByEmail(email));
     }
 
     @DeleteMapping()
     @ResponseBody
-    public ResponseEntity<String> deleteUser(@RequestParam(name = "id") long id){
-        this.logInService.delete(id);
-        return ResponseEntity.ok("ok");
-
+    public ResponseEntity<Response> deleteUser(@RequestParam(name = "id") long id){
+        return ResponseEntity.ok(logInService.delete(id));
     }
 }

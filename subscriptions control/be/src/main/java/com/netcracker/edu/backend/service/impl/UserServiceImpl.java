@@ -7,6 +7,7 @@ import com.netcracker.edu.backend.repository.LogInRepository;
 import com.netcracker.edu.backend.repository.RoleRepository;
 import com.netcracker.edu.backend.repository.UserRepository;
 import com.netcracker.edu.backend.repository.WalletRepository;
+import com.netcracker.edu.backend.service.AuditService;
 import com.netcracker.edu.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private WalletRepository walletRepository;
+
+    @Autowired
+    private AuditService auditService;
 
     @Override
     public List<User> getUsers(int page, int perPage) {
@@ -89,8 +93,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDTO> save(UserDTO user)
-    {
+    public Optional<UserDTO> save(UserDTO user) {
         Optional<UserDTO> optional = Optional.ofNullable(user);
         LogIn logIn = logInRepository.findByEmail(user.getEmail());
         if(logIn == null){
@@ -110,13 +113,15 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void delete(long id) {
+    public Response delete(long id) {
         userRepository.deleteById(id);
+        return new Response("ok");
     }
 
     @Override
-    public void saveSubscr(User user) {
+    public Response saveSubscr(User user) {
         userRepository.save(user);
+        return new Response("ok");
     }
 
     @Override
@@ -166,32 +171,47 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String blockSubscription(long[] id) {
+    public Response blockSubscription(long[] id) {
         User user = userRepository.findById(id[0]).get();
         user.getWallet().forEach(value->{
             value.getSubscriptions().forEach(subscription -> {
                 if(subscription.getId() == id[1]){
                     value.setLocked(true);
+                    Audit audit = new Audit();
+                    audit.setUser(user);
+                    audit.setData("Subscription: " + subscription.getSubscriptionName() + " blocked");
+                    audit.setDate(new Date());
+                    auditService.addRecord(audit);
                     walletRepository.save(value);
                     return;
                 }
             });
         });
-        return "Blocked";
+        return new Response("ok");
     }
 
     @Override
-    public String unblockSubscription(long[] id) {
+    public Response unblockSubscription(long[] id) {
         User user = userRepository.findById(id[0]).get();
         user.getWallet().forEach(value->{
             value.getSubscriptions().forEach(subscription -> {
                 if(subscription.getId() == id[1]){
                     value.setLocked(false);
+                    Audit audit = new Audit();
+                    audit.setUser(user);
+                    audit.setData("Subscription: " + subscription.getSubscriptionName() + " unblocked");
+                    audit.setDate(new Date());
+                    auditService.addRecord(audit);
                     walletRepository.save(value);
                     return;
                 }
             });
         });
-        return "Unblocked";
+        return new Response("ok");
+    }
+
+    @Override
+    public List<Audit> getUserHistory(long id) {
+        return new ArrayList<>(userRepository.findById(id).get().getAudits());
     }
 }

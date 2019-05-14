@@ -7,6 +7,7 @@ import {Wallet} from "../../model/wallet";
 import {WalletService} from "../../service/wallets/wallet.service";
 import {PaginationService} from "../../service/pagination/pagination-service";
 import {Company} from "../../model/company";
+import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 
 @Component({
   selector: 'app-available-subscriptions',
@@ -19,6 +20,7 @@ export class AvailableSubscriptionsComponent implements OnInit {
   wallets:Wallet[];
   companies:Company[];
   subscriptions:SubscriptionMod[];
+  userSubscriptions:SubscriptionMod[];
   pagesCount:number;
   subscrPerPage:number = 6;
   pageNumber:number = 1;
@@ -32,12 +34,16 @@ export class AvailableSubscriptionsComponent implements OnInit {
   constructor(private service:SubscriptionsService,
               private tokenUtil:TokenStorage,
               private wService:WalletService,
-              private pagination:PaginationService) { }
+              private pagination:PaginationService,
+              private spinnerService: Ng4LoadingSpinnerService) { }
 
   ngOnInit() {
     this.loadCategories();
-    this.loadCompanies()
+    this.loadCompanies();
     this.checkForUserRole();
+    if(this.role == 1){
+      this.loadUserSubscriptions();
+    }
     this.loadPagesNumber();
     this.loadAllAvSubscriptions();
   }
@@ -59,7 +65,7 @@ export class AvailableSubscriptionsComponent implements OnInit {
   loadCategories(){
     this.service.getCategories().subscribe(data=>{
       this.categories = data as Category[];
-    })
+    });
   }
 
   loadCompanies(){
@@ -79,6 +85,15 @@ export class AvailableSubscriptionsComponent implements OnInit {
         this.isEmpty = true;
       }
       else{
+        if(this.role == 1) {
+          for (let i in this.userSubscriptions) {
+            for (let y in this.subscriptions) {
+              if (this.userSubscriptions[i].id == this.subscriptions[y].id) {
+                this.subscriptions[y].isInUserSubscr = true;
+              }
+            }
+          }
+        }
         this.isEmpty = false;
       }
     });
@@ -86,9 +101,22 @@ export class AvailableSubscriptionsComponent implements OnInit {
   }
 
   loadAllAvSubscriptions(){
+    if(this.pageNumber < 0 || this.pageNumber > this.pagesCount){
+      this.pageNumber = 1;
+    }
+
     this.pagination.getSubscriptions(this.pageNumber, this.subscrPerPage).subscribe(data=>{
       this.subscriptions = data as SubscriptionMod[];
         if(this.subscriptions.length != 0){
+          if(this.role == 1) {
+            for (let i in this.userSubscriptions) {
+              for (let y in this.subscriptions) {
+                if (this.userSubscriptions[i].id == this.subscriptions[y].id) {
+                  this.subscriptions[y].isInUserSubscr = true;
+                }
+              }
+            }
+          }
           this.isEmpty = false;
           if(this.pagesCount == 1) {
             this.showPagination = false;
@@ -101,8 +129,15 @@ export class AvailableSubscriptionsComponent implements OnInit {
           this.isEmpty = true;
           this.showPagination = false;
         }
+
       }
     );
+  }
+
+  loadUserSubscriptions(){
+    this.service.getUserSubscriptions().subscribe(data=>{
+      this.userSubscriptions = data as SubscriptionMod[];
+    });
   }
 
   loadPagesNumber(){
@@ -121,9 +156,24 @@ export class AvailableSubscriptionsComponent implements OnInit {
     })
   }
 
-  subscribe(){
-    this.service.subscribe(this.subscriptionId, this.walletId).subscribe(data=>{
-    });
+  subscribe() {
+    if (this.subscriptions.find(x => x.id == this.subscriptionId).costPerMonth > this.wallets.find(x => x.id == this.walletId).sum) {
+      alert('Not enough cash to subscribe');
+    } else {
+      this.service.subscribe(this.subscriptionId, this.walletId).subscribe(data => {
+
+      });
+      window.location.reload();
+    }
+  }
+
+  unsubscribe(id:number){
+    if(confirm('Do you really want to unsubscribe?')) {
+      this.service.deleteSubscriptions(id).subscribe(data => {
+
+      });
+      window.location.reload();
+    }
   }
 
   deleteSubscription(id:number){
@@ -169,6 +219,15 @@ export class AvailableSubscriptionsComponent implements OnInit {
         this.isEmpty = true;
       }
       else{
+        if(this.role == 1) {
+          for (let i in this.userSubscriptions) {
+            for (let y in this.subscriptions) {
+              if (this.userSubscriptions[i].id == this.subscriptions[y].id) {
+                this.subscriptions[y].isInUserSubscr = true;
+              }
+            }
+          }
+        }
         this.isEmpty = false;
       }
     });
@@ -186,6 +245,15 @@ export class AvailableSubscriptionsComponent implements OnInit {
         if (this.subscriptions.length == 0) {
           this.isEmpty = true;
         } else {
+          if(this.role == 1) {
+            for (let i in this.userSubscriptions) {
+              for (let y in this.subscriptions) {
+                if (this.userSubscriptions[i].id == this.subscriptions[y].id) {
+                  this.subscriptions[y].isInUserSubscr = true;
+                }
+              }
+            }
+          }
           this.isEmpty = false;
         }
       });

@@ -1,6 +1,7 @@
 package com.netcracker.edu.backend.controller;
 
 import com.netcracker.edu.backend.DTO.WalletDTO;
+import com.netcracker.edu.backend.entity.Response;
 import com.netcracker.edu.backend.entity.Wallet;
 import com.netcracker.edu.backend.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +42,13 @@ public class WalletController {
 
     @PostMapping(value = "/recharge")
     @ResponseBody
-    public ResponseEntity<String> rechargeWallet(@RequestBody Wallet wallet){
-        walletService.rechargeWallet(wallet);
-        return ResponseEntity.ok("Recharge was completed");
+    public ResponseEntity<Response> rechargeWallet(@RequestBody Wallet wallet){
+        return ResponseEntity.ok(walletService.rechargeWallet(wallet));
     }
 
     @PostMapping(value = "/set_sub")
     @ResponseBody
-    public ResponseEntity<String> setCahSub(@RequestBody Wallet wallet){
-        walletService.setCashSub(wallet);
-        return ResponseEntity.ok("CashSet was completed");
+    public ResponseEntity<Response> setCahSub(@RequestBody Wallet wallet){
+        return ResponseEntity.ok( walletService.setCashSub(wallet));
     }
 }

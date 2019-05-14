@@ -10,6 +10,7 @@ export class SubscriptionMod {
   public company:Company;
   public locked:boolean;
   public negBalance:boolean;
+  public isInUserSubscr:boolean;
   constructor() {
   }
 }

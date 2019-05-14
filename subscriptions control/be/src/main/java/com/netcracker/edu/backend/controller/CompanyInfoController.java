@@ -2,6 +2,7 @@ package com.netcracker.edu.backend.controller;
 
 
 import com.netcracker.edu.backend.entity.CompanyInfo;
+import com.netcracker.edu.backend.entity.Response;
 import com.netcracker.edu.backend.service.CompanyInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class CompanyInfoController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<String> addCompany(@RequestBody CompanyInfo newCompany){
+    public ResponseEntity<Response> addCompany(@RequestBody CompanyInfo newCompany){
         return ResponseEntity.ok(companyService.addCompany(newCompany));
     }
 
@@ -41,7 +42,7 @@ public class CompanyInfoController {
 
     @DeleteMapping
     @ResponseBody
-    public ResponseEntity<String> deleteCompany(@RequestParam(value = "id") long id){
+    public ResponseEntity<Response> deleteCompany(@RequestParam(value = "id") long id){
         return ResponseEntity.ok(companyService.deleteCompany(id));
     }
 

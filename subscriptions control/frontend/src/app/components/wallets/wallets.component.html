@@ -18,7 +18,7 @@
           <th scope="col">Sum/$</th>
           <th scope="col">Status</th>
           <th scope="col">Recharge</th>
-          <th scope="col">Sub when negative balance</th>
+          <th scope="col">Subtract when negative balance</th>
           <th scope="col">Delete action</th>
         </tr>
         </thead>
@@ -59,12 +59,16 @@
         </button>
         <div class="dropdown-menu" aria-labelledby="addingWallet">
           <div class="form-group">
-            <label for="exampleDropdownFormEmail1">Wallet name</label>
-            <input type="text" class="form-control" id="exampleDropdownFormEmail1" [(ngModel)]="wallet.walletName" name="name">
+            <label for="walName">Wallet name</label>
+            <input type="text" class="form-control" id="walname" [(ngModel)]="wallet.walletName" name="name">
           </div>
           <div class="form-group">
-            <label for="exampleDropdownFormPassword1">Sum</label>
-            <input type="number" class="form-control" id="exampleDropdownFormPassword1" [(ngModel)]="wallet.sum" name="sum" >
+            <label for="walSum">Sum</label>
+            <input type="number" class="form-control" id="walSum" [(ngModel)]="wallet.sum" name="sum" >
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="limit" [(ngModel)]="isLimit" name="setLimit" (click)="setLimit()">Limit
+            <input type="number" class="form-control" id="exampleDropdownFormPassword1" *ngIf="isLimit" [(ngModel)]="wallet.limit" name="limit" >
           </div>
           <button type="submit" class="btn btn-primary" (click)="addWallet()">Add</button>
         </div>

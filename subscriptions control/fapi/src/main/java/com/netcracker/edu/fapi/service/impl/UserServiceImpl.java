@@ -1,9 +1,6 @@
 package com.netcracker.edu.fapi.service.impl;
 
-import com.netcracker.edu.fapi.models.LoginUser;
-import com.netcracker.edu.fapi.models.Subscription;
-import com.netcracker.edu.fapi.models.User;
-import com.netcracker.edu.fapi.models.UserInfo;
+import com.netcracker.edu.fapi.models.*;
 import com.netcracker.edu.fapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -95,14 +92,21 @@ public class UserServiceImpl implements UserDetailsService,UserService {
     }
 
     @Override
-    public String blockSubscription(long[] id) {
+    public Response blockSubscription(long[] id) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForEntity(backendServerUrl + "/api/user/subscriptions/block", id, String.class).getBody();
+        return restTemplate.postForEntity(backendServerUrl + "/api/user/subscriptions/block", id, Response.class).getBody();
     }
 
     @Override
-    public String unblockSubscription(long[] id) {
+    public Response unblockSubscription(long[] id) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForEntity(backendServerUrl + "/api/user/subscriptions/unblock", id, String.class).getBody();
+        return restTemplate.postForEntity(backendServerUrl + "/api/user/subscriptions/unblock", id, Response.class).getBody();
+    }
+
+    @Override
+    public List<Audit> getUserHistory(long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        Audit[] historyResponse = restTemplate.getForObject(backendServerUrl + "/api/user/audit?id=" + id, Audit[].class);
+        return historyResponse == null ? Collections.emptyList() : Arrays.asList(historyResponse);
     }
 }

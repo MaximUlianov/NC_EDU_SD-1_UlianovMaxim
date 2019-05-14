@@ -32,5 +32,11 @@ export class UserService {
     return this.http.post('api/user/subscriptions/unblock', param, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
   }
 
+  getUserHistory(id:number):Observable<any>{
+    return this.http.get('api/user/audit?id=' + id, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}})
+  }
+
+
+
 
 }

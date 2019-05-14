@@ -1,9 +1,6 @@
 package com.netcracker.edu.fapi.controller;
 
-import com.netcracker.edu.fapi.models.Subscription;
-import com.netcracker.edu.fapi.models.User;
-import com.netcracker.edu.fapi.models.UserInfo;
-import com.netcracker.edu.fapi.models.Username;
+import com.netcracker.edu.fapi.models.*;
 import com.netcracker.edu.fapi.security.TokenProvider;
 import com.netcracker.edu.fapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,15 +66,19 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/subscriptions/block")
-    public String blockSubscription(@RequestBody long [] id){
+    public Response blockSubscription(@RequestBody long [] id){
         return userService.blockSubscription(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/subscriptions/unblock")
-    public String unblockSubscription(@RequestBody long [] id){
+    public Response unblockSubscription(@RequestBody long [] id){
         return userService.unblockSubscription(id);
     }
 
+    @GetMapping(value = "/audit")
+    public List<Audit> getUserHistory(@RequestParam(value = "id") long id){
+        return userService.getUserHistory(id);
+    }
 
 }

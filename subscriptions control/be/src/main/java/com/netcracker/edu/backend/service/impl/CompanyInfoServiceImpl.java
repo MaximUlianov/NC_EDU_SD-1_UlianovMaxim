@@ -1,6 +1,7 @@
 package com.netcracker.edu.backend.service.impl;
 
 import com.netcracker.edu.backend.entity.CompanyInfo;
+import com.netcracker.edu.backend.entity.Response;
 import com.netcracker.edu.backend.repository.CompanyInfoRepository;
 import com.netcracker.edu.backend.service.CompanyInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
     }
 
     @Override
-    public String addCompany(CompanyInfo newCompany) {
+    public Response addCompany(CompanyInfo newCompany) {
         this.companyRepository.save(newCompany);
-        return "Saved";
+        return new Response("Saved");
     }
 
     @Override
@@ -39,8 +40,8 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
     }
 
     @Override
-    public String deleteCompany(long id){
+    public Response deleteCompany(long id){
         this.companyRepository.deleteById(id);
-        return "Deleted";
+        return new Response("Deleted");
     }
 }

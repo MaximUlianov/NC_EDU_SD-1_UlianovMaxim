@@ -1,6 +1,7 @@
 package com.netcracker.edu.fapi.controller;
 
 import com.netcracker.edu.fapi.models.Company;
+import com.netcracker.edu.fapi.models.Response;
 import com.netcracker.edu.fapi.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +28,7 @@ public class CompanyController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public String addCompany(@RequestBody Company company){
+    public Response addCompany(@RequestBody Company company){
         return companyService.addCompany(company);
     }
 

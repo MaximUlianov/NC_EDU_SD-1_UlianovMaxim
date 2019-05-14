@@ -1,5 +1,6 @@
 package com.netcracker.edu.backend.service.impl;
 
+import com.netcracker.edu.backend.entity.Response;
 import com.netcracker.edu.backend.entity.Role;
 import com.netcracker.edu.backend.repository.RoleRepository;
 import com.netcracker.edu.backend.service.RoleService;
@@ -29,7 +30,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void delete(long id) {
+    public Response delete(long id) {
         roleRepository.deleteById(id);
+        return new Response("ok");
     }
 }

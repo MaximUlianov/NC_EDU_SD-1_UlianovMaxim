@@ -39,6 +39,10 @@ public class User {
     )
     private Set<Subscription> subscriptions;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private Set<Audit> audits;
+
+
     private boolean isBillingLocked;
     private boolean isBillingNeg;
 
@@ -77,7 +81,7 @@ public class User {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -147,6 +151,14 @@ public class User {
         this.birthday = birthday;
     }
 
+    public Set<Audit> getAudits() {
+        return audits;
+    }
+
+    public void setAudits(Set<Audit> audits) {
+        this.audits = audits;
+    }
+
     public boolean isBillingLocked() {
         return isBillingLocked;
     }
@@ -193,9 +205,4 @@ public class User {
                 ", subscriptions=" + subscriptions +
                 '}';
     }
-
-   /* public void addSubscr(Subscription subscription){
-        subscriptions.add(subscription);
-        subscription.getUsers().add(this);
-    }*/
 }

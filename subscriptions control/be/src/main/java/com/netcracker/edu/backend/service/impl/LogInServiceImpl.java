@@ -1,6 +1,7 @@
 package com.netcracker.edu.backend.service.impl;
 
 import com.netcracker.edu.backend.entity.LogIn;
+import com.netcracker.edu.backend.entity.Response;
 import com.netcracker.edu.backend.repository.LogInRepository;
 import com.netcracker.edu.backend.service.LogInService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ public class LogInServiceImpl implements LogInService {
     }
 
     @Override
-    public void delete(long id) {
+    public Response delete(long id) {
         logInRepository.deleteById(id);
+        return new Response("ok");
     }
 }

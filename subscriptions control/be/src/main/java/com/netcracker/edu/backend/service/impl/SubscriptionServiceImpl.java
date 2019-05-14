@@ -3,6 +3,7 @@ package com.netcracker.edu.backend.service.impl;
 import com.netcracker.edu.backend.DTO.SubscriptionDTO;
 import com.netcracker.edu.backend.entity.*;
 import com.netcracker.edu.backend.repository.*;
+import com.netcracker.edu.backend.service.AuditService;
 import com.netcracker.edu.backend.service.SubscriptionService;
 import com.netcracker.edu.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,6 +35,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Autowired
     private CompanyInfoRepository companyInfoRepository;
+
+    @Autowired
+    private AuditService auditService;
 
     @Override
     public List<Subscription> getAllSubscriptions(int page, int size) {
@@ -60,36 +65,47 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public String subscribe(SubscriptionDTO sub) {
+    public Response subscribe(SubscriptionDTO sub) {
         LogIn logIn = logInRepository.findByEmail(sub.getEmail());
 
         Subscription subscription = subscriptionRepository.findById(sub.getId()).get();
+        Wallet wallet  =  walletRepository.findById(sub.getWallet().getId()).get();
+
+        if(subscription.getCostPerMonth() > wallet.getSum()){
+            return new Response("Not enough money");
+        }
+
         subscription.getUsers().add(logIn.getUser());
         logIn.getUser().getSubscriptions().add(subscription);
 
-        Wallet wallet  =  walletRepository.findById(sub.getWallet().getId()).get();
         wallet.getSubscriptions().add(subscriptionRepository.findById(sub.getId()).get());
 
         userService.saveSubscr(logIn.getUser());
         walletRepository.save(wallet);
-        return "Subscribe";
+
+        Audit audit = new Audit();
+        audit.setUser(logIn.getUser());
+        audit.setData("Subscribed to: " + subscription.getSubscriptionName());
+        audit.setDate(new Date());
+        auditService.addRecord(audit);
+        return new Response("ok");
     }
 
     @Override
-    public String addSubscription(SubscriptionDTO subscription) {
+    public Response addSubscription(SubscriptionDTO subscription) {
         Subscription subscr = new Subscription();
         subscr.setSubscriptionName(subscription.getSubscriptionName());
         subscr.setCostPerMonth(subscription.getCostPerMonth());
         subscr.setCategory(categoryRepository.findByName(subscription.getCategory().getName()));
         subscr.setCompany(companyInfoRepository.findByName(subscription.getCompany().getName()));
         subscriptionRepository.save(subscr);
-        return "Added";
+        return new Response("ok");
     }
 
     @Override
-    public String addCategory(Category category) {
+    public Response addCategory(Category category) {
         categoryRepository.save(category);
-        return "Added";
+        return new Response("ok");
     }
 
     @Override
@@ -124,7 +140,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public String deleteUserSubscription(String email, long id) {
+    public Response deleteUserSubscription(String email, long id) {
         LogIn logIn = logInRepository.findByEmail(email);
         Subscription subscription = subscriptionRepository.findById(id).get();
 
@@ -141,13 +157,18 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             walletRepository.save(wallet);
         });
         userService.saveSubscr(logIn.getUser());
-        return "Deleted";
+        Audit audit = new Audit();
+        audit.setUser(logIn.getUser());
+        audit.setData("Unsubscribed from: " + subscription.getSubscriptionName());
+        audit.setDate(new Date());
+        auditService.addRecord(audit);
+        return new Response("Deleted");
     }
 
     @Override
-    public String deleteSubscription(long id) {
+    public Response deleteSubscription(long id) {
         subscriptionRepository.deleteById(id);
-        return "Deleted";
+        return new Response("Deleted");
     }
 
     @Override

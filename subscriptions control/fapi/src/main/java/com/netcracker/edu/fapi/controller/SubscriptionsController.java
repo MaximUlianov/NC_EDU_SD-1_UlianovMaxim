@@ -1,6 +1,7 @@
 package com.netcracker.edu.fapi.controller;
 
 import com.netcracker.edu.fapi.models.Category;
+import com.netcracker.edu.fapi.models.Response;
 import com.netcracker.edu.fapi.models.Subscription;
 import com.netcracker.edu.fapi.security.TokenProvider;
 import com.netcracker.edu.fapi.service.SubscriptionsService;
@@ -50,32 +51,32 @@ public class SubscriptionsController {
     }
 
     @PostMapping(value = "/user")
-    public String subscribe(@RequestHeader("Authorization") String token, @RequestBody long[] id){
+    public Response subscribe(@RequestHeader("Authorization") String token, @RequestBody long[] id){
         String email = tokenUtil.getUsernameFromToken(token);
         return subscriptionsService.subscribe(id[0],id[1], email);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public String addSubscription(@RequestBody Subscription subscription){
+    public Response addSubscription(@RequestBody Subscription subscription){
         return subscriptionsService.addSubscription(subscription);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/category")
-    public String addCategory(@RequestBody Category category){
+    public Response addCategory(@RequestBody Category category){
         return subscriptionsService.addCategory(category);
     }
 
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping
-    public String deleteSubscription(@RequestParam(value = "id") long id){
+    public Response deleteSubscription(@RequestParam(value = "id") long id){
         return subscriptionsService.deleteSubscription(id);
     }
 
     @DeleteMapping(value = "/user")
-    public String deleteUserSubscription(@RequestParam(value = "id") long id, @RequestHeader("Authorization") String token){
+    public Response deleteUserSubscription(@RequestParam(value = "id") long id, @RequestHeader("Authorization") String token){
         String email = tokenUtil.getUsernameFromToken(token);
         return subscriptionsService.deleteUserSubscription(email, id);
     }

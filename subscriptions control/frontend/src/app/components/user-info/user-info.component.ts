@@ -3,6 +3,7 @@ import {UserService} from "../../service/user/user.service";
 import {UserAccount} from "../../model/user.account";
 import {SubscriptionMod} from "../../model/subscriptionMod";
 import {PaginationService} from "../../service/pagination/pagination-service";
+import {Audit} from "../../model/audit";
 
 @Component({
   selector: 'app-user-info',
@@ -14,8 +15,11 @@ export class UserInfoComponent implements OnInit {
   username:string;
   subscriptions:SubscriptionMod[];
   showSubscriptions:boolean = false;
+  showHistory:boolean = false;
   users:UserAccount[];
+  history:Audit[];
   isEmpty:boolean;
+  isSubscrEmpty:boolean;
   searchType:string;
   searchParameter:string;
   userId:number;
@@ -54,24 +58,32 @@ export class UserInfoComponent implements OnInit {
   }
 
   loadUserSubscriptions(id:number, username:string){
-    if(this.showSubscriptions == true){
-      this.closeTable();
-    }
-    else {
       this.username = username;
       this.userId = id;
       this.uService.getUserSubscriptionsByAdmin(id).subscribe(data => {
         this.subscriptions = data as SubscriptionMod[];
         this.showSubscriptions = true;
+        if(this.subscriptions.length == 0){
+          this.isSubscrEmpty = true;
+        }
+        else{
+          this.isSubscrEmpty = false;
+        }
       });
-    }
   }
 
-  closeTable(){
-    this.username = '';
+  closeTableSubscr(){
     this.subscriptions = null;
     this.showSubscriptions = false;
   }
+
+  closeTableHist(){
+    this.username = '';
+    this.history = null;
+    this.showHistory = false;
+  }
+
+
 
   searchUser(){
     if(this.searchType != 'Search by...') {
@@ -142,5 +154,12 @@ export class UserInfoComponent implements OnInit {
     this.loadUserSubscriptions(this.userId, this.username);
   }
 
+  loadUserHistory(id:number, username:string){
+    this.username = username;
+    this.uService.getUserHistory(id).subscribe(data=>{
+      this.history = data as Audit[];
+      this.showHistory = true;
+    })
+  }
 
 }
