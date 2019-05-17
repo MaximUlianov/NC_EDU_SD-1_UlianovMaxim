@@ -6,6 +6,7 @@ export class SubscriptionMod {
   public id:number;
   public start:Date;
   public end:Date;
+  public sale:number;
   public locked:boolean;
   public wallet:Wallet;
   public product:Product;

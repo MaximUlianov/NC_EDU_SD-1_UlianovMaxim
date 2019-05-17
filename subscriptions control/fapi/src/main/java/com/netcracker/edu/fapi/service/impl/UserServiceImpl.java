@@ -103,4 +103,11 @@ public class UserServiceImpl implements UserDetailsService,UserService {
         Audit[] historyResponse = restTemplate.getForObject(backendServerUrl + "/api/user/audit?id=" + id, Audit[].class);
         return historyResponse == null ? Collections.emptyList() : Arrays.asList(historyResponse);
     }
+
+    @Override
+    public List<Wallet> getUserWalletsByAdmin(long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        Wallet [] walletsResponse = restTemplate.getForObject(backendServerUrl + "/api/user/wallets?id=" + id, Wallet[].class);
+        return walletsResponse == null ? Collections.emptyList() : Arrays.asList(walletsResponse);
+    }
 }

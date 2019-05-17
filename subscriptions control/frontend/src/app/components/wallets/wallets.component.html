@@ -16,7 +16,6 @@
         <tr>
           <th scope="col">Name</th>
           <th scope="col">Sum/$</th>
-          <th scope="col">Status</th>
           <th scope="col">Recharge</th>
           <th scope="col">Subtract when negative balance</th>
           <th scope="col">Delete action</th>
@@ -26,17 +25,12 @@
         <tr *ngFor="let wallet of wallets">
           <td>{{wallet.walletName}}</td>
           <td>
-            <button class="btn btn-info" *ngIf="!balanceClicked" (click)="showBalance(wallet.id)">Show balance</button>
-            <span *ngIf="balanceClicked">{{walletBalance.sum.toFixed(2)}}
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="showBalanceBtn()">
+            <button class="btn btn-success" *ngIf="!wallet.showBalance" (click)="showBalance(wallet.id)">Show balance</button>
+            <span *ngIf="wallet.showBalance">{{wallet.sum.toFixed(2)}}
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="showBalanceBtn(wallet.id)">
                 <span aria-hidden="true">&times;</span>
               </button>
             </span>
-          </td>
-          <td>
-            <span class="text-danger" *ngIf="wallet.locked">Locked</span>
-            <span class="text-success" *ngIf="!wallet.locked && !wallet.negBalance">OK</span>
-            <span class="text-warning" *ngIf="wallet.negBalance && !wallet.locked">Minus</span>
           </td>
           <td><button type="button" class="btn btn-primary dropdown-toggle" id="rechargeWallet" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Recharge</button>
           <div class="dropdown-menu" aria-labelledby="rechargeWallet">

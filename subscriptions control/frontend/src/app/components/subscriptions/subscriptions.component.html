@@ -20,6 +20,7 @@
           <th scope="col">$/month</th>
           <th scope="col">From</th>
           <th scope="col">To</th>
+          <th scope="col">Sale</th>
           <th scope="col">Status</th>
           <th scope="col">Delete</th>
         </tr>
@@ -30,6 +31,10 @@
           <td>{{subscription.product.costPerMonth}}</td>
           <td>{{subscription.start}}</td>
           <td>{{subscription.end}}</td>
+          <td>
+            <span class="text-danger" *ngIf="subscription.sale != 0">-{{subscription.sale}}%</span>
+            <span class="text-danger" *ngIf="subscription.sale == 0">NO</span>
+          </td>
           <td>
             <span class="text-danger" *ngIf="subscription.locked">Locked</span>
             <span class="text-success" *ngIf="!subscription.locked">OK</span>

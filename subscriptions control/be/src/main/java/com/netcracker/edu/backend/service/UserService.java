@@ -2,10 +2,7 @@ package com.netcracker.edu.backend.service;
 
 import com.netcracker.edu.backend.DTO.LogInUserDTO;
 import com.netcracker.edu.backend.DTO.UserDTO;
-import com.netcracker.edu.backend.entity.Audit;
-import com.netcracker.edu.backend.entity.Response;
-import com.netcracker.edu.backend.entity.Subscription;
-import com.netcracker.edu.backend.entity.User;
+import com.netcracker.edu.backend.entity.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +13,7 @@ public interface UserService {
     List<User> searchUser(String type, String value);
     List<Audit> getUserHistory(long id);
     List<Subscription> getUserSubscrById(long id);
+    List<Wallet> getUserWallets(long id);
 
     Response delete(long id);
     Response saveSubscr(User user);

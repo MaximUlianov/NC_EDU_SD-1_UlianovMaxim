@@ -17,7 +17,6 @@ export class WalletsComponent implements OnInit {
   isEmpty:boolean = true;
   recharge:number;
   isLimit:boolean = false;
-  balanceClicked:boolean;
 
   private subscriptions: Subscription[] = [];
 
@@ -83,12 +82,13 @@ export class WalletsComponent implements OnInit {
   showBalance(id:number){
     this.service.getBalance(id).subscribe(data=>{
       this.walletBalance = data as Wallet;
+      this.wallets.find(x => x.id == id).sum = this.walletBalance.sum;
+      this.wallets.find(x => x.id == id).showBalance = true;
     });
-    this.balanceClicked = true;
   }
 
-  showBalanceBtn(){
-    this.balanceClicked = false;
+  showBalanceBtn(id:number){
+    this.wallets.find(x => x.id == id).showBalance = false;
     this.walletBalance = new Wallet();
   }
 

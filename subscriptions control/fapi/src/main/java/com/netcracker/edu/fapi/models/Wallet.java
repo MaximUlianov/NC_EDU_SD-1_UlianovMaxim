@@ -2,13 +2,15 @@ package com.netcracker.edu.fapi.models;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Wallet {
     private long id;
     private String walletName;
     private String email;
     private double sum;
-    private boolean isLocked;
+    private List<Subscription> subscriptions;
     private boolean isCashSub;
     private boolean isNegBalance;
 
@@ -57,12 +59,12 @@ public class Wallet {
         this.sum = sum;
     }
 
-    public boolean isLocked() {
-        return isLocked;
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
     }
 
-    public void setLocked(boolean locked) {
-        isLocked = locked;
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 
     public boolean isCashSub() {

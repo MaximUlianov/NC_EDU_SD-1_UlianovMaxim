@@ -1,9 +1,11 @@
 package com.netcracker.edu.backend.service.impl;
 
 import com.netcracker.edu.backend.DTO.WalletDTO;
-import com.netcracker.edu.backend.entity.*;
+import com.netcracker.edu.backend.entity.LogIn;
+import com.netcracker.edu.backend.entity.Response;
+import com.netcracker.edu.backend.entity.Wallet;
 import com.netcracker.edu.backend.repository.LogInRepository;
-import com.netcracker.edu.backend.repository.UserRepository;
+import com.netcracker.edu.backend.repository.SubscriptionRepository;
 import com.netcracker.edu.backend.repository.WalletRepository;
 import com.netcracker.edu.backend.service.AuditService;
 import com.netcracker.edu.backend.service.WalletService;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class WalletServiceImpl implements WalletService {
     private LogInRepository logInRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private SubscriptionRepository subscriptionRepository;
 
     @Autowired
     private AuditService auditService;
@@ -52,11 +53,7 @@ public class WalletServiceImpl implements WalletService {
         _wallet.setUser(logIn.getUser());
         walletRepository.save(_wallet);
 
-        Audit audit = new Audit();
-        audit.setUser(logIn.getUser());
-        audit.setData("Add wallet " + _wallet.getWalletName());
-        audit.setDate(new Date());
-        auditService.addRecord(audit);
+        auditService.addWalletRecord(logIn.getUser(), wallet.getWalletName());
 
         return wallet;
     }
@@ -65,16 +62,14 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public Response deleteWallet(long id) {
         Wallet wallet = walletRepository.findById(id).get();
-        User user =  userRepository.findById(wallet.getUser().getId()).get();
-        user.getSubscriptions().retainAll(wallet.getSubscriptions());
-        userRepository.save(user);
+        wallet.getSubscriptions().forEach(value->{
+            subscriptionRepository.deleteById(value.getId());
+            auditService.unsubscribedRecord(wallet.getUser(), value.getProduct().getName());
+        });
         walletRepository.deleteById(id);
 
-        Audit audit = new Audit();
-        audit.setUser(user);
-        audit.setData("Delete wallet " + wallet.getWalletName());
-        audit.setDate(new Date());
-        auditService.addRecord(audit);
+        auditService.deleteWalletRecord(wallet.getUser(), wallet.getWalletName());
+
         return new Response("ok");
     }
 
@@ -88,12 +83,7 @@ public class WalletServiceImpl implements WalletService {
 
         _wallet.get().setSum(_wallet.get().getSum() + wallet.getSum());
         walletRepository.save(_wallet.get());
-
-        Audit audit = new Audit();
-        audit.setUser(_wallet.get().getUser());
-        audit.setData("Recharge wallet " + _wallet.get().getWalletName() + " on " + wallet.getSum());
-        audit.setDate(new Date());
-        auditService.addRecord(audit);
+        auditService.rechargeWalletRecord(_wallet.get().getUser(), _wallet.get().getWalletName(), wallet.getSum());
         return new Response("ok");
     }
 

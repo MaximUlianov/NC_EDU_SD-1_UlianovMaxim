@@ -12,5 +12,6 @@ public interface SubscriptionService {
 
     Response subscribe(SubscriptionDTO subscriptionDTO);
     Response deleteUserSubscription(String email, long id);
+    Response setSale(long id, int sale);
 
 }

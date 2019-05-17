@@ -215,4 +215,9 @@ public class UserServiceImpl implements UserService {
     public List<Audit> getUserHistory(long id) {
         return new ArrayList<>(userRepository.findById(id).get().getAudits());
     }
+
+    @Override
+    public List<Wallet> getUserWallets(long id) {
+        return new ArrayList<>(userRepository.findById(id).get().getWallet());
+    }
 }

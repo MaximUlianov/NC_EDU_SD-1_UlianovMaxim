@@ -10,6 +10,7 @@ public interface UserService {
     List<Subscription> getUserSubscrByAdmin(long id);
     List<UserInfo> searchUser(String type, String value);
     List<Audit> getUserHistory(long id);
+    List<Wallet> getUserWalletsByAdmin(long id);
 
     Response blockSubscription(long [] id);
     Response unblockSubscription(long [] id);

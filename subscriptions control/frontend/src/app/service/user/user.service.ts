@@ -12,8 +12,8 @@ export class UserService {
     return this.http.get('api/user/admin', {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
   }
 
-  getUserSubscriptionsByAdmin(id:number):Observable<any>{
-    return this.http.get('api/user/subscriptions?id=' + id, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
+  getUserWalletsByAdmin(id:number):Observable<any>{
+    return this.http.get('api/user/wallets?id=' + id, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
   }
 
   searchUser(type:string, parameter:string):Observable<any>{

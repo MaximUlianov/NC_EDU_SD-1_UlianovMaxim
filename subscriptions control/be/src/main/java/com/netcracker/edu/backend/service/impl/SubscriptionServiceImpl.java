@@ -1,7 +1,10 @@
 package com.netcracker.edu.backend.service.impl;
 
 import com.netcracker.edu.backend.DTO.SubscriptionDTO;
-import com.netcracker.edu.backend.entity.*;
+import com.netcracker.edu.backend.entity.LogIn;
+import com.netcracker.edu.backend.entity.Response;
+import com.netcracker.edu.backend.entity.Subscription;
+import com.netcracker.edu.backend.entity.Wallet;
 import com.netcracker.edu.backend.repository.*;
 import com.netcracker.edu.backend.service.AuditService;
 import com.netcracker.edu.backend.service.SubscriptionService;
@@ -10,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -56,18 +58,14 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         Subscription subscription = new Subscription();
         subscription.setStart(sub.getStart());
         subscription.setEnd(sub.getEnd());
-        subscription.setSale(sub.getSale());
+        subscription.setSale(sub.getProduct().getSale());
         subscription.setProduct(productRepository.findById(sub.getProduct().getId()).get());
         subscription.setWallet(wallet);
         subscription.setUser(logIn.getUser());
 
         subscriptionRepository.save(subscription);
 
-        Audit audit = new Audit();
-        audit.setUser(logIn.getUser());
-        audit.setData("Subscribed to: " + subscription.getProduct().getName());
-        audit.setDate(new Date());
-        auditService.addRecord(audit);
+        auditService.subscribedRecord(logIn.getUser(), subscription.getProduct().getName());
         return new Response("ok");
     }
 
@@ -90,12 +88,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         }
         subscriptionRepository.deleteById(subscription.getId());
 
-        Audit audit = new Audit();
-        audit.setUser(logIn.getUser());
-        audit.setData("Unsubscribed from: " + subscription.getProduct().getName());
-        audit.setDate(new Date());
-        auditService.addRecord(audit);
+        auditService.unsubscribedRecord(logIn.getUser(), subscription.getProduct().getName());
         return new Response("Deleted");
+    }
+
+    public Response setSale(long id, int sale){
+        Subscription subscription = subscriptionRepository.findById(id).get();
+        subscription.setSale(sale);
+        subscriptionRepository.save(subscription);
+        return new Response("ok");
     }
 
 

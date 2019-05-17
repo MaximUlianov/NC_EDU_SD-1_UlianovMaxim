@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../service/user/user.service";
 import {UserAccount} from "../../model/user.account";
-import {SubscriptionMod} from "../../model/subscriptionMod";
 import {PaginationService} from "../../service/pagination/pagination-service";
 import {Audit} from "../../model/audit";
+import {Wallet} from "../../model/wallet";
+import {WalletService} from "../../service/wallets/wallet.service";
 
 @Component({
   selector: 'app-user-info',
@@ -13,13 +14,13 @@ import {Audit} from "../../model/audit";
 export class UserInfoComponent implements OnInit {
 
   username:string;
-  subscriptions:SubscriptionMod[];
-  showSubscriptions:boolean = false;
+  wallets:Wallet[];
+  showWallets:boolean = false;
   showHistory:boolean = false;
   users:UserAccount[];
   history:Audit[];
   isEmpty:boolean;
-  isSubscrEmpty:boolean;
+  isWalletsEmpty:boolean;
   searchType:string;
   searchParameter:string;
   userId:number;
@@ -30,6 +31,7 @@ export class UserInfoComponent implements OnInit {
   pageNumber:number = 1;
 
   constructor(private uService:UserService,
+              private wService:WalletService,
               private pagination:PaginationService) { }
 
   ngOnInit() {
@@ -57,24 +59,24 @@ export class UserInfoComponent implements OnInit {
     });
   }
 
-  loadUserSubscriptions(id:number, username:string){
+  loadUserWallets(id:number, username:string){
       this.username = username;
       this.userId = id;
-      this.uService.getUserSubscriptionsByAdmin(id).subscribe(data => {
-        this.subscriptions = data as SubscriptionMod[];
-        this.showSubscriptions = true;
-        if(this.subscriptions.length == 0){
-          this.isSubscrEmpty = true;
+      this.uService.getUserWalletsByAdmin(id).subscribe(data => {
+        this.wallets = data as Wallet[];
+        this.showWallets = true;
+        if(this.wallets.length == 0){
+          this.isWalletsEmpty = true;
         }
         else{
-          this.isSubscrEmpty = false;
+          this.isWalletsEmpty= false;
         }
       });
   }
 
-  closeTableSubscr(){
-    this.subscriptions = null;
-    this.showSubscriptions = false;
+  closeTableWallets(){
+    this.wallets = null;
+    this.showWallets = false;
   }
 
   closeTableHist(){
@@ -140,18 +142,11 @@ export class UserInfoComponent implements OnInit {
     this.loadUsers();
   }
 
-  blockSubscription(subscriptionId:number){
-    this.uService.blockSubscription(this.userId, subscriptionId).subscribe(data=>{
+  deleteWallet(walletId:number){
+    this.wService.deleteWallet(walletId).subscribe(data=>{
 
     });
-    this.loadUserSubscriptions(this.userId, this.username);
-  }
-
-  unblockSubscription(subId:number){
-    this.uService.unblockSubscription(this.userId, subId).subscribe(data=>{
-
-    });
-    this.loadUserSubscriptions(this.userId, this.username);
+    this.loadUserWallets(this.userId, this.username);
   }
 
   loadUserHistory(id:number, username:string){

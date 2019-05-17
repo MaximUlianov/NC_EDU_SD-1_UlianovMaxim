@@ -1,5 +1,7 @@
 package com.netcracker.edu.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -70,6 +72,7 @@ public class Subscription {
         isLocked = locked;
     }
 
+    @JsonIgnore
     public User getUser() {
         return user;
     }
@@ -86,6 +89,7 @@ public class Subscription {
         this.product = product;
     }
 
+    @JsonIgnore
     public Wallet getWallet() {
         return wallet;
     }

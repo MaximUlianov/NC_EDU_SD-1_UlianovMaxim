@@ -48,8 +48,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().
                 authorizeRequests()
-                .antMatchers("/token/*", "/signUp").hasRole("maksim")
-                .anyRequest().hasRole("pidor")
+                .antMatchers("/token/*", "/signUp").permitAll()
+                .antMatchers("/admin/*", "/user/subscriptions/*", "user/search", "/audit").hasRole("ADMIN")
+                .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http

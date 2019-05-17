@@ -60,7 +60,6 @@ public class Wallet {
         return user;
     }
 
-    @JsonIgnore
     public Set<Subscription> getSubscriptions() {
         return subscriptions;
     }

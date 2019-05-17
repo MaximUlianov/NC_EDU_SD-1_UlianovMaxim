@@ -78,9 +78,15 @@ public class UserController {
         return userService.unblockSubscription(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/audit")
     public List<Audit> getUserHistory(@RequestParam(value = "id") long id){
         return userService.getUserHistory(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = "/wallets")
+    public List<Wallet> getUserWalletsByAdmin(@RequestParam(value = "id") long id) {
+        return userService.getUserWalletsByAdmin(id);
+    }
 }

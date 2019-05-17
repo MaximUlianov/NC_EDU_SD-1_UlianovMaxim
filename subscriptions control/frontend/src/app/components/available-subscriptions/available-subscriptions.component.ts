@@ -33,7 +33,7 @@ export class AvailableSubscriptionsComponent implements OnInit {
 
   isEmpty:boolean = false;
   showPagination:boolean = true;
-
+  showWallets:boolean;
   subscription:SubscriptionMod;
 
 
@@ -161,6 +161,13 @@ export class AvailableSubscriptionsComponent implements OnInit {
     this.subscription.product = this.products.find(x => x.id == id);
     this.wService.getWallets().subscribe(data=>{
       this.wallets = data as Wallet[];
+      if(this.wallets.length != 0){
+        this.showWallets = true;
+      }
+      else{
+        this.showWallets = false;
+        alert("Please, add wallet. You can do this on your Wallet page");
+      }
     })
   }
 
