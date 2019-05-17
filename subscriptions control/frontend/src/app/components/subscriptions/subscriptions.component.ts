@@ -34,6 +34,7 @@ export class SubscriptionsComponent implements OnInit {
   }
 
   deleteSubscription(id:number){
+    id = this.subscriptions.find(x => x.id == id).product.id;
     this.service.deleteSubscriptions(id).subscribe(data=>{
 
     });

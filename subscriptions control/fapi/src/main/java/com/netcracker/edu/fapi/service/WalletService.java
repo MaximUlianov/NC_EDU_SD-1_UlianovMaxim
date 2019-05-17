@@ -12,6 +12,7 @@ public interface WalletService {
     Response deleteWallet(long id);
     Response rechargeWallet(Wallet wallet);
     Response setCashSub(Wallet wallet);
+    Wallet getBalance(long id);
 
     Wallet addWallet(Wallet wallet);
 

@@ -15,7 +15,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -39,7 +42,7 @@ public class UserServiceImpl implements UserService {
     public List<User> getUsers(int page, int perPage) {
         PageRequest pageRequest = PageRequest.of(page - 1, perPage);
         Page<User> list = userRepository.findAll(pageRequest);
-        list.getContent().forEach(value->{
+       /* list.getContent().forEach(value->{
             for(Wallet o: value.getWallet()){
                 if(o.isLocked()){
                     value.setBillingLocked(true);
@@ -49,7 +52,7 @@ public class UserServiceImpl implements UserService {
                     value.setBillingNeg(true);
                 }
             }
-        });
+        });*/
         return list.getContent();
     }
 
@@ -96,19 +99,17 @@ public class UserServiceImpl implements UserService {
     public Optional<UserDTO> save(UserDTO user) {
         Optional<UserDTO> optional = Optional.ofNullable(user);
         LogIn logIn = logInRepository.findByEmail(user.getEmail());
-        if(logIn == null){
+        /*if(logIn == null){
             User _user = new User(optional.get());
             _user.setRoles(Collections.singleton(roleRepository.findByRole(optional.get().getRole())));
             userRepository.save(_user);
             logInRepository.save(new LogIn(optional.get().getEmail(), optional.get().getPassword(), _user));
-        }
+        }*/
         return optional;
     }
 
-    public UserDTO getUserInfoByEmail(String email){
-        LogIn logIn = logInRepository.findByEmail(email);
-        Iterator<Role> iterator = logIn.getUser().getRoles().iterator();
-        return new UserDTO(logIn.getUser(), iterator.next());
+    public User getUserInfoByEmail(String email){
+        return logInRepository.findByEmail(email).getUser();
     }
 
     @Transactional
@@ -129,7 +130,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).get();
         List<Subscription> subscriptions = new ArrayList<>();
         List<Wallet> list = new ArrayList<>(user.getWallet());
-        list.forEach(value->{
+        /*list.forEach(value->{
             if(value.isLocked()){
                 value.getSubscriptions().forEach(subscr->{
                     subscr.setLocked(true);
@@ -151,7 +152,7 @@ public class UserServiceImpl implements UserService {
                 });
             }
             subscriptions.addAll(value.getSubscriptions());
-        });
+        });*/
         return subscriptions;
     }
 
@@ -173,7 +174,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Response blockSubscription(long[] id) {
         User user = userRepository.findById(id[0]).get();
-        user.getWallet().forEach(value->{
+        /*user.getWallet().forEach(value->{
             value.getSubscriptions().forEach(subscription -> {
                 if(subscription.getId() == id[1]){
                     value.setLocked(true);
@@ -186,14 +187,14 @@ public class UserServiceImpl implements UserService {
                     return;
                 }
             });
-        });
+        });*/
         return new Response("ok");
     }
 
     @Override
     public Response unblockSubscription(long[] id) {
         User user = userRepository.findById(id[0]).get();
-        user.getWallet().forEach(value->{
+        /*user.getWallet().forEach(value->{
             value.getSubscriptions().forEach(subscription -> {
                 if(subscription.getId() == id[1]){
                     value.setLocked(false);
@@ -206,7 +207,7 @@ public class UserServiceImpl implements UserService {
                     return;
                 }
             });
-        });
+        });*/
         return new Response("ok");
     }
 

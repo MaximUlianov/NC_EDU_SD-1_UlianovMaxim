@@ -13,9 +13,12 @@ export class WalletsComponent implements OnInit {
 
   wallets:Wallet[];
   wallet:Wallet;
+  walletBalance:Wallet;
   isEmpty:boolean = true;
   recharge:number;
   isLimit:boolean = false;
+  balanceClicked:boolean;
+
   private subscriptions: Subscription[] = [];
 
 
@@ -23,6 +26,7 @@ export class WalletsComponent implements OnInit {
               private loadingService: Ng4LoadingSpinnerService) { }
 
   ngOnInit() {
+    this.walletBalance = new Wallet();
     this.wallet = new Wallet();
     this.loadWallets();
   }
@@ -76,5 +80,16 @@ export class WalletsComponent implements OnInit {
     this.isLimit = !this.isLimit;
   }
 
+  showBalance(id:number){
+    this.service.getBalance(id).subscribe(data=>{
+      this.walletBalance = data as Wallet;
+    });
+    this.balanceClicked = true;
+  }
+
+  showBalanceBtn(){
+    this.balanceClicked = false;
+    this.walletBalance = new Wallet();
+  }
 
 }

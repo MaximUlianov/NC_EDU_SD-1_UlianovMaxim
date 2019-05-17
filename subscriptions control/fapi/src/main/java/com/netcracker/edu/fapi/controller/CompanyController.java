@@ -1,6 +1,7 @@
 package com.netcracker.edu.fapi.controller;
 
 import com.netcracker.edu.fapi.models.Company;
+import com.netcracker.edu.fapi.models.Product;
 import com.netcracker.edu.fapi.models.Response;
 import com.netcracker.edu.fapi.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,10 @@ public class CompanyController {
     public List<Company> getAllCompanies(@PathVariable(name = "page") int page,
                                            @PathVariable(name = "size") int size){
         return companyService.getAllCompanies(page, size);
+    }
+
+    @GetMapping(value = "/products")
+    public List<Product> getSubscrByCompany(@RequestParam(name = "id") long id){
+        return companyService.getProductsByCompanyId(id);
     }
 }

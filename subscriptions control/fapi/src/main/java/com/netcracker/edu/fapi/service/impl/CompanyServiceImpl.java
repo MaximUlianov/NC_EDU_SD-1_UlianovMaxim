@@ -1,6 +1,7 @@
 package com.netcracker.edu.fapi.service.impl;
 
 import com.netcracker.edu.fapi.models.Company;
+import com.netcracker.edu.fapi.models.Product;
 import com.netcracker.edu.fapi.models.Response;
 import com.netcracker.edu.fapi.service.CompanyService;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,5 +36,12 @@ public class CompanyServiceImpl implements CompanyService {
         RestTemplate restTemplate = new RestTemplate();
         Company [] companyResponse = restTemplate.getForObject(backendServerUrl + "/api/company/" + page + "/" + perPage, Company[].class);
         return companyResponse == null ? Collections.emptyList() : Arrays.asList(companyResponse);
+    }
+
+    @Override
+    public List<Product> getProductsByCompanyId(long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        Product [] productsResponse = restTemplate.getForObject(backendServerUrl + "/api/company/products?id=" + id, Product[].class);
+        return productsResponse == null ? Collections.emptyList() : Arrays.asList(productsResponse);
     }
 }

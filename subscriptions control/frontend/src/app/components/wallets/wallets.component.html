@@ -25,7 +25,14 @@
         <tbody>
         <tr *ngFor="let wallet of wallets">
           <td>{{wallet.walletName}}</td>
-          <td>{{wallet.sum.toFixed(2)}}</td>
+          <td>
+            <button class="btn btn-info" *ngIf="!balanceClicked" (click)="showBalance(wallet.id)">Show balance</button>
+            <span *ngIf="balanceClicked">{{walletBalance.sum.toFixed(2)}}
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="showBalanceBtn()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </span>
+          </td>
           <td>
             <span class="text-danger" *ngIf="wallet.locked">Locked</span>
             <span class="text-success" *ngIf="!wallet.locked && !wallet.negBalance">OK</span>
@@ -76,3 +83,5 @@
     </div>
   </div>
 </div>
+
+

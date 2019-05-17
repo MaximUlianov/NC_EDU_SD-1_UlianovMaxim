@@ -26,7 +26,7 @@ public interface UserService {
     UserDTO getUser(UserDTO _user);
     Optional<UserDTO> save(UserDTO _user);
     LogInUserDTO getUserByEmail(String email);
-    UserDTO getUserInfoByEmail(String email);
+    User getUserInfoByEmail(String email);
 
     Integer getTotalPages(int perPage);
 

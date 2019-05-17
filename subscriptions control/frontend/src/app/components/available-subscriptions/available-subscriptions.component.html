@@ -45,7 +45,7 @@
           </li>
           <li class="nav-item" *ngIf="role == 0">
             <button class="btn btn-info" data-toggle="modal" data-target="#addSubscrWin" style="margin-top: 10px">
-              Add subscription
+              Add product
             </button>
             <button class="btn btn-info" data-toggle="modal" data-target="#addCategWin" style="margin-top: 10px">
               Add category
@@ -61,20 +61,35 @@
 
   <div class="col-md-9" *ngIf="!isEmpty">
     <div class="row">
-      <div class="col-md-4" *ngFor="let subsc of subscriptions">
+      <div class="col-md-4" *ngFor="let product of products">
         <div class="card mb-4 shadow-sm">
           <div class="card-header">
-            {{subsc.subscriptionName}}
+            <span class="float-right text-danger" *ngIf="product.sale != 0">-{{product.sale}}% off</span>
+            {{product.name}}
           </div>
           <div class="card-body">
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text">{{product.description}}</p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
-                <button type="button" class="btn btn-primary btn-inline-primary" data-toggle="modal" data-target="#walletsModal" (click)="loadWallets(subsc.id)" *ngIf="role == 1 && !subsc.isInUserSubscr">Subscribe</button>
-                <button type="button" class="btn btn-danger btn-inline-danger" (click)="unsubscribe(subsc.id)"  *ngIf="role == 1 && subsc.isInUserSubscr">Unsubscribe</button>
-                <button type="button" class="btn btn-danger btn-inline-danger" *ngIf="role == 0" (click)="deleteSubscription(subsc.id)">Delete</button>
+                <button type="button" class="btn btn-primary btn-inline-primary" data-toggle="modal" data-target="#walletsModal" (click)="loadWallets(product.id)" *ngIf="role == 1 && !product.isInUserProd">Subscribe</button>
+                <button type="button" class="btn btn-danger btn-inline-danger" (click)="unsubscribe(product.id)"  *ngIf="role == 1 && product.isInUserProd">Unsubscribe</button>
+                <button type="button" class="btn btn-danger btn-inline-danger" *ngIf="role == 0" (click)="deleteSubscription(product.id)">Delete</button>
+                <div class="dropdown" *ngIf="role == 0">
+                  <button class="btn btn-success btn-inline-success dropdown-toggle" style="margin-left: 10px" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Set sale
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <input type="number" class="form-control" [(ngModel)]="sale">
+                    <button class="btn btn-primary" type="button" (click)="setSale(product.id)">Submit</button>
+                  </div>
+                </div>
+
               </div>
-              <small class="text-muted">{{subsc.costPerMonth}} $/month</small>
+              <span class="float-right">
+                <small class="text-muted" *ngIf="product.sale == 0">{{product.costPerMonth}} $/month</small>
+                <small class="text-muted" *ngIf="product.sale != 0">{{(product.costPerMonth - product.costPerMonth*(product.sale/100)).toFixed(2)}} $/month</small>
+                <small class="text-muted" style="margin-left: 10px"><s *ngIf="product.sale != 0">{{product.costPerMonth}} $/month</s></small>
+              </span>
             </div>
           </div>
         </div>
@@ -82,7 +97,7 @@
     </div>
   </div>
   <div class="col-md-9" *ngIf="isEmpty">
-    <p>No available subscriptions</p>
+    <p>No available products</p>
   </div>
 </div>
 
@@ -95,7 +110,7 @@
       </a>
     </li>
     <li class="page-item"><a class="page-link text-primary" (click)="goOn1Page()">1</a></li>
-    <input class="border-primary text-primary" type="text" style="width: 20px; margin-left: 7px; margin-right: 7px; text-align: center" [(ngModel)]="pageNumber" (keyup)="loadAllAvSubscriptions()">
+    <input class="border-primary text-primary" type="text" style="width: 20px; margin-left: 7px; margin-right: 7px; text-align: center" [(ngModel)]="pageNumber" (keyup)="loadAllAvProducts()">
     <li class="page-item"><a class="page-link text-primary" (click)="goOnLastPage()">{{pagesCount}}</a></li>
     <li class="page-item">
       <a class="page-link text-primary" aria-label="Next" (click)="goOnNextPage()">
@@ -122,21 +137,44 @@
             <span *ngIf="wallet.sum > 0" class="bg-warning">Name: {{wallet.walletName}}</span>
             <span *ngIf="wallet.sum > 0" class="bg-success">Sum: {{wallet.sum.toFixed(2)}}$</span>
             <label *ngIf="wallet.sum > 0" class="btn btn-primary float-right">
-              <input type="radio" name="options" [(ngModel)]="walletId" value="{{wallet.id}}" id="option2" autocomplete="off"> Choose
+              <input type="radio" name="options" [(ngModel)]="subscription.wallet.id" value="{{wallet.id}}" id="option2" autocomplete="off"> Choose
             </label>
           </li>
         </ul>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary"  type="submit"   (click)="subscribe()" data-dismiss="modal">Submit</button>
+        <button class="btn btn-primary"  type="submit" data-toggle="modal" data-target="#datesModal" data-dismiss="modal">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="datesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="datesModal1">Choose period</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="inputDateStart">From</label>
+          <input type="date" class="form-control" id="inputDateStart" [(ngModel)]="subscription.start" name="start">
+        </div>
+        <div class="mb-3">
+          <label for="inputDateEnd">To</label>
+          <input type="date" class="form-control" id="inputDateEnd" [(ngModel)]="subscription.end" name="end">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary"  type="submit"   (click)="subscribe()" data-dismiss="modal">Subscribe</button>
 
       </div>
     </div>
   </div>
-  {{walletId|json}}
 </div>
-
-
 
 
 

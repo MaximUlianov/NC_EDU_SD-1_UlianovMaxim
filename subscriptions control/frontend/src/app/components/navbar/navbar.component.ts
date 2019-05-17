@@ -3,6 +3,8 @@ import {MainPageService} from "../../service/main-page/main-page.service";
 import {Router} from "@angular/router";
 import {TokenStorage} from "../../authorization-config/token-provider";
 
+const USER_KEY = "USER";
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -12,6 +14,7 @@ export class NavbarComponent implements OnInit {
 
   username:any;
   isAuthorized:boolean;
+  isRed:boolean;
 
   constructor(private service:MainPageService, private router:Router, private token:TokenStorage) { }
 
@@ -19,25 +22,15 @@ export class NavbarComponent implements OnInit {
     this.getUsername();
   }
 
-  onChange(status:any){
-    if(status == true){
+  onChange(state:any){
       this.getUsername();
-    }
   }
 
   getUsername(){
-    this.service.getUsername().subscribe(username=>{
-      this.username = username as string;
-      if(this.username == null){
-        console.log(this.username);
-        this.username = " ";
-        this.isAuthorized = false;
-      }
-      else{
-        console.log(this.username.username);
+      this.username = JSON.parse(localStorage.getItem(USER_KEY));
+      if(this.username != null) {
         this.isAuthorized = true;
       }
-    })
   }
 
   logOut(){

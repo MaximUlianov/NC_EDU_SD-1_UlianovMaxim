@@ -6,8 +6,8 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "company_info")
-public class CompanyInfo {
+@Table(name = "company")
+public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,12 +15,13 @@ public class CompanyInfo {
 
     private String name;
     private String description;
+    private double proceeds;
 
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "companyInfo")
-    private Set<Subscription> subscriptions;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "company")
+    private Set<Product> products;
 
-    public CompanyInfo() {
+    public Company() {
     }
 
     public long getId() {
@@ -47,19 +48,27 @@ public class CompanyInfo {
         this.description = description;
     }
 
-    public Set<Subscription> getSubscriptions() {
-        return subscriptions;
+    public double getProceeds() {
+        return proceeds;
     }
 
-    public void setSubscriptions(Set<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
+    public void setProceeds(double proceeds) {
+        this.proceeds = proceeds;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CompanyInfo that = (CompanyInfo) o;
+        Company that = (Company) o;
         return Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description);
     }
@@ -71,7 +80,7 @@ public class CompanyInfo {
 
     @Override
     public String toString() {
-        return "CompanyInfo{" +
+        return "Company{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

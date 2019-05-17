@@ -36,6 +36,11 @@ public class WalletController {
         return service.getWallets(email);
     }
 
+    @GetMapping(value = "/balance")
+    public Wallet getBalance(@RequestHeader("Authorization") String token, @RequestParam(value = "id") long id){
+        return service.getBalance(id);
+    }
+
     @DeleteMapping
     public Response deleteWallet(@RequestParam(value = "id") long id, @RequestHeader("Authorization") String token){
         String email = tokenUtil.getUsernameFromToken(token);

@@ -34,6 +34,10 @@ export class WalletService{
 
   }
 
+  getBalance(id:number):Observable<any>{
+    return this.http.get('api/wallets/balance?id='+ id, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
+  }
+
 
 
 }

@@ -26,11 +26,13 @@ public class UserController {
         String email = tokenUtil.getUsernameFromToken(token);
         return userService.getUserInfoByEmail(email);
     }
-    @GetMapping(value = "/username")
-    public Username getUsername(@RequestHeader("Authorization") String token){
+
+    @GetMapping(value = "/email")
+    public User getUserInfo(@RequestHeader("Authorization") String token){
         String email = tokenUtil.getUsernameFromToken(token);
-        return new Username(userService.getUsername(email));
+        return userService.getUserInfoByEmail(email);
     }
+
 
     @RequestMapping(value="/signUp", method = RequestMethod.POST, produces = "application/json")
     public User saveUser(@RequestBody User user){

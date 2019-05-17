@@ -24,8 +24,15 @@ public class WalletController {
     }
 
     @GetMapping
+    @ResponseBody
     public ResponseEntity<List<Wallet>> getAllWallets(@RequestParam(name = "email") String email) {
         return ResponseEntity.ok(walletService.findAll(email));
+    }
+
+    @GetMapping(value = "/balance")
+    @ResponseBody
+    public ResponseEntity<Wallet> getBalance(@RequestParam(name = "id") long id) {
+        return ResponseEntity.ok(walletService.getBalance(id));
     }
 
     @PostMapping

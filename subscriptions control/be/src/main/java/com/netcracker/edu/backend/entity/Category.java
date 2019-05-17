@@ -15,7 +15,7 @@ public class Category {
     private String name;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "category")
-    private Set<Subscription> subscriptions;
+    private Set<Product> subscriptions;
 
 
     public Category() {
@@ -41,15 +41,13 @@ public class Category {
         this.id = id;
     }
 
-    public Set<Subscription> getSubscriptions() {
+    public Set<Product> getSubscriptions() {
         return subscriptions;
     }
 
-    public void setSubscriptions(Set<Subscription> subscriptions) {
+    public void setSubscriptions(Set<Product> subscriptions) {
         this.subscriptions = subscriptions;
     }
-
-
 
     @Override
     public boolean equals(Object o) {

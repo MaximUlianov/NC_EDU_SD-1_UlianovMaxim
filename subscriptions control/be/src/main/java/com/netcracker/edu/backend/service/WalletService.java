@@ -11,6 +11,7 @@ public interface WalletService {
     List<Wallet> findAll(String email);
 
     Wallet findByWalletName(String walletName);
+    Wallet getBalance(long id);
     WalletDTO save(WalletDTO wallet);
 
     Response deleteWallet(long id);

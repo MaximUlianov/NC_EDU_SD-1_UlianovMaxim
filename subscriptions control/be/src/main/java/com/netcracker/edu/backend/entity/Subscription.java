@@ -1,10 +1,8 @@
 package com.netcracker.edu.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "subscription")
@@ -14,24 +12,20 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String subscriptionName;
-    private double costPerMonth;
+    private LocalDate start;
+    private LocalDate end;
+    private int sale;
+    private boolean isLocked;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "subscriptions")
-    private Set<User> users;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private CompanyInfo companyInfo;
+    private User user;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinTable(name="subscription_category",
-            joinColumns = @JoinColumn(name="subscription_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name="category_id", referencedColumnName="id")
-    )
-    private Category category;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Product product;
 
-    private boolean isLocked;
-    private boolean isNegBalance;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Wallet wallet;
 
     public Subscription() {
     }
@@ -44,43 +38,28 @@ public class Subscription {
         this.id = id;
     }
 
-    public String getSubscriptionName() {
-        return subscriptionName;
+    public LocalDate getStart() {
+        return start;
     }
 
-    public void setSubscriptionName(String subscriptionName) {
-        this.subscriptionName = subscriptionName;
+    public void setStart(LocalDate start) {
+        this.start = start;
     }
 
-    @JsonIgnore
-    public Set<User> getUsers() {
-        return users;
+    public LocalDate getEnd() {
+        return end;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setEnd(LocalDate end) {
+        this.end = end;
     }
 
-    public double getCostPerMonth() {
-        return costPerMonth;
+    public int getSale() {
+        return sale;
     }
 
-    public void setCostPerMonth(double costPerMonth) {
-        this.costPerMonth = costPerMonth;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    @JsonIgnore
-    public Category getCategory() {
-        return category;
-    }
-
-    @JsonIgnore
-    public CompanyInfo getCompanyInfo() {
-        return companyInfo;
+    public void setSale(int sale) {
+        this.sale = sale;
     }
 
     public boolean isLocked() {
@@ -91,16 +70,28 @@ public class Subscription {
         isLocked = locked;
     }
 
-    public boolean isNegBalance() {
-        return isNegBalance;
+    public User getUser() {
+        return user;
     }
 
-    public void setNegBalance(boolean negBalance) {
-        isNegBalance = negBalance;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setCompany(CompanyInfo companyInfo) {
-        this.companyInfo = companyInfo;
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
     }
 
     @Override
@@ -108,22 +99,25 @@ public class Subscription {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Subscription that = (Subscription) o;
-        return Double.compare(that.costPerMonth, costPerMonth) == 0 &&
-                Objects.equals(subscriptionName, that.subscriptionName) &&
-                Objects.equals(category, that.category);
+        return id == that.id &&
+                sale == that.sale &&
+                Objects.equals(start, that.start) &&
+                Objects.equals(end, that.end);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(subscriptionName, costPerMonth, category);
+        return Objects.hash(id, start, end, sale);
     }
 
     @Override
     public String toString() {
         return "Subscription{" +
                 "id=" + id +
-                ", subscriptionName='" + subscriptionName + '\'' +
-                ", costPerMonth=" + costPerMonth +
+                ", start=" + start +
+                ", end=" + end +
+                ", sale=" + sale +
+                ", isLocked=" + isLocked +
                 '}';
     }
 }

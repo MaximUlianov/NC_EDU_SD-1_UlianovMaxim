@@ -1,18 +1,20 @@
 package com.netcracker.edu.backend.DTO;
 
-import com.netcracker.edu.backend.entity.Category;
-import com.netcracker.edu.backend.entity.CompanyInfo;
+import com.netcracker.edu.backend.entity.Product;
 import com.netcracker.edu.backend.entity.Wallet;
+
+import java.time.LocalDate;
 
 public class SubscriptionDTO {
 
     private long id;
-    private double costPerMonth;
     private String email;
-    private String subscriptionName;
-    private Category category;
+    private LocalDate start;
+    private LocalDate end;
+    private int sale;
+    private boolean isLocked;
+    private Product product;
     private Wallet wallet;
-    private CompanyInfo company;
 
 
     public SubscriptionDTO() {
@@ -34,28 +36,44 @@ public class SubscriptionDTO {
         this.email = email;
     }
 
-    public String getSubscriptionName() {
-        return subscriptionName;
+    public LocalDate getStart() {
+        return start;
     }
 
-    public void setSubscriptionName(String subscriptionName) {
-        this.subscriptionName = subscriptionName;
+    public void setStart(LocalDate start) {
+        this.start = start;
     }
 
-    public Category getCategory() {
-        return category;
+    public LocalDate getEnd() {
+        return end;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setEnd(LocalDate end) {
+        this.end = end;
     }
 
-    public double getCostPerMonth() {
-        return costPerMonth;
+    public int getSale() {
+        return sale;
     }
 
-    public void setCostPerMonth(double costPerMonth) {
-        this.costPerMonth = costPerMonth;
+    public void setSale(int sale) {
+        this.sale = sale;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Wallet getWallet() {
@@ -64,13 +82,5 @@ public class SubscriptionDTO {
 
     public void setWallet(Wallet wallet) {
         this.wallet = wallet;
-    }
-
-    public CompanyInfo getCompany() {
-        return company;
-    }
-
-    public void setCompany(CompanyInfo company) {
-        this.company = company;
     }
 }

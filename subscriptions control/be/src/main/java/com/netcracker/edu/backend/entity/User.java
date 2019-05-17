@@ -1,6 +1,6 @@
 package com.netcracker.edu.backend.entity;
 
-import com.netcracker.edu.backend.DTO.UserDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -32,50 +32,14 @@ public class User {
     )
     private Set<Role> roles;
 
-    @ManyToMany
-    @JoinTable(name="user_subscription",
-            joinColumns = @JoinColumn(name="user_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name="subscription_id", referencedColumnName="id")
-    )
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<Subscription> subscriptions;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<Audit> audits;
 
-
-    private boolean isBillingLocked;
-    private boolean isBillingNeg;
-
-
     public User() {
     }
-
-    public User(String first_name, String last_name, String username, String country, LocalDate birthday) {
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.username = username;
-        this.country = country;
-        this.birthday = birthday;
-    }
-
-    public User(User user){
-        this.first_name = user.getFirst_name();
-        this.last_name = user.getLast_name();
-        this.username = user.getUsername();
-        this.country = user.getCountry();
-        this.birthday = user.getBirthday();
-        this.wallet = user.getWallet();
-        this.roles = user.getRoles();
-        this.subscriptions = user.getSubscriptions();
-    }
-    public User(UserDTO userDTO){
-        this.first_name = userDTO.getFirst_name();
-        this.last_name = userDTO.getLast_name();
-        this.username = userDTO.getUsername();
-        this.country = userDTO.getCountry();
-        this.birthday = userDTO.getBirthday();
-    }
-
 
     public long getId() {
         return id;
@@ -97,8 +61,8 @@ public class User {
         return last_name;
     }
 
-    public void setLast_name(String second_name) {
-        this.last_name = second_name;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getUsername() {
@@ -117,6 +81,15 @@ public class User {
         this.country = country;
     }
 
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+    @JsonIgnore
     public Set<Wallet> getWallet() {
         return wallet;
     }
@@ -124,7 +97,6 @@ public class User {
     public void setWallet(Set<Wallet> wallet) {
         this.wallet = wallet;
     }
-
 
     public Set<Role> getRoles() {
         return roles;
@@ -134,6 +106,7 @@ public class User {
         this.roles = roles;
     }
 
+    @JsonIgnore
     public Set<Subscription> getSubscriptions() {
         return subscriptions;
     }
@@ -142,15 +115,7 @@ public class User {
         this.subscriptions = subscriptions;
     }
 
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
+    @JsonIgnore
     public Set<Audit> getAudits() {
         return audits;
     }
@@ -159,37 +124,23 @@ public class User {
         this.audits = audits;
     }
 
-    public boolean isBillingLocked() {
-        return isBillingLocked;
-    }
-
-    public void setBillingLocked(boolean billingLocked) {
-        isBillingLocked = billingLocked;
-    }
-
-    public boolean isBillingNeg() {
-        return isBillingNeg;
-    }
-
-    public void setBillingNeg(boolean billingNeg) {
-        isBillingNeg = billingNeg;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(first_name, user.first_name) &&
+        return id == user.id &&
+                Objects.equals(first_name, user.first_name) &&
                 Objects.equals(last_name, user.last_name) &&
                 Objects.equals(username, user.username) &&
                 Objects.equals(country, user.country) &&
-
-                Objects.equals(wallet, user.wallet) &&
-                Objects.equals(roles, user.roles) &&
-                Objects.equals(subscriptions, user.subscriptions);
+                Objects.equals(birthday, user.birthday);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, first_name, last_name, username, country, birthday);
+    }
 
     @Override
     public String toString() {
@@ -200,9 +151,6 @@ public class User {
                 ", username='" + username + '\'' +
                 ", country='" + country + '\'' +
                 ", birthday=" + birthday +
-                ", wallet=" + wallet +
-                ", roles=" + roles +
-                ", subscriptions=" + subscriptions +
                 '}';
     }
 }

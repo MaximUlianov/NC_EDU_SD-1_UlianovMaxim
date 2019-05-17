@@ -1,6 +1,8 @@
 package com.netcracker.edu.backend.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -16,14 +18,8 @@ public class LogIn {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private User user;
 
+
     public LogIn() {
-    }
-
-    public LogIn(String email, String password, User user) {
-        this.email = email;
-        this.password = password;
-        this.user = user;
-
     }
 
     public long getId() {
@@ -50,6 +46,7 @@ public class LogIn {
         this.password = password;
     }
 
+    @JsonIgnore
     public User getUser() {
         return user;
     }

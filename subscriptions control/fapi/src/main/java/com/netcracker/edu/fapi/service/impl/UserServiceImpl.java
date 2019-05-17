@@ -56,13 +56,7 @@ public class UserServiceImpl implements UserDetailsService,UserService {
     @Override
     public User getUserInfoByEmail(String email){
         RestTemplate rTemp = new RestTemplate();
-        return rTemp.getForObject(backendServerUrl + "/api/user/info?email=" + email, User.class);
-    }
-
-    @Override
-    public String getUsername(String email){
-        RestTemplate rTemp = new RestTemplate();
-        return rTemp.getForObject(backendServerUrl + "/api/user/username?email=" + email, String.class);
+        return rTemp.getForObject(backendServerUrl + "/api/user?email=" + email, User.class);
     }
 
     private Set<SimpleGrantedAuthority> getAuthority(LoginUser user) {

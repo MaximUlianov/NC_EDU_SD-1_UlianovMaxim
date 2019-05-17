@@ -48,4 +48,10 @@ public class WalletServiceImpl implements WalletService {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.postForEntity(backendServerUrl + "/api/wallets/set_sub", wallet, Response.class).getBody();
     }
+
+    @Override
+    public Wallet getBalance(long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(backendServerUrl + "/api/wallets/balance?id=" + id, Wallet.class);
+    }
 }

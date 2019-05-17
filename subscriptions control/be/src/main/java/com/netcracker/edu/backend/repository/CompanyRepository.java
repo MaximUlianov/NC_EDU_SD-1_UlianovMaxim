@@ -1,9 +1,10 @@
 package com.netcracker.edu.backend.repository;
 
-import com.netcracker.edu.backend.entity.Subscription;
+import com.netcracker.edu.backend.entity.Company;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SubscriptionRepository extends PagingAndSortingRepository<Subscription, Long> {
+public interface CompanyRepository extends PagingAndSortingRepository<Company, Long> {
+    Company findByName(String name);
 }

@@ -1,9 +1,10 @@
 package com.netcracker.edu.backend.controller;
 
 
-import com.netcracker.edu.backend.entity.CompanyInfo;
+import com.netcracker.edu.backend.entity.Company;
+import com.netcracker.edu.backend.entity.Product;
 import com.netcracker.edu.backend.entity.Response;
-import com.netcracker.edu.backend.service.CompanyInfoService;
+import com.netcracker.edu.backend.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,31 +13,31 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/company")
-public class CompanyInfoController {
+public class CompanyController {
 
-    private CompanyInfoService companyService;
+    private CompanyService companyService;
 
     @Autowired
-    public CompanyInfoController(CompanyInfoService companyService) {
+    public CompanyController(CompanyService companyService) {
         this.companyService = companyService;
     }
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<Response> addCompany(@RequestBody CompanyInfo newCompany){
+    public ResponseEntity<Response> addCompany(@RequestBody Company newCompany){
         return ResponseEntity.ok(companyService.addCompany(newCompany));
     }
 
     @GetMapping(value = "/{page}/{elements}")
     @ResponseBody
-    public ResponseEntity<List<CompanyInfo>> getCompanies(@PathVariable(name = "page") int page,
-                                                                  @PathVariable(name = "elements") int elements){
+    public ResponseEntity<List<Company>> getCompanies(@PathVariable(name = "page") int page,
+                                                      @PathVariable(name = "elements") int elements){
         return ResponseEntity.ok(companyService.getCompanies(page, elements));
     }
 
     @GetMapping
     @ResponseBody
-    public ResponseEntity<List<CompanyInfo>> getAllCompanies(){
+    public ResponseEntity<List<Company>> getAllCompanies(){
         return ResponseEntity.ok(companyService.getAllCompanies());
     }
 
@@ -44,6 +45,12 @@ public class CompanyInfoController {
     @ResponseBody
     public ResponseEntity<Response> deleteCompany(@RequestParam(value = "id") long id){
         return ResponseEntity.ok(companyService.deleteCompany(id));
+    }
+
+    @GetMapping(value = "/products")
+    @ResponseBody
+    public  ResponseEntity<List<Product>> getSubscrByCompany(@RequestParam(name = "id") long id){
+        return ResponseEntity.ok(companyService.getProductByCompany(id));
     }
 
 }

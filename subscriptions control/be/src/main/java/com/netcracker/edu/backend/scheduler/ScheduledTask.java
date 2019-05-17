@@ -3,6 +3,7 @@ package com.netcracker.edu.backend.scheduler;
 import com.netcracker.edu.backend.entity.Audit;
 import com.netcracker.edu.backend.entity.Subscription;
 import com.netcracker.edu.backend.entity.Wallet;
+import com.netcracker.edu.backend.repository.SubscriptionRepository;
 import com.netcracker.edu.backend.repository.WalletRepository;
 import com.netcracker.edu.backend.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,57 +18,47 @@ public class ScheduledTask {
 
     private WalletRepository walletRepository;
     private AuditService auditService;
+    private SubscriptionRepository subscriptionRepository;
+
     @Autowired
-    public ScheduledTask(WalletRepository walletRepository, AuditService auditService){
+    public ScheduledTask(WalletRepository walletRepository, AuditService auditService, SubscriptionRepository subscriptionRepository) {
         this.walletRepository = walletRepository;
         this.auditService = auditService;
+        this.subscriptionRepository = subscriptionRepository;
     }
+
+
+
 
     @Scheduled(fixedDelay = 1000*10)
     public void getMoney(){
         List<Wallet> list = (List<Wallet>) walletRepository.findAll();
         list.forEach(value->{
             if(value.getSubscriptions().size() != 0){
-                double sum = 0;
                 for (Subscription o:value.getSubscriptions()) {
-                    sum += o.getCostPerMonth();
+                    double subtract = (o.getProduct().getCostPerMonth()- (o.getProduct().getCostPerMonth()/100*o.getSale()))/30;
+                    if(value.getSum() - subtract > 0){
+                        value.setSum(value.getSum() - subtract);
+                        o.setLocked(false);
+                        Audit audit = new Audit();
+                        audit.setUser(value.getUser());
+                        audit.setData("Wallet: " + value.getWalletName() + " unblocked");
+                        audit.setDate(new Date());
+                        walletRepository.save(value);
+                        auditService.addRecord(audit);
+                        subscriptionRepository.save(o);
+                    }
+                    else{
+                        o.setLocked(true);
+                        subscriptionRepository.save(o);
+                        Audit audit = new Audit();
+                        audit.setUser(value.getUser());
+                        audit.setData("Wallet: " + value.getWalletName() + " blocked");
+                        audit.setDate(new Date());
+                        auditService.addRecord(audit);
+                    }
                 }
-                if(!value.isLocked()) {
-                    value.setSum(value.getSum() - (sum / 30));
-                }
-                if(value.getSum() < 0){
-                    value.setNegBalance(true);
-                    Audit audit = new Audit();
-                    audit.setUser(value.getUser());
-                    audit.setData("Wallet: " + value.getWalletName() + " has neg balance");
-                    audit.setDate(new Date());
-                    auditService.addRecord(audit);
-                }
-                else{
-                    value.setNegBalance(false);
-                    Audit audit = new Audit();
-                    audit.setUser(value.getUser());
-                    audit.setData("Wallet: " + value.getWalletName() + " has pos balance");
-                    audit.setDate(new Date());
-                    auditService.addRecord(audit);
-                }
-                if(value.getSum() < 0 && !value.isCashSub()){
-                    value.setLocked(true);
-                    Audit audit = new Audit();
-                    audit.setUser(value.getUser());
-                    audit.setData("Wallet: " + value.getWalletName() + " blocked");
-                    audit.setDate(new Date());
-                    auditService.addRecord(audit);
-                }
-                else if(value.getSum() >= 0){
-                    value.setLocked(false);
-                    Audit audit = new Audit();
-                    audit.setUser(value.getUser());
-                    audit.setData("Wallet: " + value.getWalletName() + " unblocked");
-                    audit.setDate(new Date());
-                    auditService.addRecord(audit);
-                }
-                walletRepository.save(value);
+
             }
         });
     }

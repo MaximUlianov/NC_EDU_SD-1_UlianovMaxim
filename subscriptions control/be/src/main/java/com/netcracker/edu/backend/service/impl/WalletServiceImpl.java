@@ -83,7 +83,6 @@ public class WalletServiceImpl implements WalletService {
         Optional<Wallet> _wallet = walletRepository.findById(wallet.getId());
 
         if(_wallet.get().getSum() + wallet.getSum() > 0){
-            _wallet.get().setLocked(false);
             _wallet.get().setNegBalance(false);
         }
 
@@ -100,9 +99,14 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public Response setCashSub(Wallet wallet) {
-        Optional<Wallet> _wallet = walletRepository.findById(wallet.getId());
+       /* Optional<Wallet> _wallet = walletRepository.findById(wallet.getId());
         _wallet.get().setCashSub(wallet.isCashSub());
-        walletRepository.save(_wallet.get());
+        walletRepository.save(_wallet.get());*/
         return new Response("ok");
+    }
+
+    @Override
+    public Wallet getBalance(long id) {
+        return walletRepository.findById(id).get();
     }
 }

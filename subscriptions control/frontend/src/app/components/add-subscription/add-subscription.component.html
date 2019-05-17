@@ -2,21 +2,23 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Subscription</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <input type="text" class="form-control" id="name" title="Enter subscription name" placeholder="Subscription name"
-               [(ngModel)]="subscription.subscriptionName" name="subscriptionName">
-        <input type="number" class="form-control" id="costPerMonth"  [(ngModel)]="subscription.costPerMonth" name="costPerMonth"
+        <input type="text" class="form-control" id="name" title="Enter subscription name" placeholder="Product name"
+               [(ngModel)]="product.name" name="subscriptionName">
+        <input type="text" class="form-control" style="margin-top: 10px" id="description" title="Enter subscription name" placeholder="Description"
+               [(ngModel)]="product.description" name="subscriptionDescription">
+        <input type="number" class="form-control" id="costPerMonth"  [(ngModel)]="product.costPerMonth" name="costPerMonth"
                placeholder="CostPerMonth" style="margin-top: 10px">
-        <select class="custom-select" id="categories" style="margin-top: 10px" [(ngModel)]="subscription.category.name">
+        <select class="custom-select" id="categories" style="margin-top: 10px" [(ngModel)]="product.category.name">
           <option>Choose category</option>
           <option *ngFor="let category of allCategories">{{category.name}}</option>
         </select>
-        <select class="custom-select" id="companies" style="margin-top: 10px" [(ngModel)]="subscription.company.name">
+        <select class="custom-select" id="companies" style="margin-top: 10px" [(ngModel)]="product.company.name">
           <option>Choose company</option>
           <option *ngFor="let company of companies">{{company.name}}</option>
         </select>
@@ -27,7 +29,7 @@
       </div>
     </div>
   </div>
-  {{subscription | json}}
+  {{product | json}}
   <br/>
   {{allCategories | json}}
 </div>

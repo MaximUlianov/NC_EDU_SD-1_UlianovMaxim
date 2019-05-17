@@ -1,16 +1,17 @@
-import {Category} from "./category";
-import {Company} from "./company";
+import {Wallet} from "./wallet";
+import {Product} from "./product";
 
 export class SubscriptionMod {
 
   public id:number;
-  public subscriptionName:string;
-  public costPerMonth:number;
-  public category:Category;
-  public company:Company;
+  public start:Date;
+  public end:Date;
   public locked:boolean;
-  public negBalance:boolean;
-  public isInUserSubscr:boolean;
+  public wallet:Wallet;
+  public product:Product;
+
   constructor() {
+    this.wallet = new Wallet();
+    this.product = new Product();
   }
 }

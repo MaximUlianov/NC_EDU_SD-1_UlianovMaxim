@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {SubscriptionsService} from "../../service/subscriptions/subscriptions.service";
-import {SubscriptionMod} from "../../model/subscriptionMod";
 import {TokenStorage} from "../../authorization-config/token-provider";
 import {Category} from "../../model/category";
 import {Wallet} from "../../model/wallet";
@@ -8,6 +7,8 @@ import {WalletService} from "../../service/wallets/wallet.service";
 import {PaginationService} from "../../service/pagination/pagination-service";
 import {Company} from "../../model/company";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
+import {Product} from "../../model/product";
+import {SubscriptionMod} from "../../model/subscriptionMod";
 
 @Component({
   selector: 'app-available-subscriptions',
@@ -19,17 +20,23 @@ export class AvailableSubscriptionsComponent implements OnInit {
   categories:Category[];
   wallets:Wallet[];
   companies:Company[];
-  subscriptions:SubscriptionMod[];
-  userSubscriptions:SubscriptionMod[];
+  products:Product[];
+  userSubscrProducts:SubscriptionMod[];
+
+  role:number;
+  searchStr:string;
+  sale:number;
+
   pagesCount:number;
   subscrPerPage:number = 6;
   pageNumber:number = 1;
-  role:number;
+
   isEmpty:boolean = false;
   showPagination:boolean = true;
-  subscriptionId:number;
-  walletId:number;
-  searchStr:string;
+
+  subscription:SubscriptionMod;
+
+
 
   constructor(private service:SubscriptionsService,
               private tokenUtil:TokenStorage,
@@ -38,14 +45,15 @@ export class AvailableSubscriptionsComponent implements OnInit {
               private spinnerService: Ng4LoadingSpinnerService) { }
 
   ngOnInit() {
+    this.subscription = new SubscriptionMod();
     this.loadCategories();
     this.loadCompanies();
     this.checkForUserRole();
     if(this.role == 1){
-      this.loadUserSubscriptions();
+      this.loadUserProducts();
     }
     this.loadPagesNumber();
-    this.loadAllAvSubscriptions();
+    this.loadAllAvProducts();
   }
 
   checkForUserRole() {
@@ -77,19 +85,19 @@ export class AvailableSubscriptionsComponent implements OnInit {
   getSubscrByCompany(id:number){
     if(id == 0){
       this.pageNumber = 1;
-      this.loadAllAvSubscriptions();
+      this.loadAllAvProducts();
     }
-    this.service.getSubscrByCompany(id).subscribe(data=>{
-      this.subscriptions = data as SubscriptionMod[];
-      if(this.subscriptions.length == 0){
+    this.service.getProductsByCompany(id).subscribe(data=>{
+      this.products = data as Product[];
+      if(this.products.length == 0){
         this.isEmpty = true;
       }
       else{
         if(this.role == 1) {
-          for (let i in this.userSubscriptions) {
-            for (let y in this.subscriptions) {
-              if (this.userSubscriptions[i].id == this.subscriptions[y].id) {
-                this.subscriptions[y].isInUserSubscr = true;
+          for (let i in this.userSubscrProducts) {
+            for (let y in this.products) {
+              if (this.userSubscrProducts[i].id == this.products[y].id) {
+                this.products[y].isInUserProd = true;
               }
             }
           }
@@ -100,19 +108,19 @@ export class AvailableSubscriptionsComponent implements OnInit {
     this.showPagination = false;
   }
 
-  loadAllAvSubscriptions(){
+  loadAllAvProducts(){
     if(this.pageNumber < 0 || this.pageNumber > this.pagesCount){
       this.pageNumber = 1;
     }
 
-    this.pagination.getSubscriptions(this.pageNumber, this.subscrPerPage).subscribe(data=>{
-      this.subscriptions = data as SubscriptionMod[];
-        if(this.subscriptions.length != 0){
+    this.pagination.getProducts(this.pageNumber, this.subscrPerPage).subscribe(data=>{
+      this.products = data as Product[];
+        if(this.products.length != 0){
           if(this.role == 1) {
-            for (let i in this.userSubscriptions) {
-              for (let y in this.subscriptions) {
-                if (this.userSubscriptions[i].id == this.subscriptions[y].id) {
-                  this.subscriptions[y].isInUserSubscr = true;
+            for (let i in this.userSubscrProducts) {
+              for (let y in this.products) {
+                if (this.userSubscrProducts[i].product.id == this.products[y].id) {
+                  this.products[y].isInUserProd = true;
                 }
               }
             }
@@ -134,9 +142,9 @@ export class AvailableSubscriptionsComponent implements OnInit {
     );
   }
 
-  loadUserSubscriptions(){
+  loadUserProducts(){
     this.service.getUserSubscriptions().subscribe(data=>{
-      this.userSubscriptions = data as SubscriptionMod[];
+      this.userSubscrProducts = data as SubscriptionMod[];
     });
   }
 
@@ -150,17 +158,17 @@ export class AvailableSubscriptionsComponent implements OnInit {
   }
 
   loadWallets(id:number){
-    this.subscriptionId = id;
+    this.subscription.product = this.products.find(x => x.id == id);
     this.wService.getWallets().subscribe(data=>{
       this.wallets = data as Wallet[];
     })
   }
 
   subscribe() {
-    if (this.subscriptions.find(x => x.id == this.subscriptionId).costPerMonth > this.wallets.find(x => x.id == this.walletId).sum) {
+    if (this.products.find(x => x.id == this.subscription.product.id).costPerMonth/30 > this.wallets.find(x => x.id == this.subscription.wallet.id).sum) {
       alert('Not enough cash to subscribe');
     } else {
-      this.service.subscribe(this.subscriptionId, this.walletId).subscribe(data => {
+      this.service.subscribe(this.subscription).subscribe(data => {
 
       });
       window.location.reload();
@@ -177,19 +185,19 @@ export class AvailableSubscriptionsComponent implements OnInit {
   }
 
   deleteSubscription(id:number){
-    this.service.deleteSubscriptionGlobally(id).subscribe(data=>{
+    this.service.deleteProduct(id).subscribe(data=>{
     });
     window.location.reload();
   }
 
   goOn1Page(){
     this.pageNumber = 1;
-    this.loadAllAvSubscriptions();
+    this.loadAllAvProducts();
   }
 
   goOnLastPage(){
     this.pageNumber = this.pagesCount;
-    this.loadAllAvSubscriptions();
+    this.loadAllAvProducts();
   }
 
   goOnPreviousePage(){
@@ -197,7 +205,7 @@ export class AvailableSubscriptionsComponent implements OnInit {
     if(this.pageNumber <= 0){
       this.pageNumber++;
     }
-    this.loadAllAvSubscriptions();
+    this.loadAllAvProducts();
   }
 
   goOnNextPage(){
@@ -205,25 +213,25 @@ export class AvailableSubscriptionsComponent implements OnInit {
     if(this.pageNumber > this.pagesCount){
       this.pageNumber--;
     }
-    this.loadAllAvSubscriptions();
+    this.loadAllAvProducts();
   }
 
   getSubscrByCategory(id:number){
     if(id == 0){
       this.pageNumber = 1;
-      this.loadAllAvSubscriptions();
+      this.loadAllAvProducts();
     }
-    this.service.getSubscrByCategory(id).subscribe(data=>{
-      this.subscriptions = data as SubscriptionMod[];
-      if(this.subscriptions.length == 0){
+    this.service.getProductsByCategory(id).subscribe(data=>{
+      this.products = data as Product[];
+      if(this.products.length == 0){
         this.isEmpty = true;
       }
       else{
         if(this.role == 1) {
-          for (let i in this.userSubscriptions) {
-            for (let y in this.subscriptions) {
-              if (this.userSubscriptions[i].id == this.subscriptions[y].id) {
-                this.subscriptions[y].isInUserSubscr = true;
+          for (let i in this.userSubscrProducts) {
+            for (let y in this.products) {
+              if (this.userSubscrProducts[i].product.id == this.products[y].id) {
+                this.products[y].isInUserProd = true;
               }
             }
           }
@@ -238,18 +246,18 @@ export class AvailableSubscriptionsComponent implements OnInit {
   searchSubscr() {
     if (this.searchStr.length == 0) {
       this.pageNumber = 1;
-      this.loadAllAvSubscriptions();
+      this.loadAllAvProducts();
     } else {
-      this.service.getSubscrByPartOfName(this.searchStr).subscribe(data => {
-        this.subscriptions = data as SubscriptionMod[];
-        if (this.subscriptions.length == 0) {
+      this.service.getProductsByPartOfName(this.searchStr).subscribe(data => {
+        this.products = data as Product[];
+        if (this.products.length == 0) {
           this.isEmpty = true;
         } else {
           if(this.role == 1) {
-            for (let i in this.userSubscriptions) {
-              for (let y in this.subscriptions) {
-                if (this.userSubscriptions[i].id == this.subscriptions[y].id) {
-                  this.subscriptions[y].isInUserSubscr = true;
+            for (let i in this.userSubscrProducts) {
+              for (let y in this.products) {
+                if (this.userSubscrProducts[i].product.id == this.products[y].id) {
+                  this.products[y].isInUserProd = true;
                 }
               }
             }
@@ -259,6 +267,16 @@ export class AvailableSubscriptionsComponent implements OnInit {
       });
       this.showPagination = false;
     }
+  }
+
+  setSale(id:number){
+    let prod = new Product();
+    prod.id = id;
+    prod.sale = this.sale;
+    this.service.setSale(prod).subscribe(data=>{
+
+    });
+    window.location.reload();
   }
 
 }

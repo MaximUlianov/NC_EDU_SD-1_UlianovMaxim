@@ -13,7 +13,6 @@ public interface UserService {
 
     Response blockSubscription(long [] id);
     Response unblockSubscription(long [] id);
-    String getUsername(String email);
 
     LoginUser findByLogin(String login);
     User getUserInfoByEmail(String email);

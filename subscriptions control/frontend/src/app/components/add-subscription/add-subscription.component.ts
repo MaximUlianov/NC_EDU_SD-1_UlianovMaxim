@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Category} from "../../model/category";
 import {SubscriptionsService} from "../../service/subscriptions/subscriptions.service";
-import {SubscriptionMod} from "../../model/subscriptionMod";
 import {Company} from "../../model/company";
+import {Product} from "../../model/product";
 
 @Component({
   selector: 'app-add-subscription',
@@ -11,7 +11,7 @@ import {Company} from "../../model/company";
 })
 export class AddSubscriptionComponent implements OnInit {
 
-  subscription:SubscriptionMod;
+  product:Product;
   category:Category;
   company:Company;
   allCategories:Category[];
@@ -21,9 +21,9 @@ export class AddSubscriptionComponent implements OnInit {
 
   ngOnInit() {
     this.category = new Category();
-    this.subscription = new SubscriptionMod();
-    this.subscription.category = new Category();
-    this.subscription.company = new Company();
+    this.product = new Product();
+    this.product.category = new Category();
+    this.product.company = new Company();
     this.company = new Company();
     this.loadCategories();
     this.loadCompanies();
@@ -42,7 +42,7 @@ export class AddSubscriptionComponent implements OnInit {
   }
 
   addSubscr(){
-    this.service.addSubscription(this.subscription).subscribe(data=>{
+    this.service.addProduct(this.product).subscribe(data=>{
 
     });
     window.location.reload();

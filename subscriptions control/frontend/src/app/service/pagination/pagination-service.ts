@@ -12,15 +12,15 @@ export class PaginationService {
   }
 
   getTotalPagesSubscr(size:number):Observable<any>{
-    return this.http.get('api/subscriptions/totalPages?perPage=' + size);
+    return this.http.get('api/product/totalPages?perPage=' + size);
   }
 
   getTotalPagesUsers(size:number):Observable<any>{
     return this.http.get('api/user/admin/totalPages?perPage=' + size);
   }
 
-  getSubscriptions(page:number, size:number):Observable<any>{
-    return this.http.get('api/subscriptions/' + page + "/" + size);
+  getProducts(page:number, size:number):Observable<any>{
+    return this.http.get('api/product/' + page + "/" + size);
   }
 
   getUsers(page:number, size:number):Observable<any>{

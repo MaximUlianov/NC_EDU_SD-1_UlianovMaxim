@@ -16,26 +16,15 @@ public class Wallet {
     private long id;
     private String walletName;
     private double sum;
-    private boolean isLocked;
-    private boolean isCashSub;
     private boolean isNegBalance;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="wallet_subscription",
-            joinColumns = @JoinColumn(name="wallet_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name="subscription_id", referencedColumnName="id")
-    )
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "wallet")
     private Set<Subscription> subscriptions;
 
     public Wallet() {
-    }
-
-    public Wallet(String walletName, double sum) {
-        this.walletName = walletName;
-        this.sum = sum;
     }
 
     public long getId() {
@@ -71,28 +60,13 @@ public class Wallet {
         return user;
     }
 
+    @JsonIgnore
     public Set<Subscription> getSubscriptions() {
         return subscriptions;
     }
 
     public void setSubscriptions(Set<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
-    }
-
-    public boolean isLocked() {
-        return isLocked;
-    }
-
-    public void setLocked(boolean locked) {
-        isLocked = locked;
-    }
-
-    public boolean isCashSub() {
-        return isCashSub;
-    }
-
-    public void setCashSub(boolean cashSub) {
-        isCashSub = cashSub;
     }
 
     public boolean isNegBalance() {
