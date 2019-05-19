@@ -13,7 +13,9 @@ public interface CompanyService {
     List<Product> getProductByCompany(long id);
 
     Company getByName(String name);
+    Integer getTotalPages(int perPage);
 
+    Response editCompany(Company company);
     Response addCompany(Company newCompany);
     Response deleteCompany(long id);
 }

@@ -32,6 +32,8 @@ import {Interceptor} from "./authorization-config/interceptor";
 import {AddSubscriptionComponent} from './components/add-subscription/add-subscription.component';
 import {PaginationService} from "./service/pagination/pagination-service";
 import {CompanyComponent} from './components/company/company.component';
+import {AdminGuard} from "./admin.guard";
+import {CompaniesService} from "./service/companies/companies.service";
 
 const appRoutes: Routes = [
   {path:'main', component: MainPageComponent},
@@ -39,7 +41,8 @@ const appRoutes: Routes = [
   {path:'wallets', component:WalletsComponent, canActivate:[AboutGuard]},
   {path:'subscriptions', component:SubscriptionsComponent, canActivate:[AboutGuard]},
   {path:'avSubscriptions', component:AvailableSubscriptionsComponent},
-  {path:'users', component:UserInfoComponent},
+  {path:'users', component:UserInfoComponent, canActivate:[AdminGuard]},
+  {path:'companies', component:CompanyComponent, canActivate:[AdminGuard]},
 
   {path:'main/reg', redirectTo:'reg', pathMatch:'full'},
   {path:'', redirectTo:'/main', pathMatch:'full'},
@@ -54,6 +57,11 @@ const appRoutes: Routes = [
   {path:'main/users', redirectTo:'users', pathMatch:'full'},
   {path:'users/avSubscriptions',redirectTo:'avSubscriptions', pathMatch:'full'},
   {path:'avSubscriptions/users',redirectTo:'users', pathMatch:'full'},
+  {path:'main/companies', redirectTo:'companies', pathMatch:'full'},
+  {path:'companies/users', redirectTo:'users', pathMatch:'full'},
+  {path:'users/companies', redirectTo:'companies', pathMatch:'full'},
+  {path:'companies/avSubscriptions', redirectTo:'avSubscriptions', pathMatch:'full'},
+  {path:'avSubscriptions/companies', redirectTo:'companies', pathMatch:'full'}
 ];
 
 @NgModule({
@@ -87,8 +95,10 @@ const appRoutes: Routes = [
               WalletService,
               SubscriptionsService,
               AboutGuard,
+              AdminGuard,
               UserService,
               PaginationService,
+              CompaniesService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: Interceptor,

@@ -19,12 +19,20 @@ export class PaginationService {
     return this.http.get('api/user/admin/totalPages?perPage=' + size);
   }
 
-  getProducts(page:number, size:number):Observable<any>{
-    return this.http.get('api/product/' + page + "/" + size);
+  getTotalPagesCompanies(size:number):Observable<any>{
+    return this.http.get('api/company/admin/totalPages?perPage=' + size);
   }
 
-  getUsers(page:number, size:number):Observable<any>{
-    return this.http.get('api/user/admin/' + page + "/" + size, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
+  getProducts(page:number, perPage:number):Observable<any>{
+    return this.http.get('api/product/' + page + "/" + perPage);
+  }
+
+  getUsers(page:number, perPage:number):Observable<any>{
+    return this.http.get('api/user/admin/' + page + "/" + perPage, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
+  }
+
+  getCompanies(page:number, perPage:number):Observable<any>{
+    return this.http.get('api/company/admin/' + page + "/" + perPage, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
   }
 
 

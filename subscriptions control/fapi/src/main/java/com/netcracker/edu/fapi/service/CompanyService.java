@@ -11,6 +11,10 @@ public interface CompanyService {
     List<Company> getAllCompanies(int page, int perPage);
     List<Product> getProductsByCompanyId(long id);
 
+    Integer getTotalPages(int perPage);
+
+    Response deleteCompany(long id);
+    Response editCompany(Company company);
     Response addCompany(Company company);
 
 }

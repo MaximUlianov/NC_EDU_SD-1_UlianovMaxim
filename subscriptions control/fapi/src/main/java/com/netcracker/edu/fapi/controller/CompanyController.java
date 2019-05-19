@@ -33,14 +33,34 @@ public class CompanyController {
         return companyService.addCompany(company);
     }
 
-    @GetMapping(value = "/{page}/{size}")
-    public List<Company> getAllCompanies(@PathVariable(name = "page") int page,
-                                           @PathVariable(name = "size") int size){
-        return companyService.getAllCompanies(page, size);
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = "/admin/totalPages")
+    public Integer getTotalPages(@RequestParam(value = "perPage") int perPage){
+        return companyService.getTotalPages(perPage);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = "/admin/{page}/{perPage}")
+    public List<Company> getAllCompanies(@PathVariable(name = "page") int page,
+                                           @PathVariable(name = "perPage") int perPage){
+        return companyService.getAllCompanies(page, perPage);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping
+    public Response deleteCompany(@RequestParam(value = "id") int id){
+        return companyService.deleteCompany(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping
+    public Response editCompany(@RequestBody Company company){
+        return companyService.editCompany(company);
+    }
+
+
     @GetMapping(value = "/products")
-    public List<Product> getSubscrByCompany(@RequestParam(name = "id") long id){
+    public List<Product> getProdByCompany(@RequestParam(name = "id") long id){
         return companyService.getProductsByCompanyId(id);
     }
 }

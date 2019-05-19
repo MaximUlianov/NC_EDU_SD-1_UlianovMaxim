@@ -15,7 +15,7 @@ export class SubscriptionsService{
 
   addCategory(categ:Category):Observable<any>{
     let param = JSON.stringify(categ);
-    return this.http.post('api/subscriptions/category', param, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
+    return this.http.post('api/category', param, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
   }
 
   addProduct(prod:Product):Observable<any>{

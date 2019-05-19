@@ -44,4 +44,24 @@ public class CompanyServiceImpl implements CompanyService {
         Product [] productsResponse = restTemplate.getForObject(backendServerUrl + "/api/company/products?id=" + id, Product[].class);
         return productsResponse == null ? Collections.emptyList() : Arrays.asList(productsResponse);
     }
+
+    @Override
+    public Integer getTotalPages(int perPage) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(backendServerUrl + "/api/company/totalPages?perPage=" + perPage, Integer.class);
+    }
+
+    @Override
+    public Response deleteCompany(long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.delete(backendServerUrl + "/api/company?id=" + id);
+        return new Response("ok");
+    }
+
+    @Override
+    public Response editCompany(Company company) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.put(backendServerUrl + "/api/company", company, Response.class);
+        return new Response("ok");
+    }
 }

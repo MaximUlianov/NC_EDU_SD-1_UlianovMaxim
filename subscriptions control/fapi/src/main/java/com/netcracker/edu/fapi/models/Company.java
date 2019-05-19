@@ -8,6 +8,7 @@ public class Company {
     private long id;
     private String name;
     private String description;
+    private double proceeds;
 
     public Company() {
     }
@@ -34,5 +35,13 @@ public class Company {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getProceeds() {
+        return proceeds;
+    }
+
+    public void setProceeds(double proceeds) {
+        this.proceeds = proceeds;
     }
 }

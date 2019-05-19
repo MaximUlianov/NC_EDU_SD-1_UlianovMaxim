@@ -8,7 +8,6 @@ import com.netcracker.edu.backend.entity.Wallet;
 import com.netcracker.edu.backend.repository.*;
 import com.netcracker.edu.backend.service.AuditService;
 import com.netcracker.edu.backend.service.SubscriptionService;
-import com.netcracker.edu.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +22,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Autowired
     private LogInRepository logInRepository;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private ProductRepository productRepository;
@@ -89,6 +85,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscriptionRepository.deleteById(subscription.getId());
 
         auditService.unsubscribedRecord(logIn.getUser(), subscription.getProduct().getName());
+        return new Response("Deleted");
+    }
+
+    public Response deleteSubscriptionsByCompany(long id){
+        Subscription subscription = subscriptionRepository.findById(id).get();
+        subscriptionRepository.deleteById(subscription.getId());
+        auditService.unsubscribedRecord(subscription.getUser(), subscription.getProduct().getName());
         return new Response("Deleted");
     }
 

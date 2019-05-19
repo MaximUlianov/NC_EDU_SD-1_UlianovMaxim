@@ -1,5 +1,7 @@
 package com.netcracker.edu.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -14,8 +16,8 @@ public class Category {
 
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "category")
-    private Set<Product> subscriptions;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "category")
+    private Set<Product> products;
 
 
     public Category() {
@@ -41,12 +43,13 @@ public class Category {
         this.id = id;
     }
 
-    public Set<Product> getSubscriptions() {
-        return subscriptions;
+    @JsonIgnore
+    public Set<Product> getProducts() {
+        return products;
     }
 
-    public void setSubscriptions(Set<Product> subscriptions) {
-        this.subscriptions = subscriptions;
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 
     @Override

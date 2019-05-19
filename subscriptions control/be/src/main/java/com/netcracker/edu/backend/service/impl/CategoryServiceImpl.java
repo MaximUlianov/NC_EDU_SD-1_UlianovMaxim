@@ -25,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Product> getProductByCategory(long id) {
         Category category = categoryRepository.findById(id).get();
-        return new ArrayList<>(category.getSubscriptions());
+        return new ArrayList<>(category.getProducts());
     }
 
     @Override

@@ -24,6 +24,12 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.addCompany(newCompany));
     }
 
+    @GetMapping(value = "totalPages")
+    @ResponseBody
+    public ResponseEntity getTotalPages(@RequestParam(value = "perPage") int perPage){
+        return ResponseEntity.ok(companyService.getTotalPages(perPage));
+    }
+
     @GetMapping(value = "/{page}/{elements}")
     @ResponseBody
     public ResponseEntity getCompanies(@PathVariable(name = "page") int page,
@@ -47,6 +53,12 @@ public class CompanyController {
     @ResponseBody
     public  ResponseEntity getSubscrByCompany(@RequestParam(name = "id") long id){
         return ResponseEntity.ok(companyService.getProductByCompany(id));
+    }
+
+    @PutMapping
+    @ResponseBody
+    public  ResponseEntity editCompany(@RequestBody Company company){
+        return ResponseEntity.ok(companyService.editCompany(company));
     }
 
 }

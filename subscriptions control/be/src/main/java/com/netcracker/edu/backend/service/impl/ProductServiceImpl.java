@@ -2,9 +2,9 @@ package com.netcracker.edu.backend.service.impl;
 
 import com.netcracker.edu.backend.entity.Product;
 import com.netcracker.edu.backend.entity.Response;
+import com.netcracker.edu.backend.repository.CompanyRepository;
 import com.netcracker.edu.backend.repository.ProductRepository;
 import com.netcracker.edu.backend.service.CategoryService;
-import com.netcracker.edu.backend.service.CompanyService;
 import com.netcracker.edu.backend.service.ProductService;
 import com.netcracker.edu.backend.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +18,20 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
-    private CompanyService companyService;
+    private CompanyRepository companyRepository;
     private CategoryService categoryService;
     private SubscriptionService subscriptionService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, CompanyService companyService, CategoryService categoryService, SubscriptionService subscriptionService) {
+    public ProductServiceImpl(ProductRepository productRepository, CompanyRepository companyRepository, CategoryService categoryService, SubscriptionService subscriptionService) {
         this.productRepository = productRepository;
-        this.companyService = companyService;
+        this.companyRepository = companyRepository;
         this.categoryService = categoryService;
         this.subscriptionService = subscriptionService;
     }
+
+
+
 
     @Override
     public List<Product> getProductByPartOfName(String value) {
@@ -56,13 +59,19 @@ public class ProductServiceImpl implements ProductService {
         _product.setDescription(product.getDescription());
         _product.setCostPerMonth(product.getCostPerMonth());
         _product.setCategory(categoryService.getByName(product.getCategory().getName()));
-        _product.setCompany(companyService.getByName(product.getCompany().getName()));
+        _product.setCompany(companyRepository.findByName(product.getCompany().getName()));
         productRepository.save(_product);
         return new Response("ok");
     }
 
     @Override
     public Response deleteProduct(long id) {
+        Product product = productRepository.findById(id).get();
+        product.setCategory(null);
+        productRepository.save(product);
+        product.getSubscriptions().forEach(subscription -> {
+            subscriptionService.deleteSubscriptionsByCompany(subscription.getId());
+        });
         productRepository.deleteById(id);
         return new Response("Deleted");
     }
