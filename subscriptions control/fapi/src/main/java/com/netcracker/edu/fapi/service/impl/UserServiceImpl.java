@@ -38,10 +38,10 @@ public class UserServiceImpl implements UserDetailsService,UserService {
     }
 
     @Override
-    public User save(User user) {
+    public Response save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForEntity(backendServerUrl + "/api/user", user, User.class).getBody();
+        return restTemplate.postForEntity(backendServerUrl + "/api/user", user, Response.class).getBody();
     }
 
     @Override
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserDetailsService,UserService {
     @Override
     public List<Audit> getUserHistory(long id) {
         RestTemplate restTemplate = new RestTemplate();
-        Audit[] historyResponse = restTemplate.getForObject(backendServerUrl + "/api/user/audit?id=" + id, Audit[].class);
+        Audit[] historyResponse = restTemplate.getForObject(backendServerUrl + "/api/audit?id=" + id, Audit[].class);
         return historyResponse == null ? Collections.emptyList() : Arrays.asList(historyResponse);
     }
 
@@ -109,5 +109,12 @@ public class UserServiceImpl implements UserDetailsService,UserService {
         RestTemplate restTemplate = new RestTemplate();
         Wallet [] walletsResponse = restTemplate.getForObject(backendServerUrl + "/api/user/wallets?id=" + id, Wallet[].class);
         return walletsResponse == null ? Collections.emptyList() : Arrays.asList(walletsResponse);
+    }
+
+    @Override
+    public List<Audit> searchHistory(long id, String from, String to) {
+        RestTemplate restTemplate = new RestTemplate();
+        Audit[] historyResponse = restTemplate.getForObject(backendServerUrl + "/api/audit/search?id="+ id + "&from=" + from + "&to=" + to, Audit[].class);
+        return historyResponse == null ? Collections.emptyList() : Arrays.asList(historyResponse);
     }
 }

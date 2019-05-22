@@ -39,7 +39,6 @@ public class CompanyController {
         return companyService.getTotalPages(perPage);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/admin/{page}/{perPage}")
     public List<Company> getAllCompanies(@PathVariable(name = "page") int page,
                                            @PathVariable(name = "perPage") int perPage){

@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
     List<User> findByUsernameContains(String value);
+    User findByUsername(String username);
 }

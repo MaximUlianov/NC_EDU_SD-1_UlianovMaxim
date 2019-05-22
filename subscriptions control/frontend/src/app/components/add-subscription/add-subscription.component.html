@@ -29,9 +29,7 @@
       </div>
     </div>
   </div>
-  {{product | json}}
   <br/>
-  {{allCategories | json}}
 </div>
 
 
@@ -56,7 +54,6 @@
       </div>
     </div>
   </div>
-  {{category|json}}
 </div>
 
 
@@ -72,7 +69,7 @@
       <div class="modal-body">
         <input type="text" class="form-control" id="compName" title="Enter category name" placeholder="Company name"
                [(ngModel)]="company.name" name="compName">
-        <input type="text" class="form-control" id="compDescr" title="Enter category name" placeholder="Company description"
+        <input type="text" class="form-control" id="compDescr" style="margin-top: 10px" title="Enter category name" placeholder="Company description"
                [(ngModel)]="company.description" name="compDescr">
       </div>
       <div class="modal-footer">
@@ -81,5 +78,4 @@
       </div>
     </div>
   </div>
-  {{category|json}}
 </div>

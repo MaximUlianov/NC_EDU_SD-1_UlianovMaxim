@@ -15,7 +15,7 @@ public class LogIn {
     private String email;
     private String password;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private User user;
 
 

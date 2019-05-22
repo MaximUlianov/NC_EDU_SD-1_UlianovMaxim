@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
+    private long id;
     private String first_name;
     private String last_name;
     private String username;
@@ -29,6 +30,14 @@ public class User {
         this.password = password;
         this.role = role;
         this.birthday = birthday;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getFirst_name() {

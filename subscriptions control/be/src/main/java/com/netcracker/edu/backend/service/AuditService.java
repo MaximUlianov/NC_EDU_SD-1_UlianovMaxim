@@ -4,6 +4,8 @@ import com.netcracker.edu.backend.entity.Audit;
 import com.netcracker.edu.backend.entity.Response;
 import com.netcracker.edu.backend.entity.User;
 
+import java.util.List;
+
 public interface AuditService {
 
     Response addRecord(Audit audit);
@@ -16,4 +18,7 @@ public interface AuditService {
     Response deleteWalletRecord(User user,String name);
     Response rechargeWalletRecord(User user,String name, double sum);
     Response cleanHistory();
+
+    List<Audit> getUserHistory(long id);
+    List<Audit> searchHistory(long id, String from, String to);
 }

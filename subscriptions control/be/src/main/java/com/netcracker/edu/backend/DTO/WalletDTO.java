@@ -6,10 +6,7 @@ public class WalletDTO {
     private String walletName;
     private double sum;
 
-    public WalletDTO(String email, String walletName, double sum) {
-        this.email = email;
-        this.walletName = walletName;
-        this.sum = sum;
+    public WalletDTO() {
     }
 
     public String getEmail() {

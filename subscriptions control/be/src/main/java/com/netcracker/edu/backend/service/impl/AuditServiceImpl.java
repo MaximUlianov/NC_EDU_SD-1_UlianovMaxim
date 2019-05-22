@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class AuditServiceImpl implements AuditService {
@@ -110,5 +111,21 @@ public class AuditServiceImpl implements AuditService {
     public Response cleanHistory() {
         auditRepository.deleteAll();
         return new Response("ok");
+    }
+
+    @Override
+    public List<Audit> getUserHistory(long id) {
+        return auditRepository.getUserHistory(id);
+    }
+
+    @Override
+    public List<Audit> searchHistory(long id, String from, String to) {
+        int fm = from.indexOf("_");
+        int fd = from.lastIndexOf("_");
+        int tm = to.indexOf("_");
+        int td = to.lastIndexOf("_");
+        String _from = from.substring(0, fm) + '-' + from.substring(fm + 1, fd) + '-' + from.substring(fd + 1);
+        String _to = to.substring(0, tm) + '-' + to.substring(tm + 1, td) + '-' + to.substring(td + 1);
+        return auditRepository.searchHistory(id, _from, _to);
     }
 }

@@ -36,7 +36,15 @@ export class UserService {
     return this.http.get('api/user/audit?id=' + id, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}})
   }
 
-
-
+  searchHistoryByDates(id:number, from:Date, to:Date):Observable<any>{
+    let fy = new Date(from).getFullYear();
+    let fm = new Date(from).getMonth() + 1;
+    let fd = new Date(from).getDate();
+    let ty = new Date(to).getFullYear();
+    let tm = new Date(to).getMonth() + 1;
+    let td = new Date(to).getDate();
+    return this.http.get('api/user/audit/search?id=' + id + '&from=' + fy + "_" + fm + "_" + fd
+      + "&to=" + ty + "_" + tm + "_" + td, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}})
+  }
 
 }

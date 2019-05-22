@@ -3,6 +3,8 @@ import {Wallet} from "../../model/wallet";
 import {WalletService} from "../../service/wallets/wallet.service";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
+import {WOW} from "wowjs/dist/wow.min";
 
 @Component({
   selector: 'app-wallets',
@@ -15,6 +17,7 @@ export class WalletsComponent implements OnInit {
   wallet:Wallet;
   walletBalance:Wallet;
   isEmpty:boolean = true;
+  isGoodRechargeSum:boolean = true;
   recharge:number;
   isLimit:boolean = false;
 
@@ -22,16 +25,18 @@ export class WalletsComponent implements OnInit {
 
 
   constructor(private service:WalletService,
-              private loadingService: Ng4LoadingSpinnerService) { }
+              private loadingService: Ng4LoadingSpinnerService,
+              private router:Router) { }
 
   ngOnInit() {
+    new WOW().init();
     this.walletBalance = new Wallet();
     this.wallet = new Wallet();
     this.loadWallets();
   }
 
   loadWallets(){
-    this.subscriptions.push( this.service.getWallets().subscribe(wallets=>{
+    this.service.getWallets().subscribe(wallets=>{
       this.wallets = wallets as Wallet[];
       if(this.wallets.length > 0){
         this.isEmpty = false;
@@ -39,44 +44,40 @@ export class WalletsComponent implements OnInit {
       else if(this.wallets.length == 0){
         this.isEmpty = true;
       }
-    }))
-
+    });
   }
 
   addWallet(){
-    this.service.addWallet(this.wallet).subscribe(data=>{
-
-    });
-    this.loadWallets();
-    window.location.reload();
+    if(this.wallet.sum > 0) {
+      this.service.addWallet(this.wallet).subscribe(data => {
+        this.loadWallets();
+      });
+    }
+    else{
+      this.isGoodRechargeSum = false;
+      setTimeout(()=>{this.isGoodRechargeSum = true;},3000);
+    }
   }
 
   deleteWallet(id:number){
       this.service.deleteWallet(id).subscribe(data=>{
+        this.loadWallets();
+      });
+  }
+
+  rechargeWallet(wallet:Wallet){
+    if(this.recharge > 0) {
+      wallet.sum = this.recharge;
+      this.isGoodRechargeSum = true;
+      this.service.rechargeWallet(wallet).subscribe(data => {
+        this.loadWallets();
+        this.recharge = null;
 
       });
-      this.loadWallets();
-      window.location.reload();
-  }
-
-  rechargeWallet(wallet:Wallet, sum:number){
-    wallet.sum = sum;
-    this.service.rechargeWallet(wallet).subscribe(data=>{
-
-    });
-    this.loadWallets();
-    window.location.reload();
-  }
-
-  setCashSub(wallet:Wallet){
-    this.service.setCashSub(wallet).subscribe(data=>{
-
-    });
-    window.location.reload();
-  }
-
-  setLimit(){
-    this.isLimit = !this.isLimit;
+    }else{
+      this.isGoodRechargeSum = false;
+      setTimeout(()=>{this.isGoodRechargeSum = true;},5000);
+    }
   }
 
   showBalance(id:number){

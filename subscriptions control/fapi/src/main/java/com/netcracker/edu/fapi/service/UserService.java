@@ -10,6 +10,8 @@ public interface UserService {
     List<Subscription> getUserSubscrByAdmin(long id);
     List<UserInfo> searchUser(String type, String value);
     List<Audit> getUserHistory(long id);
+    List<Audit> searchHistory(long id, String from, String to);
+
     List<Wallet> getUserWalletsByAdmin(long id);
 
     Response blockSubscription(long [] id);
@@ -17,7 +19,7 @@ public interface UserService {
 
     LoginUser findByLogin(String login);
     User getUserInfoByEmail(String email);
-    User save(User user);
+    Response save(User user);
     Integer getTotalPages(int perPage);
 
 

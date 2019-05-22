@@ -122,7 +122,7 @@
 </div>
 
 
-<div class="modal fade" id="walletsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="walletsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" *ngIf="showWallets">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -161,11 +161,11 @@
       <div class="modal-body">
         <div class="mb-3">
           <label for="inputDateStart">From</label>
-          <input type="date" class="form-control" id="inputDateStart" [(ngModel)]="subscription.start" name="start">
+          <input type="date" class="form-control" id="inputDateStart" [(ngModel)]="subscription.start" name="start" [min]="currDate">
         </div>
         <div class="mb-3">
           <label for="inputDateEnd">To</label>
-          <input type="date" class="form-control" id="inputDateEnd" [(ngModel)]="subscription.end" name="end">
+          <input type="date" class="form-control" id="inputDateEnd" [(ngModel)]="subscription.end" name="end" [min]="currDate">
         </div>
       </div>
       <div class="modal-footer">

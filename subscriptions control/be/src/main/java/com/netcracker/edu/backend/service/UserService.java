@@ -5,7 +5,6 @@ import com.netcracker.edu.backend.DTO.UserDTO;
 import com.netcracker.edu.backend.entity.*;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
 
@@ -19,10 +18,10 @@ public interface UserService {
     Response saveSubscr(User user);
     Response blockSubscription(long [] id);
     Response unblockSubscription(long [] id);
+    Response save(UserDTO _user);
     String getUsername(String email);
 
     UserDTO getUser(UserDTO _user);
-    Optional<UserDTO> save(UserDTO _user);
     LogInUserDTO getUserByEmail(String email);
     User getUserInfoByEmail(String email);
 

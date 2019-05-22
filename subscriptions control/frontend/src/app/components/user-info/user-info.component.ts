@@ -144,9 +144,8 @@ export class UserInfoComponent implements OnInit {
 
   deleteWallet(walletId:number){
     this.wService.deleteWallet(walletId).subscribe(data=>{
-
+      this.loadUserWallets(this.userId, this.username);
     });
-    this.loadUserWallets(this.userId, this.username);
   }
 
   loadUserHistory(id:number, username:string){

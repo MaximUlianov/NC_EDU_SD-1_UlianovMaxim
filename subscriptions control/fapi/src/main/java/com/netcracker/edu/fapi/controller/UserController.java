@@ -35,7 +35,7 @@ public class UserController {
 
 
     @RequestMapping(value="/signUp", method = RequestMethod.POST, produces = "application/json")
-    public User saveUser(@RequestBody User user){
+    public Response saveUser(@RequestBody User user){
         return userService.save(user);
     }
 
@@ -78,7 +78,7 @@ public class UserController {
         return userService.unblockSubscription(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping(value = "/audit")
     public List<Audit> getUserHistory(@RequestParam(value = "id") long id){
         return userService.getUserHistory(id);
@@ -89,4 +89,12 @@ public class UserController {
     public List<Wallet> getUserWalletsByAdmin(@RequestParam(value = "id") long id) {
         return userService.getUserWalletsByAdmin(id);
     }
+
+    @GetMapping(value = "/audit/search")
+    public List<Audit> searchHistory(@RequestParam(value = "id") long id,
+                                    @RequestParam(value = "from") String from,
+                                    @RequestParam(value = "to") String to){
+        return userService.searchHistory(id, from, to);
+    }
+
 }

@@ -2,6 +2,8 @@ package com.netcracker.edu.fapi.models;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import java.util.Set;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Company {
 
@@ -9,6 +11,7 @@ public class Company {
     private String name;
     private String description;
     private double proceeds;
+    private Set<Product> products;
 
     public Company() {
     }
@@ -43,5 +46,13 @@ public class Company {
 
     public void setProceeds(double proceeds) {
         this.proceeds = proceeds;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 }

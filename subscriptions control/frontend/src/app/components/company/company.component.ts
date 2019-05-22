@@ -29,8 +29,8 @@ export class CompanyComponent implements OnInit {
     this.company = new Company();
     this.currPage = 1;
     this.perPage = 6;
-    this.loadPagesNumber();
     this.loadCompanies();
+    this.loadPagesNumber();
   }
 
 
@@ -38,7 +38,12 @@ export class CompanyComponent implements OnInit {
     this.pagination.getCompanies(this.currPage, this.perPage).subscribe(data=>{
       this.companies = data as Company[];
       if(this.companies.length != 0){
-        this.showPagination = true;
+        if(this.pagesCount == 1){
+          this.showPagination = false;
+        }
+        else{
+          this.showPagination = true;
+        }
         this.isEmpty = false;
       }
       else {
@@ -50,10 +55,11 @@ export class CompanyComponent implements OnInit {
   }
 
   deleteCompany(id:number){
+    this.currPage = 1;
     this.cService.deleteCompany(id).subscribe(data=>{
-
+      this.loadPagesNumber();
+      this.loadCompanies();
     });
-    window.location.reload();
   }
 
   openEditWindow(company:Company){
@@ -63,10 +69,8 @@ export class CompanyComponent implements OnInit {
 
   editCompany(){
     this.cService.editCompany(this.company).subscribe(data=>{
-
+      this.loadCompanies();
     });
-    this.loadCompanies();
-    window.location.reload();
   }
 
   closeEdit(){

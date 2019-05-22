@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {User} from "../../model/user";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 
 @Injectable()
@@ -14,14 +15,9 @@ export class UserRegistrationService{
     return this._user;
   }
 
-  addUser(_user:User):User{
+  addUser(_user:User):Observable<any>{
     let param = JSON.stringify(_user);
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    this.http.post<User>('/api/user/signUp', param, {headers}).subscribe(
-      res=>{
-        this._user2 = res;
-      }
-    )
-    return this._user2;
+    return this.http.post<User>('/api/user/signUp', param, {headers});
   }
 }

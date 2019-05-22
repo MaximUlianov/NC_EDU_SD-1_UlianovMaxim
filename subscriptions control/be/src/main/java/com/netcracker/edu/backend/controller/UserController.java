@@ -32,7 +32,7 @@ public class UserController {
     @PostMapping
     @ResponseBody
     public ResponseEntity addUser(@RequestBody UserDTO user) {
-        return ResponseEntity.ok(userService.save(user).get());
+        return ResponseEntity.ok(userService.save(user));
     }
 
     @GetMapping(value = "/login")
@@ -88,5 +88,4 @@ public class UserController {
     public ResponseEntity getUserWallets(@RequestParam(value = "id") long id){
         return ResponseEntity.ok(userService.getUserWallets(id));
     }
-
 }

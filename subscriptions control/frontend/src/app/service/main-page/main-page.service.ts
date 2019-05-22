@@ -12,7 +12,7 @@ export class MainPageService{
   }
 
   getCompanies():Observable<any>{
-    return this.http.get('api/company/1/3');
+    return this.http.get('api/company/admin/1/3');
   }
 
   getUsername():Observable<any>{

@@ -9,6 +9,7 @@ import {Company} from "../../model/company";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {Product} from "../../model/product";
 import {SubscriptionMod} from "../../model/subscriptionMod";
+import {moment} from "ngx-bootstrap/chronos/test/chain";
 
 @Component({
   selector: 'app-available-subscriptions',
@@ -36,6 +37,7 @@ export class AvailableSubscriptionsComponent implements OnInit {
   showWallets:boolean;
   subscription:SubscriptionMod;
 
+  currDate:string;
 
 
   constructor(private service:SubscriptionsService,
@@ -45,6 +47,7 @@ export class AvailableSubscriptionsComponent implements OnInit {
               private spinnerService: Ng4LoadingSpinnerService) { }
 
   ngOnInit() {
+    this.currDate = moment(new Date()).format('YYYY-MM-DD');
     this.subscription = new SubscriptionMod();
     this.loadCategories();
     this.loadCompanies();
@@ -174,7 +177,10 @@ export class AvailableSubscriptionsComponent implements OnInit {
   subscribe() {
     if (this.products.find(x => x.id == this.subscription.product.id).costPerMonth/30 > this.wallets.find(x => x.id == this.subscription.wallet.id).sum) {
       alert('Not enough cash to subscribe');
-    } else {
+    }else if(this.subscription.start > this.subscription.end){
+      alert('End date is before start');
+    }
+    else {
       this.service.subscribe(this.subscription).subscribe(data => {
 
       });
@@ -281,9 +287,8 @@ export class AvailableSubscriptionsComponent implements OnInit {
     prod.id = id;
     prod.sale = this.sale;
     this.service.setSale(prod).subscribe(data=>{
-
+      this.loadAllAvProducts();
     });
-    window.location.reload();
   }
 
 }

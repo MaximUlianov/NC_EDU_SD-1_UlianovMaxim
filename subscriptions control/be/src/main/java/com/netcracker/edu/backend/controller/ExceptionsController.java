@@ -31,5 +31,14 @@ public class ExceptionsController extends ResponseEntityExceptionHandler {
                 new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
+    @ExceptionHandler(value
+            = { NullPointerException.class })
+    protected ResponseEntity noSuchElConflict(
+            RuntimeException ex, WebRequest request) {
+        String bodyOfResponse2 = "No such element";
+        return handleExceptionInternal(ex, bodyOfResponse2,
+                new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
 
 }

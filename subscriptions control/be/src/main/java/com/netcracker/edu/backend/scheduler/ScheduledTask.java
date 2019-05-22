@@ -66,8 +66,8 @@ public class ScheduledTask {
         });
     }
 
-    @Scheduled(fixedDelay = 1000*60*15)
+   /* @Scheduled(fixedDelay = 1000*60*15)
     public void cleanAudit(){
         auditService.cleanHistory();
-    }
+    }*/
 }
