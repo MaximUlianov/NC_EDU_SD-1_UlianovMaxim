@@ -75,4 +75,9 @@ export class SubscriptionsService{
     return this.http.post('api/product/sale', param, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
   }
 
+  setSaleOnSubscription(sub:SubscriptionMod){
+    let param = JSON.stringify(sub);
+    return this.http.put('api/subscriptions/sale', param, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}});
+  }
+
 }

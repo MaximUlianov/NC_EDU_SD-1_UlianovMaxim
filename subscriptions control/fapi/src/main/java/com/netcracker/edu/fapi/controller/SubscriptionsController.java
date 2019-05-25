@@ -43,4 +43,9 @@ public class SubscriptionsController {
         String email = tokenUtil.getUsernameFromToken(token);
         return subscriptionsService.deleteUserSubscription(email, id);
     }
+
+    @PutMapping(value = "/sale")
+    public Response setSubscrSale(@RequestBody Subscription subscription){
+        return subscriptionsService.setSale(subscription);
+    }
 }

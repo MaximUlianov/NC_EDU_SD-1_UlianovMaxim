@@ -32,4 +32,9 @@ public class SubscriptionController {
                                                          @RequestParam(value = "id") long id){
         return ResponseEntity.ok(subscriptionService.deleteUserSubscription(email, id));
     }
+
+    @PutMapping(value = "/sale")
+    @ResponseBody ResponseEntity setSale(@RequestBody SubscriptionDTO subscriptionDTO){
+        return ResponseEntity.ok(subscriptionService.setSale(subscriptionDTO.getId(), subscriptionDTO.getSale()));
+    }
 }

@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Wallet} from "../../model/wallet";
 import {WalletService} from "../../service/wallets/wallet.service";
-import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 import {Subscription} from "rxjs";
-import {Router} from "@angular/router";
 import {WOW} from "wowjs/dist/wow.min";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-wallets',
@@ -20,15 +19,19 @@ export class WalletsComponent implements OnInit {
   isGoodRechargeSum:boolean = true;
   recharge:number;
   isLimit:boolean = false;
+  form:FormGroup;
 
   private subscriptions: Subscription[] = [];
 
 
   constructor(private service:WalletService,
-              private loadingService: Ng4LoadingSpinnerService,
-              private router:Router) { }
+              private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.form = this.formBuilder.group({
+      name: [null, Validators.required],
+      sum: [null, Validators.required],
+    });
     new WOW().init();
     this.walletBalance = new Wallet();
     this.wallet = new Wallet();
@@ -48,6 +51,8 @@ export class WalletsComponent implements OnInit {
   }
 
   addWallet(){
+    this.wallet.walletName = this.form.get('name').value;
+    this.wallet.sum = this.form.get('sum').value;
     if(this.wallet.sum > 0) {
       this.service.addWallet(this.wallet).subscribe(data => {
         this.loadWallets();

@@ -3,6 +3,7 @@ import {User} from "../../model/user";
 import {UserRegistrationService} from "../../service/registration/user-registration.service";
 import {Router} from "@angular/router";
 import {moment} from "ngx-bootstrap/chronos/test/chain";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   templateUrl: './sign-up-page.component.html',
@@ -10,73 +11,91 @@ import {moment} from "ngx-bootstrap/chronos/test/chain";
 })
 export class SignUpPageComponent implements OnInit {
 
-  termsAccepted:boolean;
   isUsernameExists:boolean;
   isEmailExists:boolean;
-  isMatch:boolean;
-  isMatchAfterClicked:boolean;
   isSuccess:boolean;
 
-  confPassword:string;
   maxBirthday:string;
 
   servMessage:any;
   user:User;
 
-  constructor(private _userService:UserRegistrationService, private router:Router) {
+  form:FormGroup;
+
+  constructor(private _userService:UserRegistrationService, private router:Router, private formBuilder: FormBuilder) {
     this.user = null;
   }
 
   ngOnInit() {
+    this.form = this.formBuilder.group({
+      firstName: [null, [Validators.required, Validators.minLength(4)]],
+      lastName: [null, Validators.required],
+      username: [null, Validators.required],
+      birthday: [null, Validators.required],
+      country: [null, Validators.required],
+      role: [null, Validators.required],
+      email: [null, [Validators.required,
+        Validators.pattern(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/)]],
+      password: [null, Validators.required],
+      confirmPassword: [null, Validators.required],
+      terms: [null, [Validators.required, Validators.requiredTrue]],
+    });
     this.maxBirthday = moment(new Date()).format('YYYY-MM-DD');
     this.user = new User();
-    this.isMatchAfterClicked = true;
     this.user = this._userService.getUser();
   }
 
-  onSubmit() {
-    if (this.termsAccepted) {
-      if (this.user.password == this.confPassword) {
-        this.isMatchAfterClicked = true;
-        this._userService.addUser(this.user).subscribe(data => {
-          this.servMessage = data;
-          if (this.servMessage.response == 'username exists') {
-            this.isSuccess = false;
-            this.isUsernameExists = true;
-            this.termsAccepted = false;
-          } else if (this.servMessage.response == 'email exists') {
-            this.isSuccess = false;
-            this.isEmailExists = true;
-            this.termsAccepted = false;
-          } else {
-            this.isSuccess = true;
-            this.isUsernameExists = false;
-            this.isEmailExists = false;
-          }
-
-        });
-      }
-      else{
+  sendUser(){
+    this._userService.addUser(this.user).subscribe(data => {
+      this.servMessage = data;
+      if (this.servMessage.response == 'username exists') {
         this.isSuccess = false;
-        this.isMatchAfterClicked = false;
-        this.termsAccepted = false;
+        this.isUsernameExists = true;
+        setTimeout(()=>{
+          this.isUsernameExists = false;
+        }, 4000);
+      } else if (this.servMessage.response == 'email exists') {
+        this.isSuccess = false;
+        this.isEmailExists = true;
+        setTimeout(()=>{
+          this.isEmailExists = false;
+        }, 4000);
+      } else{
+        this.isSuccess = true;
+        this.isUsernameExists = false;
+        this.isEmailExists = false;
       }
-    }
-    else {
-      alert('You should accept terms');
-    }
+    });
   }
 
-  checkPasswordFieldsMatching(){
-    if(this.user.password == this.confPassword){
-      this.isMatch = true;
-    }
-    else{
-      this.isMatch = false;
-    }
+  onSubmit(){
+    this.user.first_name = this.form.get('firstName').value;
+    this.user.last_name = this.form.get('lastName').value;
+    this.user.username = this.form.get('username').value;
+    this.user.birthday = this.form.get('birthday').value;
+    this.user.country = this.form.get('country').value;
+    this.user.role = this.form.get('role').value;
+    this.user.email = this.form.get('email').value;
+    this.user.password = this.form.get('password').value;
+    this.sendUser()
   }
 
   redirect(){
     this.router.navigate(['main']);
+  }
+
+  isFieldValid(field: string) {
+    return this.form.get(field).touched && !this.form.get(field).valid;
+  }
+
+  isPasswordsEqual(){
+    return this.form.get('confirmPassword').value != this.form.get('password').value;
+  }
+
+  displayFieldCss(field: string) {
+    return {
+      'has-error': this.isFieldValid(field),
+      'has-feedback': this.isFieldValid(field)
+    };
   }
 }

@@ -33,9 +33,6 @@ public class User {
     private Set<Role> roles;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<Subscription> subscriptions;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<Audit> audits;
 
     public User() {
@@ -104,15 +101,6 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    @JsonIgnore
-    public Set<Subscription> getSubscriptions() {
-        return subscriptions;
-    }
-
-    public void setSubscriptions(Set<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
     }
 
     @JsonIgnore

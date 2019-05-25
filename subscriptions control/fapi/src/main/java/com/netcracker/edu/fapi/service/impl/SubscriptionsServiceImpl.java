@@ -40,4 +40,10 @@ public class SubscriptionsServiceImpl implements SubscriptionsService {
         return new Response("ok");
     }
 
+    @Override
+    public Response setSale(Subscription subscription) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.put(backendServerUrl + "/api/subscriptions/sale", subscription, Response.class);
+        return new Response("ok");
+    }
 }

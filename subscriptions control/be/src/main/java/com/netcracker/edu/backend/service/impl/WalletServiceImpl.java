@@ -88,14 +88,6 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Response setCashSub(Wallet wallet) {
-       /* Optional<Wallet> _wallet = walletRepository.findById(wallet.getId());
-        _wallet.get().setCashSub(wallet.isCashSub());
-        walletRepository.save(_wallet.get());*/
-        return new Response("ok");
-    }
-
-    @Override
     public Wallet getBalance(long id) {
         return walletRepository.findById(id).get();
     }

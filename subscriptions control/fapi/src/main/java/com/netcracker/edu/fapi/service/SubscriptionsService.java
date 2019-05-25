@@ -12,5 +12,5 @@ public interface SubscriptionsService {
 
     Response subscribe(Subscription subscription, String email);
     Response deleteUserSubscription(String email, long id);
-
+    Response setSale(Subscription subscription);
 }

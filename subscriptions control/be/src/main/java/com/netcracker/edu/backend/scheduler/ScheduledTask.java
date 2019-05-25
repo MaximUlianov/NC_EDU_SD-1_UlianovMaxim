@@ -32,7 +32,7 @@ public class ScheduledTask {
 
 
 
-    @Scheduled(fixedDelay = 1000*10)
+    @Scheduled(fixedDelay = 1000*60*60*24)
     public void getMoney(){
         List<Wallet> list = (List<Wallet>) walletRepository.findAll();
         list.forEach(value->{
@@ -65,9 +65,4 @@ public class ScheduledTask {
             }
         });
     }
-
-   /* @Scheduled(fixedDelay = 1000*60*15)
-    public void cleanAudit(){
-        auditService.cleanHistory();
-    }*/
 }

@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MainPageService} from "../../service/main-page/main-page.service";
 import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
-import {Company} from "../../model/company";
 import {WOW} from 'wowjs/dist/wow.min.js'
 
 @Component({
@@ -11,21 +10,13 @@ import {WOW} from 'wowjs/dist/wow.min.js'
 })
 export class MainPageComponent implements OnInit{
 
-  companies:Company[];
 
   constructor(private service:MainPageService,
               private spinner:Ng4LoadingSpinnerService) {}
 
 
   ngOnInit() {
-    this.loadCompanies();
     new WOW().init();
-  }
-
-  loadCompanies(){
-    this.service.getCompanies().subscribe(data=>{
-      this.companies = data as Company[];
-    });
   }
 
 }

@@ -5,128 +5,105 @@
 <br/>
 
 <div class="container" *ngIf="!isSuccess">
-  <div class="py-5 text-center">
-    <h2>Sign in Form</h2>
-  </div>
-
   <div class="row">
     <div class="col-md-2">
     </div>
-    <div class="col-md-8 order-md-1 align-middle">
-      <h4 class="mb-3">Personal information</h4>
-      <form class="needs-validation" novalidate (ngSubmit)="onSubmit()">
+    <div class="col-md-8">
+       <div class="py-5 text-center">
+         <h2>Sign in Form</h2>
+       </div>
+
+      <h4>Personal information</h4>
+      <form [formGroup]="form">
+
         <div class="row">
-          <div class="col-md-6 mb-3" [class.has-error] = "first_name.invalid && first_name.touched">
-            <label for="firstName">First name</label>
-            <input type="text" class="form-control" id="firstName" [(ngModel)]="user.first_name" name="first_name" required
-                   #first_name = "ngModel">
-            <span class="text-danger" *ngIf="!!first_name.errors?.required && first_name.touched">
-            First name is required
-          </span>
-          </div>
-          <div class="col-md-6 mb-3" [class.has-error] = "last_name.invalid && last_name.touched">
-            <label for="lastName">Last name</label>
-            <input type="text" class="form-control" id="lastName" [(ngModel)]="user.last_name" name="last_name" required
-                   #last_name = "ngModel">
-            <span class="text-danger" *ngIf="!!last_name.errors?.required && last_name.touched">
-            Last name is required
-            </span>
-          </div>
-        </div>
-
-
-        <div class="mb-3" [class.has-error] = "username.invalid && username.touched">
-          <label for="username">Username</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">@</span>
+            <div class="col-md-6 form-group" [ngClass]="displayFieldCss('firstName')">
+              <label for="firstName" class="control-label required">First name</label>
+              <input type="text" class="form-control" id="firstName" formControlName="firstName">
+              <app-field-error
+                [displayError]="isFieldValid('firstName')"
+                [errorMsg]="'Please enter your name'">
+              </app-field-error>
             </div>
-            <input type="text" class="form-control" id="username" [(ngModel)]="user.username" name="username" required
-                   #username = "ngModel">
-          </div>
-          <span class="text-danger" *ngIf="!!username.errors?.required && username.touched">
-            Username is required
-            </span>
+            <div class="col-md-6 form-group" [ngClass]="displayFieldCss('lastName')">
+              <label class="control-label required" for="lastName">Last name</label>
+              <input type="text" class="form-control" id="lastName" formControlName="lastName">
+              <app-field-error
+                [displayError]="isFieldValid('lastName')"
+                errorMsg="Please enter your last name">
+              </app-field-error>
+            </div>
+        </div>
+
+        <div class="form-group" [ngClass]="displayFieldCss('username')">
+          <label for="username" class="control-label required">Username</label>
+            <input type="text" class="form-control" id="username" formControlName="username">
+            <app-field-error
+              [displayError]="isFieldValid('username')"
+              errorMsg="Please enter your username">
+            </app-field-error>
         </div>
 
 
-        <div class="mb-3">
-          <label for="inputDate">Birthday</label>
-          <input type="date" class="form-control" id="inputDate" [(ngModel)]="user.birthday" name="birthday" [max]="maxBirthday">
+        <div class="form-group" [ngClass]="displayFieldCss('birthday')">
+          <label class="control-label required" for="inputDate">Birthday</label>
+          <input type="date" class="form-control" id="inputDate" formControlName="birthday" [max]="maxBirthday">
         </div>
 
-        <div class="mb-3">
-          <label for="country">Country</label>
-          <select class="custom-select d-block w-100" id="country" [(ngModel)]="user.country" name="country">
+        <div class="form-group" [ngClass]="displayFieldCss('country')">
+          <label for="country" class="control-label required">Country</label>
+          <select class="custom-select d-block w-100" id="country" formControlName="country">
             <option>United States</option>
             <option>Russia</option>
             <option>Belarus</option>
             <option>India</option>
           </select>
         </div>
-        <div class="mb-3">
-          <label for="role">Role</label>
-          <select class="custom-select d-block w-100" id="role" [(ngModel)]="user.role" name="role">
+
+        <div class="form-group" [ngClass]="displayFieldCss('role')">
+          <label for="role" class="control-label required">Role</label>
+          <select class="custom-select d-block w-100" id="role" formControlName="role">
             <option selected>USER</option>
           </select>
         </div>
 
-        <div class="mb-3 form-group" [class.has-error] = "email.invalid && email.touched">
-          <label for="emailF" class="control-label">Email*</label>
-          <input type="email" class="form-control" id="emailF" title="Enter your valid email" placeholder="you@example.com"
-                 [(ngModel)]="user.email" name="email"
-                 #email="ngModel"
-                 required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" >
-          <span class="text-danger" *ngIf="!!email.errors?.required && email.touched">
-            Email is required
-          </span>
-          <span class="text-danger" *ngIf="!!email.errors?.pattern && email.touched">
-            Email is invalid
-          </span>
+        <div class="form-group" [ngClass]="displayFieldCss('email')">
+          <label for="emailF"  class="control-label required">Email</label>
+          <input type="email" class="form-control" id="emailF" title="Enter your valid email" placeholder="you@example.com" formControlName="email">
+          <app-field-error
+            [displayError]="isFieldValid('email')"
+            errorMsg="Email is incorrect">
+          </app-field-error>
         </div>
 
-        <div class="mb-3 alert alert-danger" *ngIf="isEmailExists" role="alert">
-          <button type="button" class="close" (click)="isEmailExists = !isEmailExists">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          Such email exists
+
+
+        <div class="form-group" [ngClass]="displayFieldCss('password')">
+          <label for="passwordField" class="control-label required">Password</label>
+          <input type="password" class="form-control" id="passwordField" formControlName="password">
+          <app-field-error
+            [displayError]="isFieldValid('password')"
+            errorMsg="Password is incorrect">
+          </app-field-error>
         </div>
 
-        <div class="mb-3">
-          <label for="passwordField">Password</label>
-          <input type="password" class="form-control" id="passwordField" [(ngModel)]="user.password" name="password"
-          #password="ngModel" required minlength="8">
-          <span class="text-danger" *ngIf="password.touched && !password.valid">
-            Password too shirt
-          </span>
-        </div>
-
-        <div class="mb-3">
-          <label for="ConfPassword">Confirm password</label>
-          <input type="password"  class="form-control" id="ConfPassword"  [(ngModel)]="confPassword" name="confPassword" (keyup)="checkPasswordFieldsMatching()" required="required">
-          <span class="text-danger" *ngIf="!isMatch">
-            Passwords doesn't match
-          </span>
-          <span class="text-success" *ngIf="isMatch">
-            Passwords are the same
-          </span>
-          <div class="mb-3 alert alert-warning" *ngIf="!isMatchAfterClicked" role="alert">
-            <button type="button" class="close" (click)="isMatchAfterClicked = !isMatchAfterClicked">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            Passwords must match
-          </div>
+        <div class="form-group" [ngClass]="displayFieldCss('confirmPassword')">
+          <label for="ConfPassword" class="control-label required">Confirm password</label>
+          <input type="password" class="form-control" id="ConfPassword" formControlName="confirmPassword">
+          <app-field-error
+            [displayError]="isPasswordsEqual()"
+            errorMsg="Passwords don't match">
+          </app-field-error>
         </div>
 
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="same-address" [checked]="termsAccepted" (change)="termsAccepted = !termsAccepted">
-          <label class="custom-control-label" for="same-address"><a href="reg" data-toggle="modal" data-target="#terms">I agree with terms and conditions</a></label>
+          <input type="checkbox" class="control-input required" id="same-address" formControlName="terms">
+          <label class="control-label" for="same-address"><a href="reg" data-toggle="modal" data-target="#terms">I agree with terms and conditions</a></label>
         </div>
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Sign Up</button>
+        <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="!form.valid" (click)="onSubmit()">Sign Up</button>
       </form>
-    </div>
-  </div>
+
 
   <footer class="my-5 pt-5 text-muted text-center text-small">
     <p class="mb-1">&copy; 2017-2019 Company Name</p>
@@ -136,13 +113,31 @@
       <li class="list-inline-item"><a href="#">Support</a></li>
     </ul>
   </footer>
+  </div>
+  </div>
 </div>
-
-
 <div class="container text-center" *ngIf="isSuccess">
   <h3 class="text-success">Registration completed</h3>
   <div class="container" style="margin-top: 20px">
   <button class="btn btn-success" (click)="redirect()">Go to main</button>
+  </div>
+</div>
+
+<div class="card mb-4 position-fixed shadow-sm alert alert-danger animated fadeInUp" *ngIf="isUsernameExists" style="top: 85%; left: 82%">
+  <div class="card-body">
+    <button type="button" class="close float-right" (click)="isUsernameExists = !isUsernameExists" style="margin-left: 3px">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    Such username exists
+  </div>
+</div>
+
+<div class="card mb-4 position-fixed shadow-sm alert alert-danger animated fadeInUp" *ngIf="isEmailExists" style="top: 85%; left: 82%">
+  <div class="card-body">
+    <button type="button" class="close float-right" (click)="isEmailExists = !isEmailExists" style="margin-left: 3px">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    Such email exists
   </div>
 </div>
 

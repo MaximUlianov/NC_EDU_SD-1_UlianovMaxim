@@ -19,10 +19,6 @@ public class Subscription {
     private int sale;
     private boolean isLocked;
 
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private User user;
-
     @ManyToOne(fetch = FetchType.EAGER)
     private Product product;
 
@@ -70,15 +66,6 @@ public class Subscription {
 
     public void setLocked(boolean locked) {
         isLocked = locked;
-    }
-
-    @JsonIgnore
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Product getProduct() {

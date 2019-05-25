@@ -49,10 +49,4 @@ public class WalletController {
     public ResponseEntity rechargeWallet(@RequestBody Wallet wallet){
         return ResponseEntity.ok(walletService.rechargeWallet(wallet));
     }
-
-    @PostMapping(value = "/set_sub")
-    @ResponseBody
-    public ResponseEntity setCahSub(@RequestBody Wallet wallet){
-        return ResponseEntity.ok( walletService.setCashSub(wallet));
-    }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SubscriptionsService} from "../../service/subscriptions/subscriptions.service";
 import {TokenStorage} from "../../authorization-config/token-provider";
 import {Category} from "../../model/category";
@@ -24,6 +24,10 @@ export class AvailableSubscriptionsComponent implements OnInit {
   products:Product[];
   userSubscrProducts:SubscriptionMod[];
 
+  @ViewChild('shWal') public shWal: ElementRef;
+  @ViewChild('wallet') public modalW: ElementRef;
+  @ViewChild('date') public modalD: ElementRef;
+
   role:number;
   searchStr:string;
   sale:number;
@@ -34,11 +38,15 @@ export class AvailableSubscriptionsComponent implements OnInit {
 
   isEmpty:boolean = false;
   showPagination:boolean = true;
-  showWallets:boolean;
+  showAlert:boolean;
+  showAlertW:boolean;
+  showAlertStart:boolean;
+  showAlertEnd:boolean;
+  isIncorrectSale:boolean;
+
   subscription:SubscriptionMod;
 
   currDate:string;
-
 
   constructor(private service:SubscriptionsService,
               private tokenUtil:TokenStorage,
@@ -165,11 +173,11 @@ export class AvailableSubscriptionsComponent implements OnInit {
     this.wService.getWallets().subscribe(data=>{
       this.wallets = data as Wallet[];
       if(this.wallets.length != 0){
-        this.showWallets = true;
+        this.shWal.nativeElement.click();
+        this.showAlertW = false;
       }
       else{
-        this.showWallets = false;
-        alert("Please, add wallet. You can do this on your Wallet page");
+        this.showAlertW = true;
       }
     })
   }
@@ -285,10 +293,41 @@ export class AvailableSubscriptionsComponent implements OnInit {
   setSale(id:number){
     let prod = new Product();
     prod.id = id;
-    prod.sale = this.sale;
-    this.service.setSale(prod).subscribe(data=>{
-      this.loadAllAvProducts();
-    });
+    if(this.sale >= 0) {
+      this.isIncorrectSale = false;
+      prod.sale = this.sale;
+      this.service.setSale(prod).subscribe(data => {
+        this.loadAllAvProducts();
+      });
+    }else{
+      this.isIncorrectSale = true;
+      setTimeout(()=>{this.isIncorrectSale = false;}, 4000);
+    }
+  }
+
+  checkWallets(){
+    if(this.subscription.wallet.id != null){
+      this.modalW.nativeElement.click();
+    }
+    else{
+      this.showAlert = true;
+    }
+  }
+
+  checkDates(){
+    if(this.subscription.start != null){
+      if(this.subscription.end != null){
+        this.modalD.nativeElement.click();
+        this.showAlertStart = false;
+        this.showAlertEnd = false;
+      }else{
+        this.showAlertEnd = true;
+      }
+
+    }else{
+      this.showAlertStart = true;
+    }
+
   }
 
 }

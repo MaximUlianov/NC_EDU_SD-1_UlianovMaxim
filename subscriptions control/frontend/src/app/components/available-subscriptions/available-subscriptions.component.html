@@ -1,10 +1,6 @@
 <app-navbar></app-navbar>
 <app-add-subscription></app-add-subscription>
-<br/>
-<br/>
-<br/>
-<br/>
-<div class="row">
+<div class="row" style="margin-top: 100px">
   <nav class="col-md-2 bg-light">
     <div class="container">
     <h4>Filter:</h4>
@@ -71,20 +67,20 @@
             <p class="card-text">{{product.description}}</p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
-                <button type="button" class="btn btn-primary btn-inline-primary" data-toggle="modal" data-target="#walletsModal" (click)="loadWallets(product.id)" *ngIf="role == 1 && !product.isInUserProd">Subscribe</button>
+                <button type="button" class="btn btn-primary btn-inline-primary" (click)="loadWallets(product.id)" *ngIf="role == 1 && !product.isInUserProd">Subscribe</button>
                 <button type="button" class="btn btn-danger btn-inline-danger" (click)="unsubscribe(product.id)"  *ngIf="role == 1 && product.isInUserProd">Unsubscribe</button>
                 <button type="button" class="btn btn-danger btn-inline-danger" *ngIf="role == 0" (click)="deleteSubscription(product.id)">Delete</button>
                 <div class="dropdown" *ngIf="role == 0">
                   <button class="btn btn-success btn-inline-success dropdown-toggle" style="margin-left: 5px" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Set sale
+                    Sale
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                     <input type="number" class="form-control" [(ngModel)]="sale">
                     <button class="btn btn-primary" type="button" (click)="setSale(product.id)">Submit</button>
                   </div>
                 </div>
-
               </div>
+              <a data-toggle="modal" data-target="#walletsModal" #shWal></a>
               <span class="float-right">
                 <small class="text-muted" *ngIf="product.sale == 0">{{product.costPerMonth}} $/month</small>
                 <small class="text-muted" *ngIf="product.sale != 0">{{(product.costPerMonth - product.costPerMonth*(product.sale/100)).toFixed(2)}} $/month</small>
@@ -122,12 +118,12 @@
 </div>
 
 
-<div class="modal fade" id="walletsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" *ngIf="showWallets">
+<div class="modal fade" id="walletsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">My Wallets</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #wal>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -141,9 +137,16 @@
             </label>
           </li>
         </ul>
+        <div class="mb-3 alert alert-danger" *ngIf="showAlert" role="alert" style="margin-top: 5px">
+          <button type="button" class="close" (click)="showAlert = !showAlert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          Please, choose wallet
+        </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary"  type="submit" data-toggle="modal" data-target="#datesModal" data-dismiss="modal">Next</button>
+        <button class="btn btn-primary"  type="submit" (click)="checkWallets()">Next</button>
+        <a data-dismiss="modal" data-toggle="modal" data-target="#datesModal" #wallet></a>
       </div>
     </div>
   </div>
@@ -162,19 +165,48 @@
         <div class="mb-3">
           <label for="inputDateStart">From</label>
           <input type="date" class="form-control" id="inputDateStart" [(ngModel)]="subscription.start" name="start" [min]="currDate">
+          <div class="mb-3 alert alert-danger" *ngIf="showAlertStart" role="alert" style="margin-top: 5px">
+            <button type="button" class="close" (click)="showAlertStart = !showAlertStart">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            Please, choose start date
+          </div>
         </div>
         <div class="mb-3">
           <label for="inputDateEnd">To</label>
           <input type="date" class="form-control" id="inputDateEnd" [(ngModel)]="subscription.end" name="end" [min]="currDate">
+          <div class="mb-3 alert alert-danger" *ngIf="showAlertEnd" role="alert" style="margin-top: 5px">
+            <button type="button" class="close" (click)="showAlertEnd = !showAlertEnd">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            Please, choose end date
+          </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary"  type="submit"   (click)="subscribe()" data-dismiss="modal">Subscribe</button>
-
+        <button class="btn btn-primary" type="submit" (click)="checkDates()">Subscribe</button>
+        <a (click)="subscribe()" data-dismiss="modal" #date></a>
       </div>
     </div>
   </div>
 </div>
 
+<div class="card mb-4 position-fixed shadow-sm alert alert-danger animated fadeInUp" *ngIf="showAlertW" style="top: 85%; left: 82%">
+  <div class="card-body">
+    <button type="button" class="close float-right" (click)="showAlertW = !showAlertW" style="margin-left: 3px">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    You have no wallets, click <a routerLink="wallets">here</a> to add
+  </div>
+</div>
+
+<div class="card mb-4 position-fixed shadow-sm alert alert-danger animated fadeInUp" *ngIf="isIncorrectSale" style="top: 85%; left: 82%">
+  <div class="card-body">
+    <button type="button" class="close float-right" (click)="isIncorrectSale = !isIncorrectSale" style="margin-left: 3px">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    Incorrect value
+  </div>
+</div>
 
 

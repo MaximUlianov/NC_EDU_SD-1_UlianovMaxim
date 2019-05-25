@@ -114,6 +114,7 @@
                   <tr>
                     <th scope="col">Name</th>
                     <th scope="col">CostPerMonths/$</th>
+                    <th scope="col">Sale</th>
                     <th scope="col">Status</th>
                   </tr>
                   </thead>
@@ -124,6 +125,9 @@
                       </td>
                       <td>
                         {{sub.product.costPerMonth.toFixed(2)}}
+                      </td>
+                      <td>
+                        <input type="number" class="form-control" placeholder="{{sub.sale}}" [(ngModel)]="sub.sale" (keyup)="setSale(sub)" style="width: 85px">
                       </td>
                       <td>
                         <span class="text-success" *ngIf="!sub.locked">OK</span>
@@ -172,6 +176,15 @@
         </tbody>
       </table>
     </div>
+  </div>
+</div>
+
+<div class="card mb-4 position-fixed shadow-sm alert alert-danger animated fadeInUp" *ngIf="isIncorrectSale" style="top: 85%; left: 82%">
+  <div class="card-body">
+    <button type="button" class="close float-right" (click)="isIncorrectSale = !isIncorrectSale" style="margin-left: 3px">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    Incorrect value
   </div>
 </div>
 

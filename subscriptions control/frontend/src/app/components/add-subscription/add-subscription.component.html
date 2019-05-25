@@ -7,26 +7,48 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <input type="text" class="form-control" id="name" title="Enter subscription name" placeholder="Product name"
-               [(ngModel)]="product.name" name="subscriptionName">
-        <input type="text" class="form-control" style="margin-top: 10px" id="description" title="Enter subscription name" placeholder="Description"
-               [(ngModel)]="product.description" name="subscriptionDescription">
-        <input type="number" class="form-control" id="costPerMonth"  [(ngModel)]="product.costPerMonth" name="costPerMonth"
-               placeholder="CostPerMonth" style="margin-top: 10px">
-        <select class="custom-select" id="categories" style="margin-top: 10px" [(ngModel)]="product.category.name">
-          <option>Choose category</option>
-          <option *ngFor="let category of allCategories">{{category.name}}</option>
-        </select>
-        <select class="custom-select" id="companies" style="margin-top: 10px" [(ngModel)]="product.company.name">
-          <option>Choose company</option>
-          <option *ngFor="let company of companies">{{company.name}}</option>
-        </select>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary"  type="submit" (click)="addSubscr()" data-dismiss="modal">Add</button>
-        <button class="btn btn-primary"  type="button" data-dismiss="modal">Close</button>
-      </div>
+      <form [formGroup]="form">
+        <div class="modal-body">
+          <input type="text" class="form-control" id="name" title="Enter subscription name" placeholder="Product name"
+                 formControlName="name" [ngClass]="displayFieldCss('name')">
+          <app-field-error
+            [displayError]="isFieldValid('name')"
+            [errorMsg]="'Please, enter product name'">
+          </app-field-error>
+          <input type="text" class="form-control" style="margin-top: 10px" id="description" title="Enter description" placeholder="Description"
+                 formControlName="description" [ngClass]="displayFieldCss('description')">
+          <app-field-error
+            [displayError]="isFieldValid('description')"
+            [errorMsg]="'Please, enter description'">
+          </app-field-error>
+          <input type="number" class="form-control" id="costPerMonth" placeholder="CostPerMonth" style="margin-top: 10px"
+                 formControlName="cost" [ngClass]="displayFieldCss('cost')">
+          <app-field-error
+            [displayError]="isFieldValid('cost')"
+            [errorMsg]="'Please, enter cost'">
+          </app-field-error>
+          <select class="custom-select" id="categories" style="margin-top: 10px" formControlName="category" [ngClass]="displayCategoryCss()">
+            <option>Choose category</option>
+            <option *ngFor="let category of allCategories">{{category.name}}</option>
+          </select>
+          <app-field-error
+            [displayError]="isCategoryValid()"
+            [errorMsg]="'Please, choose category'">
+          </app-field-error>
+          <select class="custom-select" id="companies" style="margin-top: 10px" formControlName="company" [ngClass]="displayCompanyCss()">
+            <option>Choose company</option>
+            <option *ngFor="let company of companies">{{company.name}}</option>
+          </select>
+          <app-field-error
+            [displayError]="isCompanyValid()"
+            [errorMsg]="'Please, choose company'">
+          </app-field-error>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary"  type="submit" (click)="addSubscr()" [disabled]="!form.valid">Add</button>
+          <button class="btn btn-primary"  type="button" data-dismiss="modal">Close</button>
+        </div>
+      </form>
     </div>
   </div>
   <br/>
@@ -39,17 +61,23 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="e">Add Subscription</h5>
+        <h5 class="modal-title" id="e">Add Category</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <input type="text" class="form-control" id="categName" title="Enter category name" placeholder="Category name"
-               [(ngModel)]="category.name" name="subscriptionName">
-      </div>
+      <form [formGroup]="formCateg">
+        <div class="modal-body">
+          <input type="text" class="form-control" id="categName" title="Enter category name" placeholder="Category name"
+                 formControlName="nameCateg" [ngClass]="displayCategCss('nameCateg')">
+          <app-field-error
+            [displayError]="isFieldCategValid('nameCateg')"
+            [errorMsg]="'Please, enter category name'">
+          </app-field-error>
+        </div>
+      </form>
       <div class="modal-footer">
-        <button class="btn btn-primary"  type="submit" (click)="addCateg()" data-dismiss="modal">Add</button>
+        <button class="btn btn-primary"  type="submit" (click)="addCateg()" [disabled]="!formCateg.valid" data-dismiss="modal">Add</button>
         <button class="btn btn-primary"  type="button" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -66,16 +94,32 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <input type="text" class="form-control" id="compName" title="Enter category name" placeholder="Company name"
-               [(ngModel)]="company.name" name="compName">
-        <input type="text" class="form-control" id="compDescr" style="margin-top: 10px" title="Enter category name" placeholder="Company description"
-               [(ngModel)]="company.description" name="compDescr">
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary"  type="submit" (click)="addCompany()" data-dismiss="modal">Add</button>
-        <button class="btn btn-primary"  type="button" data-dismiss="modal">Close</button>
-      </div>
+      <form [formGroup]="formCompany">
+        <div class="modal-body">
+
+          <input type="text" class="form-control" id="compName" title="Enter company name" placeholder="Company name"
+                 formControlName="nameComp"
+                 [ngClass]="displayCompCss('nameComp')">
+          <app-field-error
+            [displayError]="isFieldsCompValid('nameComp')"
+            [errorMsg]="'Please, enter company name'">
+          </app-field-error>
+
+
+          <input type="text" class="form-control" id="compDescr" style="margin-top: 10px" title="Enter company description" placeholder="Company description"
+                 formControlName="descriptionComp"
+                 [ngClass]="displayCompCss('descriptionComp')">
+          <app-field-error
+            [displayError]="isFieldsCompValid('descriptionComp')"
+            [errorMsg]="'Please, enter company description'">
+          </app-field-error>
+
+        </div>
+      </form>
+        <div class="modal-footer">
+          <button class="btn btn-primary"  type="submit" (click)="addCompany()" data-dismiss="modal" [disabled]="!formCompany.valid">Add</button>
+          <button class="btn btn-primary"  type="button" data-dismiss="modal">Close</button>
+        </div>
     </div>
   </div>
 </div>

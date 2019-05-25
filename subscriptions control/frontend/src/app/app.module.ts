@@ -34,6 +34,7 @@ import {CompanyComponent} from './components/company/company.component';
 import {AdminGuard} from "./admin.guard";
 import {CompaniesService} from "./service/companies/companies.service";
 import {HistoryComponent} from './components/history/history.component';
+import {FieldErrorComponent} from './components/field-error/field-error.component';
 
 const appRoutes: Routes = [
   {path:'main', component: MainPageComponent},
@@ -88,12 +89,13 @@ const appRoutes: Routes = [
     UserInfoComponent,
     AddSubscriptionComponent,
     CompanyComponent,
-    HistoryComponent
+    HistoryComponent,
+    FieldErrorComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
+    ReactiveFormsModule,
     HttpClientModule,
     Ng4LoadingSpinnerModule.forRoot(),
     BsDropdownModule.forRoot(),

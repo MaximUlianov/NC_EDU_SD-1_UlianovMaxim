@@ -28,7 +28,12 @@
         <tbody>
         <tr *ngFor="let subscription of subscriptions">
           <td>{{subscription.product.name}}</td>
-          <td>{{subscription.product.costPerMonth}}</td>
+          <td>
+            <span *ngIf="subscription.sale == 0">{{subscription.product.costPerMonth}}</span>
+            <span *ngIf="subscription.sale != 0">{{subscription.product.costPerMonth}}
+              <span class="text-danger">({{(subscription.product.costPerMonth - subscription.product.costPerMonth*(subscription.sale/100)).toFixed(2)}})</span>
+            </span>
+          </td>
           <td>{{subscription.start}}</td>
           <td>{{subscription.end}}</td>
           <td>

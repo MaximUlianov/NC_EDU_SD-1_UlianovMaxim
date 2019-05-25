@@ -86,15 +86,17 @@
           Add wallet
         </button>
         <div class="dropdown-menu" aria-labelledby="addingWallet">
-          <div class="form-group">
-            <label for="walName">Wallet name</label>
-            <input type="text" class="form-control" id="walname" [(ngModel)]="wallet.walletName" name="name">
-          </div>
-          <div class="form-group">
-            <label for="walSum">Sum</label>
-            <input type="number" class="form-control" id="walSum" [(ngModel)]="wallet.sum" name="sum" >
-          </div>
-          <button type="submit" class="btn btn-primary" (click)="addWallet()">Add</button>
+          <form [formGroup]="form">
+            <div class="form-group">
+              <label for="walName">Wallet name</label>
+              <input type="text" class="form-control" id="walname" formControlName="name">
+            </div>
+            <div class="form-group">
+              <label for="walSum">Sum</label>
+              <input type="number" class="form-control" id="walSum" formControlName="sum" >
+            </div>
+            <button type="submit" class="btn btn-primary" (click)="addWallet()" [disabled]="!form.valid">Add</button>
+          </form>
         </div>
       </div>
     </div>
@@ -106,7 +108,7 @@
     <button type="button" class="close float-right" (click)="isGoodRechargeSum = !isGoodRechargeSum" style="margin-left: 3px">
       <span aria-hidden="true">&times;</span>
     </button>
-    Incorrect number
+    Incorrect value
   </div>
 </div>
 

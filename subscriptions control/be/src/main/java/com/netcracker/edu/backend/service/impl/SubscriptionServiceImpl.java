@@ -57,7 +57,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription.setSale(sub.getProduct().getSale());
         subscription.setProduct(productRepository.findById(sub.getProduct().getId()).get());
         subscription.setWallet(wallet);
-        subscription.setUser(logIn.getUser());
 
         subscriptionRepository.save(subscription);
 
@@ -68,30 +67,32 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public List<Subscription> getUserSubscriptions(String email) {
         LogIn logIn = logInRepository.findByEmail(email);
-        List<Subscription> subscriptions = new ArrayList<>(logIn.getUser().getSubscriptions());
+        List<Subscription> subscriptions = new ArrayList<>();
+        logIn.getUser().getWallet().forEach(wallet -> {
+            subscriptions.addAll(wallet.getSubscriptions());
+        });
         return subscriptions;
     }
 
     @Override
     public Response deleteUserSubscription(String email, long id) {
         LogIn logIn = logInRepository.findByEmail(email);
-        Subscription subscription = new Subscription();
-        for(Subscription o: logIn.getUser().getSubscriptions()){
-            if(o.getProduct().getId() == id){
-                subscription = o;
-                break;
-            }
-        }
-        subscriptionRepository.deleteById(subscription.getId());
-
-        auditService.unsubscribedRecord(logIn.getUser(), subscription.getProduct().getName());
+        logIn.getUser().getWallet().forEach(wallet -> {
+            wallet.getSubscriptions().forEach(subscription -> {
+                if(subscription.getProduct().getId() == id){
+                    subscriptionRepository.deleteById(subscription.getId());
+                    auditService.unsubscribedRecord(logIn.getUser(), subscription.getProduct().getName());
+                    return;
+                }
+            });
+        });
         return new Response("Deleted");
     }
 
     public Response deleteSubscriptionsByCompany(long id){
         Subscription subscription = subscriptionRepository.findById(id).get();
         subscriptionRepository.deleteById(subscription.getId());
-        auditService.unsubscribedRecord(subscription.getUser(), subscription.getProduct().getName());
+        auditService.unsubscribedRecord(subscription.getWallet().getUser(), subscription.getProduct().getName());
         return new Response("Deleted");
     }
 

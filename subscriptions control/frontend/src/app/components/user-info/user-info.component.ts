@@ -5,6 +5,8 @@ import {PaginationService} from "../../service/pagination/pagination-service";
 import {Audit} from "../../model/audit";
 import {Wallet} from "../../model/wallet";
 import {WalletService} from "../../service/wallets/wallet.service";
+import {SubscriptionMod} from "../../model/subscriptionMod";
+import {SubscriptionsService} from "../../service/subscriptions/subscriptions.service";
 
 @Component({
   selector: 'app-user-info',
@@ -15,24 +17,27 @@ export class UserInfoComponent implements OnInit {
 
   username:string;
   wallets:Wallet[];
-  showWallets:boolean = false;
-  showHistory:boolean = false;
   users:UserAccount[];
   history:Audit[];
-  isEmpty:boolean;
-  isWalletsEmpty:boolean;
   searchType:string;
   searchParameter:string;
   userId:number;
 
+  showWallets:boolean = false;
+  showHistory:boolean = false;
+  isEmpty:boolean;
+  isWalletsEmpty:boolean;
   showPagination:boolean = true;
+  isIncorrectSale:boolean;
+
   pagesCount:number;
   usersPerPage:number = 6;
   pageNumber:number = 1;
 
   constructor(private uService:UserService,
               private wService:WalletService,
-              private pagination:PaginationService) { }
+              private pagination:PaginationService,
+              private sService:SubscriptionsService) { }
 
   ngOnInit() {
     this.searchType = 'Search by...';
@@ -154,6 +159,19 @@ export class UserInfoComponent implements OnInit {
       this.history = data as Audit[];
       this.showHistory = true;
     })
+  }
+
+  setSale(sub:SubscriptionMod){
+    if(sub.sale >= 0) {
+      this.isIncorrectSale = false;
+      this.sService.setSaleOnSubscription(sub).subscribe(data => {
+
+      });
+    }
+    else{
+      this.isIncorrectSale = true;
+      setTimeout(()=>{this.isIncorrectSale = false}, 4000);
+    }
   }
 
 }
