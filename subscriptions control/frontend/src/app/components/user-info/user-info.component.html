@@ -183,3 +183,12 @@
   </div>
 </div>
 
+<div class="card mb-4 position-fixed shadow-sm alert alert-danger animated fadeInUp" *ngIf="isIncorrectSearchInput" style="top: 85%; left: 82%">
+  <div class="card-body">
+    <button type="button" class="close float-right" (click)="isIncorrectSearchInput = !isIncorrectSearchInput" style="margin-left: 3px">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    Incorrect search params or no user present
+  </div>
+</div>
+

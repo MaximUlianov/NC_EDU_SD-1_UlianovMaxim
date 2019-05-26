@@ -1,7 +1,10 @@
 package com.netcracker.edu.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
@@ -11,6 +14,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String role;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
+    private Set<User> users;
 
     public Role() {
     }
@@ -35,6 +41,14 @@ public class Role {
         this.role = role;
     }
 
+    @JsonIgnore
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -6,8 +6,6 @@ import com.netcracker.edu.backend.entity.*;
 import com.netcracker.edu.backend.repository.LogInRepository;
 import com.netcracker.edu.backend.repository.RoleRepository;
 import com.netcracker.edu.backend.repository.UserRepository;
-import com.netcracker.edu.backend.repository.WalletRepository;
-import com.netcracker.edu.backend.service.AuditService;
 import com.netcracker.edu.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +13,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,17 +26,11 @@ public class UserServiceImpl implements UserService {
 
     private RoleRepository roleRepository;
 
-    private WalletRepository walletRepository;
-
-    private AuditService auditService;
-
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, LogInRepository logInRepository, RoleRepository roleRepository, WalletRepository walletRepository, AuditService auditService) {
+    public UserServiceImpl(UserRepository userRepository, LogInRepository logInRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.logInRepository = logInRepository;
         this.roleRepository = roleRepository;
-        this.walletRepository = walletRepository;
-        this.auditService = auditService;
     }
 
     @Override
@@ -64,8 +58,7 @@ public class UserServiceImpl implements UserService {
     public LogInUserDTO getUserByEmail(String email) {
         LogIn logIn = logInRepository.findByEmail(email);
         User user = logIn.getUser();
-        Iterator<Role> iterator = user.getRoles().iterator();
-        LogInUserDTO logUser = new LogInUserDTO(email, logIn.getPassword(), iterator.next().getRole());
+        LogInUserDTO logUser = new LogInUserDTO(email, logIn.getPassword(), user.getRole().getRole());
         return logUser;
     }
 
@@ -98,7 +91,7 @@ public class UserServiceImpl implements UserService {
                 _user.setBirthday(optional.get().getBirthday());
                 _user.setUsername(optional.get().getUsername());
                 _user.setCountry(optional.get().getCountry());
-                _user.setRoles(Collections.singleton(roleRepository.findByRole(optional.get().getRole())));
+                _user.setRole(roleRepository.findByRole(optional.get().getRole()));
                 userRepository.save(_user);
                 LogIn _logIn = new LogIn();
                 _logIn.setEmail(optional.get().getEmail());

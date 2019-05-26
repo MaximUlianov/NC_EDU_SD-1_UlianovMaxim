@@ -29,6 +29,7 @@ export class UserInfoComponent implements OnInit {
   isWalletsEmpty:boolean;
   showPagination:boolean = true;
   isIncorrectSale:boolean;
+  isIncorrectSearchInput:boolean;
 
   pagesCount:number;
   usersPerPage:number = 6;
@@ -122,7 +123,11 @@ export class UserInfoComponent implements OnInit {
           else if(this.users.length > 0){
             this.isEmpty = false;
           }
-        });
+        },
+          ()=>{
+          this.isIncorrectSearchInput = true;
+          setTimeout(()=>{this.isIncorrectSearchInput = false}, 4000);
+          });
       }
     }
   }

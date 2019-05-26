@@ -25,12 +25,8 @@ public class User {
     private Set<Wallet> wallet;
 
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    @JoinTable(name="user_role",
-            joinColumns = @JoinColumn(name="user_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName="id")
-    )
-    private Set<Role> roles;
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    private Role role;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<Audit> audits;
@@ -94,12 +90,13 @@ public class User {
         this.wallet = wallet;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    @JsonIgnore
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @JsonIgnore

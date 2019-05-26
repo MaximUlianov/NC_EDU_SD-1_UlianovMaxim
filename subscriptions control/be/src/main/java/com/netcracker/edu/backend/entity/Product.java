@@ -25,11 +25,7 @@ public class Product {
     private Company company;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinTable(name="product_category",
-            joinColumns = @JoinColumn(name="product_id", referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name="category_id", referencedColumnName="id")
-    )
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Category category;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")

@@ -185,14 +185,14 @@ export class AvailableSubscriptionsComponent implements OnInit {
 
   subscribe() {
     this.modalD.nativeElement.click();
-   /* if (this.products.find(x => x.id == this.subscription.product.id).costPerMonth/30 > this.wallets.find(x => x.id == this.subscription.wallet.id).sum) {
+    if (this.products.find(x => x.id == this.subscription.product.id).costPerMonth/30 > this.wallets.find(x => x.id == this.subscription.wallet.id).sum) {
       this.isEnoughCash = false;
       setTimeout(()=>{this.isEnoughCash = true}, 4000);
-    }else {*/
+    }else {
       this.service.subscribe(this.subscription).subscribe(data => {
       });
       window.location.reload();
-    //}
+    }
   }
 
   unsubscribe(id:number){

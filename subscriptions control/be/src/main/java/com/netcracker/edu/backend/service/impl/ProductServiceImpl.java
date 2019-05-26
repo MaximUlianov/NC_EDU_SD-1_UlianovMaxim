@@ -73,8 +73,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Response deleteProduct(long id) {
         Product product = productRepository.findById(id).get();
-        product.setCategory(null);
-        productRepository.save(product);
         product.getSubscriptions().forEach(subscription -> {
             subscriptionService.deleteSubscriptionsByCompany(subscription.getId());
         });
