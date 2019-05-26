@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<app-add-subscription></app-add-subscription>
+<app-add-subscription (Categories)="onCategChange($event)" (Products)="onProdChange($event)" (Companies)="onCompaniesChange($event)"></app-add-subscription>
 <div class="row" style="margin-top: 100px">
   <nav class="col-md-2 bg-light">
     <div class="container">
@@ -209,4 +209,12 @@
   </div>
 </div>
 
+<div class="card mb-4 position-fixed shadow-sm alert alert-danger animated fadeInUp" *ngIf="isEnoughCash" style="top: 85%; left: 82%">
+  <div class="card-body">
+    <button type="button" class="close float-right" (click)="isEnoughCash = !isEnoughCash" style="margin-left: 3px">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    Not enough money
+  </div>
+</div>
 

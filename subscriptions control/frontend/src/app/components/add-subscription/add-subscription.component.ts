@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {Category} from "../../model/category";
 import {SubscriptionsService} from "../../service/subscriptions/subscriptions.service";
 import {Company} from "../../model/company";
@@ -21,6 +21,18 @@ export class AddSubscriptionComponent implements OnInit {
   form:FormGroup;
   formCateg:FormGroup;
   formCompany:FormGroup;
+
+  isProdNameExists:boolean;
+  isCompExists:boolean;
+  isCategoryExists:boolean;
+
+  @ViewChild('categ') public categModal: ElementRef;
+  @ViewChild('comp') public compModal: ElementRef;
+  @ViewChild('prod') public prodModal: ElementRef;
+
+  @Output() Categories = new EventEmitter<boolean>();
+  @Output() Companies = new EventEmitter<boolean>();
+  @Output() Products = new EventEmitter<boolean>();
 
   constructor(private service:SubscriptionsService,
               private formBuilder: FormBuilder)
@@ -71,27 +83,51 @@ export class AddSubscriptionComponent implements OnInit {
     if(this.product.company.name != 'Choose company' &&
       this.product.category.name != 'Choose category') {
       this.service.addProduct(this.product).subscribe(data => {
-
+        let resp = data;
+        if(resp.response == "exists"){
+          this.isProdNameExists = true;
+          setTimeout(()=>{this.isProdNameExists = false}, 5000);
+        }
+        else{
+          this.Products.emit(true);
+          this.prodModal.nativeElement.click();
+        }
       });
-      window.location.reload();
+
     }
   }
 
   addCateg(){
     this.category.name = this.formCateg.get('nameCateg').value;
     this.service.addCategory(this.category).subscribe(data=>{
-
+      let answ = data;
+      if(answ.response == "exists"){
+        this.isCategoryExists = true;
+        setTimeout(()=>{this.isCategoryExists = false}, 5000);
+      }
+      else{
+        this.loadCategories();
+        this.Categories.emit(true);
+        this.categModal.nativeElement.click();
+      }
     });
-    window.location.reload();
   }
 
   addCompany(){
     this.company.name = this.formCompany.get('nameComp').value;
     this.company.description = this.formCompany.get('descriptionComp').value;
     this.service.addCompany(this.company).subscribe(data=>{
-
+      let answ = data;
+      if(answ.response == "exists"){
+        this.isCompExists = true;
+        setTimeout(()=>{this.isCompExists = false}, 5000);
+      }
+      else{
+        this.loadCompanies();
+        this.Companies.emit(true);
+        this.compModal.nativeElement.click();
+      }
     });
-    window.location.reload();
   }
 
   isFieldValid(field: string) {

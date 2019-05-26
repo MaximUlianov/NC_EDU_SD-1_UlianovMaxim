@@ -56,6 +56,22 @@ export class UserInfoComponent implements OnInit {
         else {
           this.showPagination = true;
         }
+        let flag = 0;
+        for(let user of this.users){
+          for(let wal of user.wallets){
+            for(let sub of wal.subscriptions){
+              if (sub.locked){
+                user.billingLocked = true;
+                flag = 1;
+                break;
+              }
+            }
+            if(flag == 1){
+              break;
+            }
+          }
+          flag = 0;
+        }
       }
       else{
         this.isEmpty = true;

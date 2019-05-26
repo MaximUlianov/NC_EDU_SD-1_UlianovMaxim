@@ -20,17 +20,21 @@ import java.util.Optional;
 @Service
 public class WalletServiceImpl implements WalletService {
 
-    @Autowired
     private WalletRepository walletRepository;
 
-    @Autowired
     private LogInRepository logInRepository;
 
-    @Autowired
     private SubscriptionRepository subscriptionRepository;
 
-    @Autowired
     private AuditService auditService;
+
+    @Autowired
+    public WalletServiceImpl(WalletRepository walletRepository, LogInRepository logInRepository, SubscriptionRepository subscriptionRepository, AuditService auditService) {
+        this.walletRepository = walletRepository;
+        this.logInRepository = logInRepository;
+        this.subscriptionRepository = subscriptionRepository;
+        this.auditService = auditService;
+    }
 
     @Override
     public List<Wallet> findAll(String email) {

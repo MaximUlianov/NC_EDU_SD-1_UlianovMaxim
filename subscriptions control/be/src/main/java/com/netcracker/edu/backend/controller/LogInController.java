@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/log_in")
 public class LogInController {
 
-    @Autowired
     private LogInService logInService;
+
+    @Autowired
+    public LogInController(LogInService logInService) {
+        this.logInService = logInService;
+    }
 
     @RequestMapping(value = "/email", method = RequestMethod.GET)
     public ResponseEntity getLogInParametersByEmail(@RequestParam(name = "email") String email) {

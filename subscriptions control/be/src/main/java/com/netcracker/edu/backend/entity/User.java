@@ -86,7 +86,6 @@ public class User {
         this.birthday = birthday;
     }
 
-    @JsonIgnore
     public Set<Wallet> getWallet() {
         return wallet;
     }

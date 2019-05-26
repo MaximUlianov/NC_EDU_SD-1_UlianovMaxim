@@ -28,7 +28,6 @@
           <th scope="col">Username</th>
           <th scope="col">Country</th>
           <th scope="col">Birthday</th>
-          <th scope="col">Billing status</th>
           <th scope="col">Wallets</th>
           <th scope="col">History</th>
         </tr>
@@ -41,10 +40,6 @@
           <td>{{user.username}}</td>
           <td>{{user.country}}</td>
           <td>{{user.birthday}}</td>
-          <td>
-            <span class="text-danger" *ngIf="user.billingLocked && user.username != 'admin'">Locked</span>
-            <span class="text-success" *ngIf="!user.billingLocked && user.username != 'admin'">OK</span>
-          </td>
           <td><a href="users#subscriptions" *ngIf="user.username != 'admin'"><button class="btn btn-primary" (click)="loadUserWallets(user.id, user.username)">View wallets</button></a></td>
           <td><a href="users#history" *ngIf="user.username != 'admin'"><button class="btn btn-secondary" (click)="loadUserHistory(user.id, user.username)">View history</button></a></td>
 

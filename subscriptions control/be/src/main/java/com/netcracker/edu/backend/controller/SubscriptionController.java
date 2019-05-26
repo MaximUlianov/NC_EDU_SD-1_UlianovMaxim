@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/subscriptions")
 public class SubscriptionController {
 
-    @Autowired
     private SubscriptionService subscriptionService;
+
+    @Autowired
+    public SubscriptionController(SubscriptionService subscriptionService) {
+        this.subscriptionService = subscriptionService;
+    }
 
     @GetMapping(value = "/user")
     @ResponseBody

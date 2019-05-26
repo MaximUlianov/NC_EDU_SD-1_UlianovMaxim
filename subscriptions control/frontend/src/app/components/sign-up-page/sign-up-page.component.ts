@@ -36,7 +36,7 @@ export class SignUpPageComponent implements OnInit {
       role: [null, Validators.required],
       email: [null, [Validators.required,
         Validators.pattern(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/)]],
-      password: [null, Validators.required],
+      password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, Validators.required],
       terms: [null, [Validators.required, Validators.requiredTrue]],
     });

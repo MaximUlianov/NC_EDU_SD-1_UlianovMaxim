@@ -29,8 +29,8 @@ export class CompanyComponent implements OnInit {
     this.company = new Company();
     this.currPage = 1;
     this.perPage = 6;
-    this.loadCompanies();
     this.loadPagesNumber();
+    this.loadCompanies();
   }
 
 

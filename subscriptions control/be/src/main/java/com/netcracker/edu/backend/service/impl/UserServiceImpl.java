@@ -20,36 +20,29 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private LogInRepository logInRepository;
 
-    @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
     private WalletRepository walletRepository;
 
-    @Autowired
     private AuditService auditService;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, LogInRepository logInRepository, RoleRepository roleRepository, WalletRepository walletRepository, AuditService auditService) {
+        this.userRepository = userRepository;
+        this.logInRepository = logInRepository;
+        this.roleRepository = roleRepository;
+        this.walletRepository = walletRepository;
+        this.auditService = auditService;
+    }
 
     @Override
     public List<User> getUsers(int page, int perPage) {
         PageRequest pageRequest = PageRequest.of(page - 1, perPage);
         Page<User> list = userRepository.findAll(pageRequest);
-       /* list.getContent().forEach(value->{
-            for(Wallet o: value.getWallet()){
-                if(o.isLocked()){
-                    value.setBillingLocked(true);
-                    break;
-                }
-                if(o.isNegBalance()){
-                    value.setBillingNeg(true);
-                }
-            }
-        });*/
         return list.getContent();
     }
 
@@ -157,46 +150,6 @@ public class UserServiceImpl implements UserService {
         else {
             return null;
         }
-    }
-
-    @Override
-    public Response blockSubscription(long[] id) {
-        User user = userRepository.findById(id[0]).get();
-        /*user.getWallet().forEach(value->{
-            value.getSubscriptions().forEach(subscription -> {
-                if(subscription.getId() == id[1]){
-                    value.setLocked(true);
-                    Audit audit = new Audit();
-                    audit.setUser(user);
-                    audit.setData("Subscription: " + subscription.getSubscriptionName() + " blocked");
-                    audit.setDate(new Date());
-                    auditService.addRecord(audit);
-                    walletRepository.save(value);
-                    return;
-                }
-            });
-        });*/
-        return new Response("ok");
-    }
-
-    @Override
-    public Response unblockSubscription(long[] id) {
-        User user = userRepository.findById(id[0]).get();
-        /*user.getWallet().forEach(value->{
-            value.getSubscriptions().forEach(subscription -> {
-                if(subscription.getId() == id[1]){
-                    value.setLocked(false);
-                    Audit audit = new Audit();
-                    audit.setUser(user);
-                    audit.setData("Subscription: " + subscription.getSubscriptionName() + " unblocked");
-                    audit.setDate(new Date());
-                    auditService.addRecord(audit);
-                    walletRepository.save(value);
-                    return;
-                }
-            });
-        });*/
-        return new Response("ok");
     }
 
     @Override

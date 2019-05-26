@@ -15,12 +15,15 @@ import java.util.List;
 @RequestMapping("/api/wallets")
 public class WalletController {
 
-
-    @Autowired
     private WalletService service;
 
-    @Autowired
     private TokenProvider tokenUtil;
+
+    @Autowired
+    public WalletController(WalletService service, TokenProvider tokenUtil) {
+        this.service = service;
+        this.tokenUtil = tokenUtil;
+    }
 
     @PostMapping
     public Wallet addWallet(@RequestHeader("Authorization") String token, @RequestBody Wallet wallet){

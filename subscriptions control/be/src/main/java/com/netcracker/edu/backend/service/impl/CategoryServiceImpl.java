@@ -14,8 +14,12 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     @Override
     public List<Category> getAllCategories() {
@@ -30,8 +34,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Response addCategory(Category category) {
-        categoryRepository.save(category);
-        return new Response("ok");
+        Category temp = categoryRepository.findByName(category.getName());
+        if(temp == null) {
+            categoryRepository.save(category);
+            return new Response("ok");
+        }
+        else{
+            return new Response("exists");
+        }
     }
 
     @Override

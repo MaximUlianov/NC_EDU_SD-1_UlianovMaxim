@@ -12,8 +12,13 @@ import java.util.List;
 @Service
 public class LogInServiceImpl implements LogInService {
 
-    @Autowired
+
     private LogInRepository logInRepository;
+
+    @Autowired
+    public LogInServiceImpl(LogInRepository logInRepository) {
+        this.logInRepository = logInRepository;
+    }
 
     @Override
     public List<LogIn> findAll() {

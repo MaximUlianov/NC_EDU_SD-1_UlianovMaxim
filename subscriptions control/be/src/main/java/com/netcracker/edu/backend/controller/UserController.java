@@ -12,8 +12,12 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired
     private UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping(value = "/{page}/{elements}")
     @ResponseBody
@@ -63,18 +67,6 @@ public class UserController {
     public ResponseEntity searchUser(@RequestParam(value = "type") String type,
                                            @RequestParam(value = "value") String value){
         return ResponseEntity.ok(userService.searchUser(type, value));
-    }
-
-    @PostMapping(value = "/subscriptions/block")
-    @ResponseBody
-    public ResponseEntity blockSubscription(@RequestBody long [] id) {
-        return ResponseEntity.ok(userService.blockSubscription(id));
-    }
-
-    @PostMapping(value = "/subscriptions/unblock")
-    @ResponseBody
-    public ResponseEntity unblockSubscription(@RequestBody long [] id) {
-        return ResponseEntity.ok(userService.unblockSubscription(id));
     }
 
     @GetMapping(value = "/audit")

@@ -43,6 +43,7 @@ export class AvailableSubscriptionsComponent implements OnInit {
   showAlertStart:boolean;
   showAlertEnd:boolean;
   isIncorrectSale:boolean;
+  isEnoughCash:boolean;
 
   subscription:SubscriptionMod;
 
@@ -183,17 +184,15 @@ export class AvailableSubscriptionsComponent implements OnInit {
   }
 
   subscribe() {
-    if (this.products.find(x => x.id == this.subscription.product.id).costPerMonth/30 > this.wallets.find(x => x.id == this.subscription.wallet.id).sum) {
-      alert('Not enough cash to subscribe');
-    }else if(this.subscription.start > this.subscription.end){
-      alert('End date is before start');
-    }
-    else {
+    this.modalD.nativeElement.click();
+   /* if (this.products.find(x => x.id == this.subscription.product.id).costPerMonth/30 > this.wallets.find(x => x.id == this.subscription.wallet.id).sum) {
+      this.isEnoughCash = false;
+      setTimeout(()=>{this.isEnoughCash = true}, 4000);
+    }else {*/
       this.service.subscribe(this.subscription).subscribe(data => {
-
       });
       window.location.reload();
-    }
+    //}
   }
 
   unsubscribe(id:number){
@@ -207,8 +206,10 @@ export class AvailableSubscriptionsComponent implements OnInit {
 
   deleteSubscription(id:number){
     this.service.deleteProduct(id).subscribe(data=>{
+      this.pageNumber = 1;
+      this.loadPagesNumber();
+      this.loadAllAvProducts();
     });
-    window.location.reload();
   }
 
   goOn1Page(){
@@ -328,6 +329,19 @@ export class AvailableSubscriptionsComponent implements OnInit {
       this.showAlertStart = true;
     }
 
+  }
+
+  onCategChange(status:any){
+    this.loadCategories();
+  }
+
+  onCompaniesChange(status:any){
+    this.loadCompanies();
+  }
+
+  onProdChange(status:any){
+    this.loadPagesNumber();
+    this.loadAllAvProducts();
   }
 
 }

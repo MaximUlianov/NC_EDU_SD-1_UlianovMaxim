@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends PagingAndSortingRepository<Product, Long> {
     List<Product> findByNameContains(String value);
+    Product findByName(String name);
 }

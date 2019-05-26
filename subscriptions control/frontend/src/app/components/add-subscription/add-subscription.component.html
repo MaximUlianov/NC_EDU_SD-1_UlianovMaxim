@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #prod>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -43,6 +43,12 @@
             [displayError]="isCompanyValid()"
             [errorMsg]="'Please, choose company'">
           </app-field-error>
+          <div class="mb-3 alert alert-danger animated fadeInUp" *ngIf="isProdNameExists" role="alert" style="margin-top: 5px">
+            <button type="button" class="close" (click)="isProdNameExists = !isProdNameExists">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            Such product name exists
+          </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-primary"  type="submit" (click)="addSubscr()" [disabled]="!form.valid">Add</button>
@@ -62,7 +68,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="e">Add Category</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #categ>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -74,10 +80,16 @@
             [displayError]="isFieldCategValid('nameCateg')"
             [errorMsg]="'Please, enter category name'">
           </app-field-error>
+          <div class="mb-3 alert alert-danger animated fadeInUp" *ngIf="isCategoryExists" role="alert" style="margin-top: 5px">
+            <button type="button" class="close" (click)="isCategoryExists = !isCategoryExists">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            Such category exists
+          </div>
         </div>
       </form>
       <div class="modal-footer">
-        <button class="btn btn-primary"  type="submit" (click)="addCateg()" [disabled]="!formCateg.valid" data-dismiss="modal">Add</button>
+        <button class="btn btn-primary"  type="submit" (click)="addCateg()" [disabled]="!formCateg.valid">Add</button>
         <button class="btn btn-primary"  type="button" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -90,7 +102,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Add Company</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #comp>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -113,11 +125,16 @@
             [displayError]="isFieldsCompValid('descriptionComp')"
             [errorMsg]="'Please, enter company description'">
           </app-field-error>
-
+          <div class="mb-3 alert alert-danger animated fadeInUp" *ngIf="isCompExists" role="alert" style="margin-top: 5px">
+            <button type="button" class="close" (click)="isCompExists = !isCompExists">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            Such company exists
+          </div>
         </div>
       </form>
         <div class="modal-footer">
-          <button class="btn btn-primary"  type="submit" (click)="addCompany()" data-dismiss="modal" [disabled]="!formCompany.valid">Add</button>
+          <button class="btn btn-primary"  type="submit" (click)="addCompany()" [disabled]="!formCompany.valid">Add</button>
           <button class="btn btn-primary"  type="button" data-dismiss="modal">Close</button>
         </div>
     </div>

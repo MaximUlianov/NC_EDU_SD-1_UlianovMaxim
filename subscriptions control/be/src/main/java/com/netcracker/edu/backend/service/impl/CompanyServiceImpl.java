@@ -31,8 +31,14 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Response addCompany(Company newCompany) {
-        this.companyRepository.save(newCompany);
-        return new Response("Saved");
+        Company temp = companyRepository.findByName(newCompany.getName());
+        if(temp == null) {
+            this.companyRepository.save(newCompany);
+            return new Response("Saved");
+        }
+        else{
+            return new Response("exists");
+        }
     }
 
     @Override

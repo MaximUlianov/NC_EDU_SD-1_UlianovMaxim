@@ -14,12 +14,15 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private TokenProvider tokenUtil;
 
+    @Autowired
+    public UserController(UserService userService, TokenProvider tokenUtil) {
+        this.userService = userService;
+        this.tokenUtil = tokenUtil;
+    }
 
     @GetMapping(value = "/info")
     public User getUserClaims(@RequestHeader("Authorization") String token){

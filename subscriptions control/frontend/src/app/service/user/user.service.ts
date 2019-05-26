@@ -42,7 +42,7 @@ export class UserService {
     let fd = new Date(from).getDate();
     let ty = new Date(to).getFullYear();
     let tm = new Date(to).getMonth() + 1;
-    let td = new Date(to).getDate();
+    let td = new Date(to).getDate()+1;
     return this.http.get('api/user/audit/search?id=' + id + '&from=' + fy + "_" + fm + "_" + fd
       + "&to=" + ty + "_" + tm + "_" + td, {headers:{'Authorization':localStorage.getItem(TOKEN_KEY), 'Content-Type':'application/json'}})
   }

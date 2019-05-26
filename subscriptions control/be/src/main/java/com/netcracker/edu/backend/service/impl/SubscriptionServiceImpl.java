@@ -17,23 +17,27 @@ import java.util.List;
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
 
-    @Autowired
     private SubscriptionRepository subscriptionRepository;
 
-    @Autowired
     private LogInRepository logInRepository;
 
-    @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
     private WalletRepository walletRepository;
 
-    @Autowired
     private CompanyRepository companyRepository;
 
-    @Autowired
     private AuditService auditService;
+
+    @Autowired
+    public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, LogInRepository logInRepository, ProductRepository productRepository, WalletRepository walletRepository, CompanyRepository companyRepository, AuditService auditService) {
+        this.subscriptionRepository = subscriptionRepository;
+        this.logInRepository = logInRepository;
+        this.productRepository = productRepository;
+        this.walletRepository = walletRepository;
+        this.companyRepository = companyRepository;
+        this.auditService = auditService;
+    }
 
     @Override
     public Response subscribe(SubscriptionDTO sub) {
@@ -89,6 +93,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return new Response("Deleted");
     }
 
+    @Override
     public Response deleteSubscriptionsByCompany(long id){
         Subscription subscription = subscriptionRepository.findById(id).get();
         subscriptionRepository.deleteById(subscription.getId());
@@ -96,6 +101,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return new Response("Deleted");
     }
 
+    @Override
     public Response setSale(long id, int sale){
         Subscription subscription = subscriptionRepository.findById(id).get();
         subscription.setSale(sale);

@@ -16,8 +16,6 @@ public interface UserService {
 
     Response delete(long id);
     Response saveSubscr(User user);
-    Response blockSubscription(long [] id);
-    Response unblockSubscription(long [] id);
     Response save(UserDTO _user);
     String getUsername(String email);
 

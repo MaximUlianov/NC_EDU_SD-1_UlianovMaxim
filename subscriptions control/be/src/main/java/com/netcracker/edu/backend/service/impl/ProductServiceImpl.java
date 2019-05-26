@@ -54,14 +54,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Response addProduct(Product product) {
-        Product _product = new Product();
-        _product.setName(product.getName());
-        _product.setDescription(product.getDescription());
-        _product.setCostPerMonth(product.getCostPerMonth());
-        _product.setCategory(categoryService.getByName(product.getCategory().getName()));
-        _product.setCompany(companyRepository.findByName(product.getCompany().getName()));
-        productRepository.save(_product);
-        return new Response("ok");
+        Product temp = productRepository.findByName(product.getName());
+        if(temp == null) {
+            Product _product = new Product();
+            _product.setName(product.getName());
+            _product.setDescription(product.getDescription());
+            _product.setCostPerMonth(product.getCostPerMonth());
+            _product.setCategory(categoryService.getByName(product.getCategory().getName()));
+            _product.setCompany(companyRepository.findByName(product.getCompany().getName()));
+            productRepository.save(_product);
+            return new Response("ok");
+        }
+        else{
+            return new Response("exists");
+        }
     }
 
     @Override
